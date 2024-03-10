@@ -79,7 +79,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     >>> for t, (x, y) in enumerate(datasets.AirlinePassengers()):
     ...     score = PAD.score_one(None, y)
     ...     PAD.learn_one(None, y)
-    ...     print(score)
+    ...     print(float(score))
     0.0
     0.0
     0.0
