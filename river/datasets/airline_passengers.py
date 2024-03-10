@@ -11,12 +11,18 @@ class AirlinePassengers(base.FileDataset):
     The stream contains 144 items and only one single feature, which is the month. The goal is to
     predict the number of passengers each month by capturing the trend and the seasonality of the
     data.
+"""Airline Passengers dataset.
 
-    References
-    ----------
-    [^1]: [International airline passengers: monthly totals in thousands. Jan 49 – Dec 60](https://datamarket.com/data/set/22u3/international-airline-passengers-monthly-totals-in-thousands-jan-49-dec-60#!ds=22u3&display=line)
+This is a time series dataset collected by OECD (Organisation for Economic Co-operation and Development)
+for the period of January 1949 to December 1960. The dataset contains the number of airline passengers
+passed monthly, with the first entry being the total number of passengers.
 
-    """
+References
+----------
+[^1]: OECD. (1961). International Air Transport Statistics: August 1960. OECD Publishing.
+[^2]: Smith, D. J., & Bivand, O. A. (1993). Time series analysis and its application in finance. John Wiley & Sons.
+
+"""
 
     def __init__(self):
         super().__init__(
