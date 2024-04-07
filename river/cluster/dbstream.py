@@ -234,6 +234,10 @@ class DBSTREAM(base.Clusterer):
                                 self.s_t[i] = {j: self._time_stamp}
 
             # prevent collapsing clusters
+            if len(self.s) > 1:
+                for i in self.s:
+                    for j in self.s[i]:
+                        self.s_t[i][j] = self._time_stamp
             for i in neighbor_clusters.keys():
                 for j in neighbor_clusters.keys():
                     if j > i:
