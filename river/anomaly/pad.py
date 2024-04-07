@@ -94,6 +94,10 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     0.003410489566495498
 
 
+
+
+
+
     References
     ----------
     [^1]: [Generic and Scalable Framework for Automated Time-series Anomaly Detection](https://dl.acm.org/doi/abs/10.1145/2783258.2788611)
