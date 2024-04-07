@@ -9,6 +9,8 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
     r"""Standard Absolute Deviation (SAD).
 
     SAD is the model that calculates the anomaly score by using the deviation from the mean/median, divided by the
+    standard deviation/mean absolute deviation.
+    """
     standard deviation of all the points seen within the data stream. The idea of this model is based on
     the $3 \times \sigma$ rule described in [^1].
 
