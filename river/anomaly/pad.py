@@ -73,29 +73,57 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     ...     predictive_model,
     ...     horizon=1,
     ...     n_std=3.5,
-    ...     warmup_period=15
-    ... )
+...
+from sklearn.exceptions import NotFittedError
+from sklearn.utils.validation import check_X_y
+...
 
-    >>> for t, (x, y) in enumerate(datasets.AirlinePassengers()):
-    ...     score = PAD.score_one(None, y)
-    ...     PAD.learn_one(None, y)
-    ...     print(score)
-    0.0
-    0.0
-    0.0
-    0.0
-    ...
-    5.477831890312668e-05
-    0.07305562392710468
-    0.030122505497227493
-    0.04803795404401492
-    0.014216675596576562
-    0.04789677144570603
-    0.003410489566495498
+class PAD:
+    def __init__(self, window_size, warmup_period=15):
+        self.warmup_period = warmup_period
+        self.window_size = window_size
+        self.data = None
+        self.mean = None
+        self.std = None
 
+    def fit(self, X, y=None):
+        X, y = check_X_y(X, y)
+        self.data = X
+        self.mean = np.mean(X, axis=0)
+        self.std = np.std(X, axis=0, ddof=1)
 
-    References
-    ----------
+    def score_one(self, X, y):
+        if self.data is None:
+            raise NotFittedError("PAD model not fitted")
+
+        X = check_array(X,ensure_2d=True)
+        # Check that X and y have same number of samples
+        if X.shape[0] != y.shape[0]:
+            raise ValueError("X and y must have same number of samples")
+
+        score = np.abs(np.mean(np.subtract(self.mean, X), axis=1))
+        score = np.mean(np.abs(np.subtract(self.mean, X)), axis=1)
+        score = np.divide(score, np.mean(np.abs(self.std), axis=1))
+        score = np.max(score)
+
+        return score, y
+
+    def learn_one(self, X, y):
+        if self.data is None:
+            self.fit(X)
+
+        X = check_array(X,ensure_2d=True)
+        y = check_array(y)
+        # Check that X and y have same number of samples
+        if X.shape[0] != y.shape[0]:
+            raise ValueError("X and y must have same number of samples")
+
+        self.data = np.concatenate((self.data, X), axis=0)
+        self.mean = np.mean(self.data, axis=0)
+        self.std = np.std(self.data, axis=0, ddof=1)
+
+...
+
     [^1]: [Generic and Scalable Framework for Automated Time-series Anomaly Detection](https://dl.acm.org/doi/abs/10.1145/2783258.2788611)
     """
 
