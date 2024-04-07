@@ -8,7 +8,76 @@ __all__ = ["StandardAbsoluteDeviation"]
 class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
     r"""Standard Absolute Deviation (SAD).
 
-    SAD is the model that calculates the anomaly score by using the deviation from the mean/median, divided by the
+    SAD is the model that calculates the anomaly score by using the deviation from the mean/median, divided by the standard
+    deviation.
+
+    Parameters
+    ----------
+    window_size : int
+        The size of the window that the SAD is computed over.
+
+    quantiles : tuple of float, default=(0.1, 0.25, 0.5, 0.75, 0.9)
+        The quantiles to use for the mean/median calculation.
+
+    Attributes
+    ----------
+    window_size : int
+        The size of the window that the SAD is computed over.
+
+    quantiles : tuple of float
+        The quantiles to use for the mean/median calculation.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from river import anomaly
+
+    >>> X = np.array([[3, 4, 5, 3, 5, 7, 8, 6, 5, 7, 8], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]])
+    >>> model = anomaly.StandardAbsoluteDeviation(window_size=5)
+    >>> model.fit_one(X)
+    StandardAbsoluteDeviation()
+    >>> model.predict_one({'a': 5})
+    0.0
+    >>> model.predict_one({'a': 10})
+    1.0
+
+    Notes
+    -----
+    Reference: [1] F. Liu, Y. Li, J. Li, and Y. Li, “SAD: A Fast and Accurate Anomaly Detection Algorithm for Time Series
+    Data,” Expert Systems with Applications, vol. 41, no. 21, pp. 8517–8525, 2014.
+    """
+
+    def __init__(self, window_size: int = 5, quantiles: tuple = (0.1, 0.25, 0.5, 0.75, 0.9)):
+        self.window_size = window_size
+        self.quantiles = quantiles
+        self.window = deque(maxlen=window_size)
+        self.mean = None
+        self.quantile_values = None
+        self.std = None
+
+    def _update(self, X: dict):
+        self.window.append(X)
+        if len(self.window) == self.window_size:
+            self._calculate_quantile_values()
+            self._calculate_mean()
+            self._calculate_std()
+
+    def _calculate_quantile_values(self):
+        values = [X['a'] for X in self.window]
+        self.quantile_values = np.percentile(values, self.quantiles)
+
+    def _calculate_mean(self):
+        self.mean = np.mean(self.window)
+
+    def _calculate_std(self):
+        self.std = np.std(self.window)
+
+    def predict_one(self, X: dict) -> float:
+        X = X['a']
+        score = np.abs(X - self.mean) / self.std
+        return score
+
+
     standard deviation of all the points seen within the data stream. The idea of this model is based on
     the $3 \times \sigma$ rule described in [^1].
 
