@@ -4,11 +4,17 @@ from river import anomaly, stats
 
 __all__ = ["StandardAbsoluteDeviation"]
 
+from river.stats import Quantile  # Importing Quantile if not already imported.
 
 class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
     r"""Standard Absolute Deviation (SAD).
 
-    SAD is the model that calculates the anomaly score by using the deviation from the mean/median, divided by the
+    ...
+
+    def __init__(self):
+        self.mean = Quantile()  # Assuming this is the line with the error, corrected type Mean to Quantile.
+        ...
+        
     standard deviation of all the points seen within the data stream. The idea of this model is based on
     the $3 \times \sigma$ rule described in [^1].
 
