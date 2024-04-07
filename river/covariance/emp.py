@@ -204,33 +204,25 @@ class EmpiricalCovariance(SymmetricMatrix):
             KeyError: If an element in `mean` or `cov` is missing.
         """
         for i, j in itertools.combinations(mean.keys(), r=2):
-            try:
-                self[i, j]
-            except KeyError:
+            if (i, j) not in self._cov and (j, i) not in self._cov:
                 self._cov[i, j] = stats.Cov(self.ddof)
-                if isinstance(cov, dict):
-                    cov_ = cov.get((i, j), cov.get((j, i)))
-                else:
-                    cov_ = cov
-                self._cov[i, j] += stats.Cov._from_state(
-                    n=n,
-                    mean_x=mean[i],
-                    mean_y=mean[j],
-                    cov=cov_,
-                    ddof=self.ddof,
-                )
+            if isinstance(cov, dict):
+                cov_ = cov.get((i, j), cov.get((j, i), 0))
+            else:
+                cov_ = cov
+            self._cov[i, j] += stats.Cov._from_state(
+                n=n,
+                mean_x=mean[i],
+                mean_y=mean[j],
+                cov=cov_,
+                ddof=self.ddof,
+            )
 
         for i in mean.keys():
-            try:
-                self[i, i]
-            except KeyError:
+            if (i, i) not in self._cov:
                 self._cov[i, i] = stats.Var(self.ddof)
-            if isinstance(cov, dict):
-                if isinstance(cov, dict):
-                    cov_ = cov[i, i]
-                else:
-                    cov_ = cov
-            self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
+            cov_ = cov.get(i, i) if isinstance(cov, dict) else cov
+            self._cov[i, i] += stats.Var._from_state(n=n, mean=mean[i], var=cov_, ddof=self.ddof)
 
     @classmethod
     def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof=1):
