@@ -73,12 +73,14 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     ...     predictive_model,
     ...     horizon=1,
     ...     n_std=3.5,
+```python
     ...     warmup_period=15
     ... )
 
+    >>> pad = PAD(warmup_period=15)  # Hypothetical change: creating an instance of PAD
     >>> for t, (x, y) in enumerate(datasets.AirlinePassengers()):
-    ...     score = PAD.score_one(None, y)
-    ...     PAD.learn_one(None, y)
+    ...     score = pad.score_one(x) # Hypothetical change: passing 'x' instead of 'None'
+    ...     pad.learn_one(x, y)      # Hypothetical change: passing 'x' and 'y'
     ...     print(score)
     0.0
     0.0
