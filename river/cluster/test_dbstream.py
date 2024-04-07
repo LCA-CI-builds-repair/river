@@ -4,11 +4,11 @@ import pytest
 
 from river.cluster import DBSTREAM
 
-
-def build_dbstream(fading_factor=0.001, intersection_factor=0.05):
+def build_dbstream(fading_factor: float = 0.001, intersection_factor: float = 0.05):
     return DBSTREAM(
         fading_factor=fading_factor,
         clustering_threshold=1,
+    )
         cleanup_interval=1,
         intersection_factor=intersection_factor,
     )

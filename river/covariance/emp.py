@@ -180,85 +180,63 @@ class EmpiricalCovariance(SymmetricMatrix):
             (i, j): cov_arr[r, c]
             for (r, i), (c, j) in itertools.combinations_with_replacement(
                 enumerate(X.columns), r=2
-            )
-        }
+def _update_from_state(self, n: int, mean_data: dict, cov_data: Union[dict, float]):
+    """Update the EmpiricalCovarianceMatrix from state information.
 
-        self._update_from_state(n=n, mean=mean, cov=cov)
+    Parameters
+    ----------
+    n : int
+        The number of data points.
+    mean_data : dict
+        A dictionary of variable means.
+    cov_data : Union[dict, float]
+        A dictionary of covariance or variance values, or a single float for the trace.
+    """
+    for i, j in combinations(mean_data.keys(), r=2):
+        try:
+            self._cov[i, j]
+        except KeyError:
+            self._cov[i, j] = stats.covariance(self.ddof)
+            if isinstance(cov_data, dict):
+                cov = cov_data.get((i, j), cov_data.get((j, i)))
+            else:
+                cov = cov_data
+            self._cov[i, j] += stats.covariance(n, mean_data[i], mean_data[j], cov)
 
-    def _update_from_state(self, n: int, mean: dict, cov: float | dict):
-        """Update from state information.
-
-        Parameters
-        ----------
-        n
-            The number of data points.
-        mean
-            A dictionary of variable means.
-        cov
-            A dictionary of covariance or variance values.
-        ddof
-            Degrees of freedom for covariance calculation. Defaults to 1.
-
-        Raises
-        ----------
-            KeyError: If an element in `mean` or `cov` is missing.
-        """
-        for i, j in itertools.combinations(mean.keys(), r=2):
-            try:
-                self[i, j]
-            except KeyError:
-                self._cov[i, j] = stats.Cov(self.ddof)
-                if isinstance(cov, dict):
-                    cov_ = cov.get((i, j), cov.get((j, i)))
-                else:
-                    cov_ = cov
-                self._cov[i, j] += stats.Cov._from_state(
-                    n=n,
-                    mean_x=mean[i],
-                    mean_y=mean[j],
-                    cov=cov_,
-                    ddof=self.ddof,
-                )
-
-        for i in mean.keys():
-            try:
-                self[i, i]
-            except KeyError:
-                self._cov[i, i] = stats.Var(self.ddof)
-            if isinstance(cov, dict):
-                if isinstance(cov, dict):
-                    cov_ = cov[i, i]
-                else:
-                    cov_ = cov
-            self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
+    for i in mean_data.keys():
+        try:
+            self._cov[i, i]
+        except KeyError:
+            self._cov[i, i] = stats.variance(self.ddof)
+        if isinstance(cov_data, dict):
+            var = cov_data.get(i, cov_data)
+        else:
+            var = cov_data
+        self._cov[i, i] += stats.variance(n, mean_data[i], var, self.ddof)
 
     @classmethod
-    def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof=1):
-        """Create a new instance from state information.
+    def from_state(cls, n: int, mean_data: dict, cov_data: Union[dict, float], ddof: int = 1):
+        """Create a new EmpiricalCovarianceMatrix from state information.
 
         Parameters
         ----------
-        cls
-            The class type.
-        n
+        n : int
             The number of data points.
-        mean
+        mean_data : dict
             A dictionary of variable means.
-        cov
-            A dictionary of covariance or variance values.
-        ddof
+        cov_data : Union[dict, float]
+            A dictionary of covariance or variance values, or a single float for the trace.
+        ddof : int, optional
             Degrees of freedom for covariance calculation. Defaults to 1.
 
         Returns
-        ----------
-            cls: A new instance of the class with updated covariance matrix.
+        -------
+        cls: EmpiricalCovarianceMatrix
+            A new EmpiricalCovarianceMatrix instance with the updated covariance matrix.
         """
         new = cls(ddof=ddof)
-        new._update_from_state(n=n, mean=mean, cov=cov)
+        new._update_from_state(n, mean_data, cov_data)
         return new
-
-
-class EmpiricalPrecision(SymmetricMatrix):
     """Empirical precision matrix.
 
     The precision matrix is the inverse of the covariance matrix.

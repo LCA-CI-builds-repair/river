@@ -224,16 +224,11 @@ class DBSTREAM(base.Clusterer):
                                 * 2 ** (-self.fading_factor * (self._time_stamp - self.s_t[i][j]))
                                 + 1
                             )
-                            self.s_t[i][j] = self._time_stamp
-                        except KeyError:
-                            try:
-                                self.s[i][j] = 0
-                                self.s_t[i][j] = self._time_stamp
-                            except KeyError:
-                                self.s[i] = {j: 0}
-                                self.s_t[i] = {j: self._time_stamp}
-
-            # prevent collapsing clusters
+if j in self.s_t[i]:
+    self.s_t[i][j] = self._time_stamp
+else:
+    self.s[i] = {j: 0} if j not in self.s[i] else self.s[i]
+    self.s_t[i] = {j: self._time_stamp} if j not in self.s_t[i] else self.s_t[i]
             for i in neighbor_clusters.keys():
                 for j in neighbor_clusters.keys():
                     if j > i:
