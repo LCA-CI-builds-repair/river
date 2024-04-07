@@ -185,7 +185,7 @@ class EmpiricalCovariance(SymmetricMatrix):
 
         self._update_from_state(n=n, mean=mean, cov=cov)
 
-    def _update_from_state(self, n: int, mean: dict, cov: float | dict):
+    def _update_from_state(self, n: int, mean: dict, cov: float | dict, ddof=1):  # Instruction: Add `ddof=1` as default value for `ddof` parameter.
         """Update from state information.
 
         Parameters
@@ -196,7 +196,7 @@ class EmpiricalCovariance(SymmetricMatrix):
             A dictionary of variable means.
         cov
             A dictionary of covariance or variance values.
-        ddof
+        ddof : int, optional  # Instruction: Add type hint for `ddof` parameter.
             Degrees of freedom for covariance calculation. Defaults to 1.
 
         Raises
@@ -233,8 +233,8 @@ class EmpiricalCovariance(SymmetricMatrix):
             self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
 
     @classmethod
-    def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof=1):
-        """Create a new instance from state information.
+    def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof=1):  # Instruction: Add `ddof=1` as default value for `ddof` parameter.
+        """Create a new instance from sate information.
 
         Parameters
         ----------
@@ -246,7 +246,7 @@ class EmpiricalCovariance(SymmetricMatrix):
             A dictionary of variable means.
         cov
             A dictionary of covariance or variance values.
-        ddof
+        ddof : int, optional  # Instruction: Add type hint for `ddof` parameter.
             Degrees of freedom for covariance calculation. Defaults to 1.
 
         Returns
