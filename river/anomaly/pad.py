@@ -90,8 +90,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     0.030122505497227493
     0.04803795404401492
     0.014216675596576562
-    0.04789677144570603
-    0.003410489566495498
+    0.0478967
 
 
     References
