@@ -180,7 +180,6 @@ class EmpiricalCovariance(SymmetricMatrix):
             (i, j): cov_arr[r, c]
             for (r, i), (c, j) in itertools.combinations_with_replacement(
                 enumerate(X.columns), r=2
-            )
         }
 
         self._update_from_state(n=n, mean=mean, cov=cov)
