@@ -16,8 +16,6 @@ class AirlinePassengers(base.FileDataset):
     ----------
     [^1]: [International airline passengers: monthly totals in thousands. Jan 49 – Dec 60](https://datamarket.com/data/set/22u3/international-airline-passengers-monthly-totals-in-thousands-jan-49-dec-60#!ds=22u3&display=line)
 
-    """
-
     def __init__(self):
         super().__init__(
             filename="airline-passengers.csv",

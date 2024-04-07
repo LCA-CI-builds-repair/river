@@ -180,6 +180,7 @@ class EmpiricalCovariance(SymmetricMatrix):
             (i, j): cov_arr[r, c]
             for (r, i), (c, j) in itertools.combinations_with_replacement(
                 enumerate(X.columns), r=2
+
             )
         }
 
@@ -257,8 +258,6 @@ class EmpiricalCovariance(SymmetricMatrix):
         new._update_from_state(n=n, mean=mean, cov=cov)
         return new
 
-
-class EmpiricalPrecision(SymmetricMatrix):
     """Empirical precision matrix.
 
     The precision matrix is the inverse of the covariance matrix.
