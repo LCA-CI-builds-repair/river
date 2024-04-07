@@ -253,6 +253,7 @@ class EmpiricalCovariance(SymmetricMatrix):
         ----------
             cls: A new instance of the class with updated covariance matrix.
         """
+
         new = cls(ddof=ddof)
         new._update_from_state(n=n, mean=mean, cov=cov)
         return new
