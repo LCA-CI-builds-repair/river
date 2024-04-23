@@ -11,7 +11,13 @@ import random
 
 import numpy as np
 import pytest
-from sklearn import metrics as sk_metrics
+from sklearn import mif platform.system() == "Linux":
+    TEST_CASES.append(
+        (
+            metrics.AdjustedMutualInfo(average_method="min"),
+            partial(sk_metrics.adjusted_mutual_info_score, average_method="min"),
+        )
+    )as sk_metrics
 
 from river import metrics, utils
 

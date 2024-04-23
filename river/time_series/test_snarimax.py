@@ -1,10 +1,35 @@
 from __future__ import annotations
 
 import calendar
-import math
-import random
+imdef test_diff_example():
+    """
+    https://people.duke.edu/~rnau/411sdif.htm
 
-import pytest
+    >>> import pandas as pd
+    >>> from river.time_series.snarimax import Differencer
+
+    sales = pd.DataFrame([
+        {'date': 'Jan-70', 'autosale': 4.79, 'cpi': 0.297},
+        {'date': 'Feb-70', 'autosale': 4.96, 'cpi': 0.298},
+        {'date': 'Mar-70', 'autosale': 5.64, 'cpi': 0.300},
+        {'date': 'Apr-70', 'autosale': 5.98, 'cpi': 0.302},
+        {'date': 'May-70', 'autosale': 6.08, 'cpi': 0.303},
+        {'date': 'Jun-70', 'autosale': 6.55, 'cpi': 0.305},
+        {'date': 'Jul-70', 'autosale': 6.11, 'cpi': 0.306},
+        {'date': 'Aug-70', 'autosale': 5.37, 'cpi': 0.306},
+        {'date': 'Sep-70', 'autosale': 5.17, 'cpi': 0.308},
+        {'date': 'Oct-70', 'autosale': 5.48, 'cpi': 0.309},
+        {'date': 'Nov-70', 'autosale': 4.49, 'cpi': 0.311},
+        {'date': 'Dec-70', 'autosale': 4.65, 'cpi': 0.312},
+        {'date': 'Jan-71', 'autosale': 5.17, 'cpi': 0.312},
+        {'date': 'Feb-71', 'autosale': 5.57, 'cpi': 0.313},
+        {'date': 'Mar-71', 'autosale': 6.92, 'cpi': 0.314},
+        {'date': 'Apr-71', 'autosale': 7.10, 'cpi': 0.315},
+        {'date': 'May-71', 'autosale': 7.02, 'cpi': 0.316},
+        {'date': 'Jun-71', 'autosale': 7.58, 'cpi': 0.319},
+        {'date': 'Jul-71', 'autosale': 6.93, 'cpi': 0.319},
+    ])
+    """t
 import sympy
 
 from river import compose, datasets, metrics, time_series
