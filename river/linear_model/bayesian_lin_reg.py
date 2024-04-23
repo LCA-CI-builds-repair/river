@@ -6,7 +6,26 @@ import pandas as pd
 from river import base, proba, utils
 
 
-class BayesianLinearRegression(base.Regressor):
+class Bayesi                [
+              np.array(
+                [
+                    [
+                        self._ss_inv.get(
+                            # Get value if it exists
+                            min((i, j), (j, i)),
+                            # Initialize to eye matrix
+                            1.0 / self.alpha if i == j else 0.0,
+                        )
+                    ]
+                ]          [
+                        self._ss.get(
+                            # Get value if it exists
+                            min((i, j), (j, i)),
+                            # Initialize to eye matrix
+                            1.0 / self.alpha if i == j else 0.0,
+                        )
+                    ]
+                ]rRegression(base.Regressor):
     """Bayesian linear regression.
 
     An advantage of Bayesian linear regression over standard linear regression is that features

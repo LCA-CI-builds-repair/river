@@ -476,8 +476,20 @@
             "MAE": 15.109717404902195,
             "RMSE": 24.64206848989837,
             "R2": 0.7221580232945248,
-            "Memory in Mb": 0.0042104721069335,
-            "Time in s": 1.4604629999999998
+            "Memory in Mb": 0.0042104        {
+          "name": "models",
+          "select": {
+            "type": "point",
+            "fields": [
+              "model"
+            ]
+          },
+          "bind": "legend"
+        },
+        {
+          "name": "Dataset",
+          "value": "ChickWeights"
+        }          "Time in s": 1.4604629999999998
           },
           {
             "step": 440,
