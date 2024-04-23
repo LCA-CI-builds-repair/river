@@ -1,4 +1,8 @@
-from __future__ import annotations
+from __future_    There are 10 functions defined for generating binary class labels from the
+    features. Presumably these determine whether the loan should be approved.
+    Classification functions are listed in the original paper [^1].
+
+    **Feature** | **Description** | **Values**ort annotations
 
 import random
 

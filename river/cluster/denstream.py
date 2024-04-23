@@ -1,6 +1,8 @@
-from __future__ import annotations
+from __future__ import annotation    outlier micro-clusters. If their weights are smaller than a certain
+    threshold (different for each type of micro-clusters), the micro-cluster is
+    deleted.
 
-import copy
+    **Offline generation of clusters on-demand (clustering)**port copy
 import math
 from abc import ABCMeta
 from collections import defaultdict, deque

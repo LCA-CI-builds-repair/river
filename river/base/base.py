@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-import collections
+i        this method. By default it simply calls the __init__ function. It may be overridden on an
+        individual as needed.
+
+        """t collections
 import contextlib
 import copy
 import inspect

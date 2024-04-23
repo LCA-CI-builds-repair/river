@@ -4,7 +4,15 @@ import csv
 import datetime as dt
 import random
 
-from .. import base
+fr    -------
+
+    By default each feature value will be of type `str`. You can use the `converters` and
+    `parse_dates` parameters to convert them as you see fit.
+
+    Examples
+    --------
+
+    Although this function is designed to handle different kinds of inputs, the most commonort base
 from . import utils
 
 __all__ = ["iter_csv"]

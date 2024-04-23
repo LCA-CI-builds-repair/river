@@ -7,7 +7,9 @@ from river import base, stats
 __all__ = ["PreviousImputer", "StatImputer"]
 
 
-class PreviousImputer(base.Transformer):
+class PreviousImputer(base.Transform    temperature is missing, but not the weather condition:
+
+    >>> X = [:
     """Imputes missing values by using the most recent value.
 
     Examples

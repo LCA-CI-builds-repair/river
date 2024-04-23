@@ -1,6 +1,8 @@
-from __future__ import annotations
+from __future__ import annotati    two_sided_test
+        If `True`, will monitor error increments and decrements (two-sided). By default will only
+        monitor increments (one-sided).
 
-import math
+    Examplesimport math
 
 from river import base, stats
 

@@ -1,4 +1,6 @@
-from __future__ import annotations
+from __future    physicists to help discriminate between the two classes.
+
+    Referencesimport annotations
 
 from river import stream
 

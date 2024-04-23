@@ -12,7 +12,9 @@ __all__ = ["progressive_val_score"]
 
 def _progressive_validation(
     dataset: base.typing.Dataset,
-    model,
+    mod    available after a certain amount of time. By using this method, you can reproduce this scenario
+    and therefore truthfully assess what would have been the performance of a model on a given
+    dataset.
     metric: metrics.base.Metric,
     checkpoints: typing.Iterator[int],
     moment: str | typing.Callable[[dict], dt.datetime] | None = None,

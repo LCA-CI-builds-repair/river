@@ -8,7 +8,11 @@ from scipy.stats import f as f_dist
 from river import base, tree
 
 from .losses import BinaryCrossEntropyLoss, SquaredErrorLoss
-from .nodes.branch import DTBranch, NominalMultiwayBranch, NumericBinaryBranch
+from .nodes.branch import DTBranch, NominalMultiwayB        Feature quantizers are akin to the attribute observers used in Hoeffding Trees. By
+        def        Feature quantizers are akin to the attribute observers used in Hoeffding Trees. By
+        default, an instance of `tree.splitter.StaticQuantizer` (with default parameters) is
+        used if this parameter is not set.t, an instance of `tree.splitter.StaticQuantizer` (with default parameters) is
+        used if this parameter is not set.ch, NumericBinaryBranch
 from .nodes.sgt_nodes import SGTLeaf
 from .utils import BranchFactory, GradHessMerit
 
