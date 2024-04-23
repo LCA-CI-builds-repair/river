@@ -7,8 +7,66 @@ import random
 import pytest
 import sympy
 
-from river import compose, datasets, metrics, time_series
-from river.time_series.snarimax import Differencer
+from river import compose, dataimport pytest
+import random
+import math
+from river.time_series import Differencer
+
+@pytest.mark.parametrize(
+    "dimport pytest
+import calendar
+import math
+from river import time_series, datasets, metrics, compose
+
+@pytest.mark.parametrize(
+    "snarimax",
+    [
+        time_series.SNARIMAX(p=1, d=1, q=0, m=12, sp=0, sd=1, sq=0),
+        time_series.SNARIMAX(p=0, d=1, q=0, m=12, sp=1, sd=1, sq=0),
+        time_series.SNARIMAX(p=1, d=2, q=0, m=12, sp=0, sd=0, sq=0),
+        time_series.SNARIMAX(p=1, d=0, q=0, m=12, sp=0, sd=2, sq=0),
+    ],
+)
+def test_no_overflow(snarimax):
+    def get_month_distances(x):
+        return {
+            calendar.month_name[month]: math.exp(-((x["month"].month - month) ** 2))
+            for month in range(1, 13)
+        }
+
+    def get_ordinal_date(x):
+        return {"ordinal_date": x["month"].toordinal()}
+
+    extract_features = compose.TransformerUnion([get_ordinal_date, get_month_distances])
+
+    model = extract_features | snarimax
+
+    time_series.evaluate(
+        dataset=datasets.AirlinePassengers(), model=model, metric=metrics.MAE(), horizon=12
+    )  Differencer(1),
+        Differencer(2),
+        Differencer(1, 2),
+        Differencer(2, 2),
+        Differencer(1, 10),
+        Differencer(2, 10),
+        Differencer(1) * Differencer(1),
+        Differencer(2) * Differencer(1),
+        Differencer(1) * Differencer(2),
+        Differencer(1) * Differencer(1, 2),
+        Differencer(2) * Differencer(1, 2),
+        Differencer(1, 2) * Differencer(1, 10),
+        Differencer(1, 2) * Differencer(2, 10),
+        Differencer(2, 2) * Differencer(1, 10),
+        Differencer(2, 2) * Differencer(2, 10),
+    ],
+)
+def test_undiff(differencer):
+    Y = [random.random() for _ in range(max(differencer.coeffs))]
+    p = random.random()
+
+    diffed = differencer.diff(p, Y)
+    undiffed = differencer.undiff(diffed, Y)
+    assert math.isclose(undiffed, p)om river.time_series.snarimax import Differencer
 
 
 class Yt(sympy.IndexedBase):
