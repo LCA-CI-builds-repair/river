@@ -1,4 +1,32 @@
-from __future__ import annotations
+from __futur    "estimator",
+    [
+         "estimator",
+    [
+     "estimator,n_classes",
+    [
+        pytest.param(estimator, n_classes, id=f"{estimator}-{n_classes} classes")
+        for n_classes in [2, 3]
+        for estimator in [
+            compat.convert_sklearn_to_river(
+                sk_linear_model.SGDClassifier(loss="log_loss"), classes=list(range(n_classes))
+            )
+        ]
+    ]ytest.param(estimator, id=str(estimator))
+        for estimator in [
+            compat.convert_sklearn_to_river(sk_linear_model.SGDRegressor()),
+            (
+                preprocessing.StandardScaler()
+                | compat.convert_sklearn_to_river(sk_linear_model.SGDRegressor())
+            )
+        ]
+    ]t.param(estimator, id=str(estimator))
+        for estimator in [
+            linear_model.LinearRegression(),
+            linear_model.LogisticRegression(),
+            preprocessing.StandardScaler(),
+            cluster.KMeans(n_clusters=3, seed=42),
+        ]
+    ]rt annotations
 
 import pandas as pd
 import pytest

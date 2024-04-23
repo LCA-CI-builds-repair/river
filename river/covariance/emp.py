@@ -20,7 +20,15 @@ class SymmetricMatrix(abc.ABC):
     def __getitem__(self, key):
         """
 
-        A covariance matrix is symmetric. For ease of use we make the __getitem__ method symmetric.
+        A covariance matrix        inv_cov = np.array(
+            [
+                [
+                    self._inv_cov.get(min((i, j), (j, i)), 1.0 if i == j else 0.0)
+                    for j in x
+                ]
+                for i in x
+            ]
+        )metric. For ease of use we make the __getitem__ method symmetric.
 
         """
         i, j = key
