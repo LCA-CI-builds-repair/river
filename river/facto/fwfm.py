@@ -14,7 +14,32 @@ __all__ = ["FwFMClassifier", "FwFMRegressor"]
 
 
 class FwFM(BaseFM):
-    """Field-Weighted Factorization Machine base class."""
+    """Field-Weighted Factorizatio        x = self._oh    def __init__(
+        self,
+        n_factors: int,
+        weight_optimizer: SequentialOptimizer,
+        latent_optimizer: SequentialOptimizer,
+        int_weight_optimizer: SequentialOptimizer,
+        loss: LossFunction,
+        sample_normalization: bool,
+        l1_weight: float,
+        l2_weight: float,
+        l1_latent: float,
+        l2_latent: float,
+        intercept: float,
+    ):
+        self.n_factors = n_factors
+        self.weight_optimizer = weight_optimizer
+        self.latent_optimizer = latent_optimizer
+        self.int_weight_optimizer = int_weight_optimizer
+        self.loss = loss
+        self.sample_normalization = sample_normalization
+        self.l1_weight = l1_weight
+        self.l2_weight = l2_weight
+        self.l1_latent = l1_latent
+        self.l2_latent = l2_latent
+        self.intercept = intercept  result = self._raw_dot(x)
+        return resultMachine base class."""
 
     def __init__(
         self,
