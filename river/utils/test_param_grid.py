@@ -1,4 +1,19 @@
-from __future__ import annotations
+from __f    "model, param_grid, count",
+    [
+        (
+            linear_model.LinearRegression(),
+            {
+                "optimizer": [
+                    (optim.SGD, {"lr": [1, 2]}),
+                    (
+                        optim.Adam,
+                        {
+                        }
+                    )
+                ]
+            }
+        )
+    ]port annotations
 
 import pytest
 

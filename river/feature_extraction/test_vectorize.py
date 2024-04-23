@@ -1,4 +1,16 @@
-from __future__ import annotations
+from __f    "params, text, expected_ngrams",
+    [
+        pytest.param(
+            *case,
+            id=f"#{i}"
+        )
+        for i, case in enumerate(
+            [
+                ({}, "one two three", ["one", "two", "three"]),
+                (
+            ]
+        )
+    ]port annotations
 
 import pytest
 

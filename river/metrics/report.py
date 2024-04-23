@@ -3,7 +3,16 @@ from __future__ import annotations
 from river import metrics, utils
 
 
-class ClassificationReport(metrics.base.MultiClassMetric):
+class Classifica                "",
+                *[fmt_pct(self._f1s[c].precision.get()) for c in classes],
+                "",
+                *map(
+                    fmt_pct,
+                    [
+                        self._macro_precision.get(),
+                        self._micro_precision.get(),
+                        self._weighted_precision.get()
+                    ]t(metrics.base.MultiClassMetric):
     """A report for monitoring a classifier.
 
     This class maintains a set of metrics and updates each of them every time `update` is called.
