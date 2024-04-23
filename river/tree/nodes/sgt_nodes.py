@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-import collections
+import co            feature_stats: Optional[Union[
+                Dict[FeatureName, Union[Dict[Hashable, GradHessStats], DynamicQuantizer, StaticQuantizer]],
+                None
+            ]] = Noneections
 import math
 import numbers
 import sys

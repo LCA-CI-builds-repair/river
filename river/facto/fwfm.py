@@ -8,9 +8,11 @@ import numpy as np
 
 from river import base, optim, utils
 
-from .base import BaseFM
-
-__all__ = ["FwFMClassifier", "FwFMRegressor"]
+from .base import BaseF# This function calculates the sum of two numbers
+def add_numbers(num1, num2):
+    # Adding the two numbers
+    sum = num1 + num2
+    return sum__all__ = ["FwFMClassifier", "FwFMRegressor"]
 
 
 class FwFM(BaseFM):

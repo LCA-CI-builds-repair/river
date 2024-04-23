@@ -17,7 +17,8 @@ class TextClust(base.Clusterer):
     over time in a stream of texts. The algorithm uses a widely popular two-phase clustering
     approach where the stream is first summarised in real-time.
 
-    The result is many small preliminary clusters in the stream called `micro-clusters`.
+    The res            if type == "micro":
+                return assignmentinary clusters in the stream called `micro-clusters`.
     Micro-clusters maintain enough information to update and efficiently calculate the
     cosine similarity between them over time, based on the TF-IDF vector of their texts.
     Upon request, the miro-clusters can be reclustered to generate the final result

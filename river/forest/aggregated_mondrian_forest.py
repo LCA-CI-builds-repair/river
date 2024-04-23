@@ -7,7 +7,13 @@ from river import base
 from river.tree.mondrian import MondrianTreeClassifier, MondrianTreeRegressor
 
 
-class AMFLearner(base.Ensemble, abc.ABC):
+class AM        for _ in range(self.n_estimators):
+            tree = MondrianTreeClassifier(
+                max_depth=self.max_depth,
+                min_samples_split=self.min_samples_split,
+                min_samples_leaf=self.min_samples_leaf,
+                random_state=self.random_state
+            )earner(base.Ensemble, abc.ABC):
     """Base class for Aggregated Mondrian Forest classifier and regressors for online learning.
 
     Parameters

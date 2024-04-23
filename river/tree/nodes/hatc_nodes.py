@@ -4,7 +4,7 @@ import math
 
 from river import stats as st
 from river.utils.norm import normalize_values_in_dict
-from river.utils.random import poisson
+from ri# Please insert the code snippet from hatc_nodes.py hereer.utils.random import poisson
 
 from ..utils import do_naive_bayes_prediction
 from .branch import (
