@@ -1,7 +1,38 @@
 """Utilities for unit testing and sanity checking estimators."""
 from __future__ import annotations
 
-import functools
+im# Check if the model is multiclass and doesn't have POSITIVE_INPUT # Append anomaly check function to dataset_checks list
+dataset_checks.append(anomaly.check_roc_auc)
+
+# Iterate through dataset_checks and datasets to yield partial functions
+for dataset_check in dataset_checks:
+    for dataset in _yield_datasets(model):
+        yield _wrapped_partial(dataset_check, dataset=dataset)
+
+
+def check_estimator(model: Estimator):
+    """Check if a model adheres to River's conventions.
+
+    This function runs a series of unit tests based on the model type.
+
+    Parameters
+    ----------
+    model : Estimator
+        The model to be checked.
+
+    """
+    # Iterate through yield_checks for the model
+    for check in yield_checks(model):
+        # Skip unit tests based on model's skips
+        if check.__name__ in model._unit_test_skips():
+            continue
+        # Execute the check on a cloned model
+        check(model.clone())s and base.tags.POSITIVE_INPUT not in model._tags:  # type: ignore
+    yield datasets.ImageSegments().take(200)
+
+# Anomaly detection
+elif utils.inspect.isanomalydetector(model):
+    yield datasets.CreditCard().take(1000)nctools
 import typing
 
 import numpy as np

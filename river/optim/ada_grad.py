@@ -1,6 +1,49 @@
-from __future__ import annotations
+fimport collections
 
-import collections
+from river import optim
+
+__all__ = ["AdaGrad"]
+
+
+class AdaGrad(optim.base.Optimizer):
+    """AdaGrad optimizer.
+
+    AdaGrad is an adaptive learning rate method that adapts the learning rate for each parameter
+    based on the historical gradients. It is particularly effective for sparse data or data with
+    features that have different frequencies.
+
+    Parameters
+    ----------
+    lr
+        The learning rate.
+    eps
+        A small value added for numerical stability.
+
+    Attributes
+    ----------
+    g2 : collections.defaultdict
+        A dictionary to store the squared gradients.
+
+    Examples
+    --------
+
+    >>> from river import datasets
+    >>> from river import evaluate
+    >>> from river import linear_model
+    >>> from river import metrics
+    >>> from river import optim
+    >>> from river import preprocessing
+
+    >>> dataset = datasets.Phishing()
+    >>> optimizer = optim.AdaGrad()
+    >>> model = (
+    ...     preprocessing.StandardScaler() |
+    ...     linear_model.LogisticRegression(optimizer)
+    ... )
+    >>> metric = metrics.F1()
+
+    >>> evaluate.progressive_val_score(dataset, model, metric)
+    """rt collections
 
 from river import optim
 

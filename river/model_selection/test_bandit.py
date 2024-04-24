@@ -1,6 +1,23 @@
-from __future__ import annotations
+fimport pytest
 
-import importlib
+from river import linear_model, optim
+
+def test_1259():
+    """
+
+    https://github.com/online-ml/river/issues/1259
+
+    >>> from river import bandit
+    >>> from river import datasets
+    >>> from river import evaluate
+    >>> from river import metrics
+    >>> from river import model_selection
+    >>> from river import preprocessing
+
+    >>> models = [
+    ...     linear_model.LogisticRegression(optimizer=optim.SGD(lr=lr))
+    ...     for lr in [0.0001, 0.001, 1e-05, 0.01]
+    ... ]mport importlib
 import inspect
 
 import pytest

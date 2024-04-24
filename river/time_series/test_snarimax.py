@@ -7,7 +7,11 @@ import random
 import pytest
 import sympy
 
-from river import compose, datasets, metrics, time_series
+from river import composeDate    Value1  Value2  Value3  Value4  Value5  Value6
+Apr-71  7.10    0.315   22.54   0.5     2.74    -0.5
+May-71  7.02    0.316   22.22   -0.32   2.15    -0.59
+Jun-71  7.58    0.319   23.76   1.54    2.28    0.13
+Jul-71  6.93    0.319   21.72   -2.04   1.75    -0.53asets, metrics, time_series
 from river.time_series.snarimax import Differencer
 
 

@@ -1,4 +1,42 @@
-"""General tests that all estimators need to pass."""
+"from __future__ import annotations
+
+import importlib
+import inspect
+import pytest
+
+from river import (
+    anomaly,
+    base,
+    checks,
+    compat,
+    compose,
+    facto,
+    feature_extraction,
+    feature_selection,
+    imblearn,
+    linear_model,
+    model_selection,
+    multiclass,
+    neighbors,
+    neural_net,
+    preprocessing,
+    time_series,
+)
+
+from river.compat.river_to_sklearn import River2SKLBase
+from river.compat.sklearn_to_river import SKL2RiverBase
+
+try:
+    from river.compat.pytorch import PyTorch2RiverBase
+    PYTORCH_INSTALLED = True
+except ImportError:
+    PYTORCH_INSTALLED = False
+
+from sklearn import linear_model as sk_linear_model
+
+def iter_estimators():
+    for submodule in importlib.import_module("river.api").__all__:
+        # Logic for iterating through each submodule to pass."""
 from __future__ import annotations
 
 import importlib

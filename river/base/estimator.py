@@ -5,7 +5,20 @@ import abc
 from . import base
 
 
-class Estimator(base.Base, abc.ABC):
+class Estimator        yield {}
+
+    def _unit_test_skips(self):
+        """Indicates which checks to skip during unit testing.
+
+        Most estimators pass the full test suite. However, in some cases, some estimators might not
+        be able to pass certain checks.
+
+        Returns
+        -------
+        iter
+            An iterator yielding the checks to skip during unit testing.
+
+        """e, abc.ABC):
     """An estimator."""
 
     @property

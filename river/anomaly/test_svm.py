@@ -1,5 +1,36 @@
-from __future__ import annotations
+fimport math
+import pytest
+from sklearn import linear_model as sklm
 
+from river import anomaly, datasets, optim
+
+# Test configurations for different parameters
+tests = {
+    "Vanilla": (
+        {"optimizer": optim.SGD(1e-2), "nu": 0.5},
+        {"learning_rate": "constant", "eta0": 1e-2, "nu": 0.5},
+    ),
+    "No intercept": (
+        {"optimizer": optim.SGD(1e-2), "nu": 0.5, "intercept_lr": 0.0},
+        {"learning_rate": "constant", "eta0": 1e-2, "nu": 0.5, "fit_intercept": False},
+    ),
+}
+
+# Test function to check coherence between river and sklearn implementations
+@pytest.mark.parametrize(
+    "river_params, sklearn_params",
+    tests.values(),
+    ids=tests.keys(),
+)
+def test_sklearn_coherence(river_params, sklearn_params):
+    """Checks that the sklearn and river implementations produce the same results."""
+
+    rv = anomaly.OneClassSVM(**river_params)
+    sk = sklm.SGDOneClassSVM(**sklearn_params)
+
+    for x, _ in datasets.Phishing().take(100):
+        rv.learn_one(x)
+        sk.partial_fit([list(x.values())])
 import math
 
 import pytest

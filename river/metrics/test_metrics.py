@@ -11,7 +11,17 @@ import random
 
 import numpy as np
 import pytest
-from sklearn import metrics as sk_metrics
+from sklearn import m# Check if the platform is not Linux
+if platform.system() != "Linux":
+    # Append test cases to the TEST_CASES list
+    TEST_CASES.append(
+        (
+            # Create an instance of AdjustedMutualInfo with average_method as "min"
+            metrics.AdjustedMutualInfo(average_method="min"),
+            # Create a partial function with adjusted_mutual_info_score and average_method as "min"
+            partial(sk_metrics.adjusted_mutual_info_score, average_method="min"),
+        )
+    )as sk_metrics
 
 from river import metrics, utils
 

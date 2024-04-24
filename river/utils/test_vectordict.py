@@ -1,4 +1,30 @@
-from __future__ import annotations
+fimport numpy as np
+import pytest
+
+from river.utils import VectorDict
+
+def test_vectordict():
+    # Test empty initialization
+    x = dict()
+    vx = VectorDict()
+    assert vx == x
+
+    # Test basic functionality
+    x = {"a": 8, "b": -1.2, 4: 2.7}
+    vx = VectorDict(x)
+    assert vx == x
+    assert vx["a"] == 8
+    assert vx[4] == 2.7
+    vx[9] = 8.9
+    assert x[9] == vx[9] == 8.9
+
+    # Test copying behavior
+    x = {"a": 8, "b": -1.2, 4: 2.7}
+    vx = VectorDict(x, copy=True)
+    assert vx == x
+    vx["a"] = 2
+    assert x["a"] == 8
+    assert vx["a"] == 2ions
 
 import numpy as np
 import pytest

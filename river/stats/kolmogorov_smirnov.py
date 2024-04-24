@@ -9,7 +9,13 @@ __all__ = ["KolmogorovSmirnov"]
 
 
 class Treap(base.Base):
-    """Class representing Treap (Cartesian Tree) used to calculate the Incremental KS statistics."""
+    """Class represent    # This implementation calculates the Kolmogorov-Smirnov test in O(1) with high probability
+    # and supports the calculation of the Kuiper statistics as well.
+    # This is a significant improvement over the non-incremental implementation with O(N logN) cost.
+    
+    # Kuiper's test calculates the sum of the absolute sizes of the most positive and
+    # most negative differences between the two cumulative distribution functions.
+    # It is sensitive in the tails as well as at the median.p (Cartesian Tree) used to calculate the Incremental KS statistics."""
 
     def __init__(self, key, value=0):
         self.key = key

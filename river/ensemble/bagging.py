@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-import collections
+fimport collections
 import statistics
 
 from river import base, drift, linear_model, utils
@@ -15,6 +13,68 @@ __all__ = [
 
 class BaseBagging(base.WrapperEnsemble):
     def learn_one(self, x, y, **kwargs):
+        for model in self:
+            for _ in range(utils.random.poisson(1, self._rng)):
+                model.learn_one(x, y, **kwargs)
+
+
+class BaggingClassifier(BaseBagging, base.Classifier):
+    """Online bootstrap aggregation for classification.
+    
+    ... Class description and examples ...
+    """
+
+    def __init__(self, model: base.Classifier, n_models=10, seed: int | None = None):
+        super().__init__(model, n_models, seed)
+
+    @classmethod
+    def _unit_test_params(cls):
+        yield {"model": linear_model.LogisticRegression()}
+
+    def predict_proba_one(self, x, **kwargs):
+        """Averages the predictions of each classifier."""
+        
+        ... Method implementation ...
+
+
+class BaggingRegressor(BaseBagging, base.Regressor):
+    """Online bootstrap aggregation for regression.
+    
+    ... Class description and examples ...
+    """
+
+    def __init__(self, model: base.Regressor, n_models=10, seed: int | None = None):
+        super().__init__(model, n_models, seed)
+
+    @classmethod
+    def _unit_test_params(cls):
+        yield {"model": linear_model.LinearRegression()}
+
+    def predict_one(self, x, **kwargs):
+        """Averages the predictions of each regressor."""
+        
+        ... Method implementation ...
+
+
+class ADWINBaggingClassifier(BaggingClassifier):
+    """ADWIN Bagging classifier.
+    
+    ... Class description and examples ...
+    """
+
+    def __init__(self, model: base.Classifier, n_models=10, seed: int | None = None):
+        super().__init__(model=model, n_models=n_models, seed=seed)
+        self._drift_detectors = [drift.ADWIN() for _ in range(self.n_models)]
+
+    def learn_one(self, x, y, **kwargs):
+        ... Method implementation ...
+
+
+class LeveragingBaggingClassifier(BaggingClassifier):
+    """Leveraging Bagging ensemble classifier.
+    
+    ... Class description and examples ...
+    """one(self, x, y, **kwargs):
         for model in self:
             for _ in range(utils.random.poisson(1, self._rng)):
                 model.learn_one(x, y, **kwargs)
