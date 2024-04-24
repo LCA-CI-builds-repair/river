@@ -1,5 +1,7 @@
+""""
+This module implements incremental Decision Tree (iDT) algorithms for handling classification
+and regression tasks.
 """
-
 This module implements incremental Decision Tree (iDT) algorithms for handling classification
 and regression tasks.
 

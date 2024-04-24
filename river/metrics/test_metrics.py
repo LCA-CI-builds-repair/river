@@ -11,7 +11,9 @@ import random
 
 import numpy as np
 import pytest
-from sklearn import metrics as sk_metrics
+from sklearn import mimport platform
+
+if platform.system() != "Linux":trics as sk_metrics
 
 from river import metrics, utils
 

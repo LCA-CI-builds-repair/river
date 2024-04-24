@@ -2,7 +2,50 @@ from __future__ import annotations
 
 import math
 
-import scipy.special
+import s    # Assumingfrom some_module import _beta_func  # Import or define _beta_func
+
+class Beta:
+    def __init__(self, alpha: int = 1, beta: int = 1, seed: int = None):
+        super().__init__(seed)
+        self.alpha = alpha
+        self.beta = beta
+        self._alpha = alpha
+        self._beta = beta
+
+    @property
+    def n_samples(self):
+        return self._alpha + self._beta
+
+    def update(self, x):
+        if x:
+            self.alpha += 1
+        else:
+            self.beta += 1
+        return self
+
+    def revert(self, x):
+        if x:
+            self.alpha -= 1
+        else:
+            self.beta -= 1
+        return self
+
+    def __call__(self, p: float):
+        return (
+            p ** (self.alpha - 1) * (1 - p) ** (self.beta - 1) / _beta_func(self.alpha, self.beta)
+        )
+
+    def sample(self):
+        if hasattr(self, '_rng'):
+            return self._rng.betavariate(self.alpha, self.beta)
+        return None
+
+    @property
+    def mode(self):
+        try:
+            return (self.alpha - 1) / (self.alpha + self.beta - 2)
+        except ZeroDivisionError:
+            return 0.5 = beta.update(update_value=False)ipy.special
 
 from river.proba import base
 

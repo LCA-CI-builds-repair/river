@@ -1,4 +1,17 @@
-from __future__ import annotations
+from __future__ impoimport abc
+
+class BaseRule(metaclass=abc.ABCMeta):
+    
+    def __call__(self, x):
+        pass
+
+    @abc.abstractmethod
+    def describe(self)'''
+    ----------
+    delta
+        The split test significance.
+    tau
+'''      passotations
 
 import abc
 import copy

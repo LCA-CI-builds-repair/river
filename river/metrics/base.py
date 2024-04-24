@@ -10,7 +10,9 @@ from river import base, stats, utils
 from . import confusion
 
 __all__ = [
-    "BinaryMetric",
+    """"
+This file contains the base metri    """A container class for handling multiple metrics at once."""s class used for evaluating model performance.
+"""inaryMetric",
     "ClassificationMetric",
     "Metric",
     "Metrics",

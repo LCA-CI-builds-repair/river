@@ -2,7 +2,7 @@
 
 ## What to work on?
 
-We have a [public roadmap](https://github.com/orgs/online-ml/projects/3) that lists what has been done, what we're currently doing, and what needs doing. There's also an icebox with high level ideas that need framing. You're welcome to pick anything that takes your fancy and that you deem important. Feel free to [open a discussion](https://github.com/online-ml/river/discussions/new) if you want to clarify a topic and/or want to be formally assigned a task in the board.
+We have a [public roadmap](https://github.com/orgs/online-ml/projects/3) that lists what has been done, what we're currently doing, and wh7. Wait for CI to [run the unit tests](https://github.com/online-ml/river/actions/workflows/ci.yml)t needs doing. There's also an icebox with high level ideas that need framing. You're welcome to pick anything that takes your fancy and that you deem important. Feel free to [open a discussion](https://github.com/online-ml/river/discussions/new) if you want to clarify a topic and/or want to be formally assigned a task in the board.
 
 Of course, you're welcome to propose and contribute new ideas. We encourage you to [open a discussion](https://github.com/online-ml/river/discussions/new) so that we can align on the work to be done. It's generally a good idea to have a quick discussion before opening a pull request that is potentially out-of-scope.
 
