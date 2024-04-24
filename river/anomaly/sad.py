@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from river import anomaly, stats
 
-__all__ = ["StandardAbsoluteDeviation"]
+__all__         self.subtracted_statistic_estimator.update(x_value) ["StandardAbsoluteDeviation"]
 
 
 class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):

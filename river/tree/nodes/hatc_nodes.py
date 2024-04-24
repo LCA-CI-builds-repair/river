@@ -2,8 +2,18 @@ from __future__ import annotations
 
 import math
 
-from river import stats as st
-from river.utils.norm import normalize_values_in_dict
+from river import stats as         if weight_seen - self.last_split_attempt_at >= tree.grace_period:
+            if self.depth >= tree.max_depth:
+                # Depth-based pre-pruning
+                self.deactivate()
+                tree._n_inactive_leaves += 1
+                tree._n_active_leaves -= 1
+            elif self.is_active():
+                tree._attempt_to_split(
+                    self,
+                    parent,
+                    parent_branch,
+)r.utils.norm import normalize_values_in_dict
 from river.utils.random import poisson
 
 from ..utils import do_naive_bayes_prediction

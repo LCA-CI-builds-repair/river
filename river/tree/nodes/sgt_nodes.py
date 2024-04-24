@@ -2,11 +2,8 @@ from __future__ import annotations
 
 import collections
 import math
-import numbers
-import sys
-from collections.abc import Hashable
-
-from river import stats
+import num            right_delta_pred = self.delta_prediction(right_ghs.mean, sgt.lambda_value)
+            right_dlms = right_ghs.delta_loss_mean_var(right_delta_pred)  # type: ignorer import stats
 from river.base.typing import FeatureName
 
 from ..base import Leaf

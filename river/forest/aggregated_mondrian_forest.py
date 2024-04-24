@@ -4,11 +4,84 @@ import abc
 import random
 
 from river import base
-from river.tree.mondrian import MondrianTreeClassifier, MondrianTreeRegressor
+from river.tree.mondrian import MondrianTreeClassifier, Mondrianclass AggregatedMondrianForest(base.MultiOutputMixin):
+    def __init__(
+        self,
+        n_estimators: int = 10,
+        step: float = 1.0,
+        use_aggregation: bool = True,
+        dirichlet: float = 0.5,
+        split_pure: bool = False,
+        seed: int | None = None,
+    ):
+        super().__init__(
+            n_estimators=n_estimators,
+            step=step,
+            loss="log",
+            use_aggregation=use_aggregation,
+            split_pure=split_pure,
+            seed=seed,
+        )
+        self.dirichlet = dirichlet
+        self._classes: set[base.typing.ClfTarget] = set()
+
+    def _initialize_trees(self):
+        self.data: list[MondrianTreeClassifier] = []
+        for _ in range(self.n_estimators):
+            tree = MondrianTreeClassifier(
+                self.step,
+                self.use_aggregation,
+                self.dirichlet,
+                self.split_pure,
+                iteration=0,
+                seed=self._rng.randint(0, 9999999),
+            )
+            self.data.append(tree)
+
+    def learn_one(self, x, y):
+        self._classes.add(y)
+
+        if not self._is_initialized:
+            self._initialize_trees()
+
+        for tree in self:
+            tree.learn_one(x, y)
+
+        return self
+
+    def predict_proba_one(self, x):
+        if not self._is_initialized:
+            return {}
+
+        scores = {c: 0 for c in self._classes}
+
+        for tree in self:
+            predictions = tree.predict_proba_one(x)
+            for c in self._classes:
+                scores[c] += predictions[c] / self.n_estimators
+
+        return scores
+
+    @property
+    def _multiclass(self):
+        return True
 
 
-class AMFLearner(base.Ensemble, abc.ABC):
-    """Base class for Aggregated Mondrian Forest classifier and regressors for online learning.
+class AMFRegressor(AMFLearner, base.Regressor):
+    def __init__(
+        self,
+        n_estimators: int = 10,
+        step: float = 1.0,
+        use_aggregation: bool = True,
+        seed: int = None,
+    ):
+        super().__init__(
+            n_estimators=n_estimators,
+            step=step,
+            loss="least-squares",
+            use_aggregation=use_aggregation,
+            seed=seed,
+        )line learning.
 
     Parameters
     ----------

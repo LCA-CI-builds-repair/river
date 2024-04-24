@@ -7,13 +7,9 @@ from scipy.stats import f as f_dist
 
 from river import base, tree
 
-from .losses import BinaryCrossEntropyLoss, SquaredErrorLoss
-from .nodes.branch import DTBranch, NominalMultiwayBranch, NumericBinaryBranch
-from .nodes.sgt_nodes import SGTLeaf
-from .utils import BranchFactory, GradHessMerit
-
-
-class StochasticGradientTree(base.Estimator, abc.ABC):
+from .losses            nominal_attributes=nominal_attributes,
+            feature_quantizer=feature_quantizer,
+        )BC):
     """Base Stochastic Gradient Tree (SGT) class.
 
     This class defines the main characteristics that are shared by the different SGT
