@@ -2,19 +2,217 @@ from __future__ import annotations
 
 import collections
 import functools
-import itertools
+import itertooclass FwFMRegressor(FwFM, base.Regressor):
+    """Field-weighted Factorization Machine for regression.
 
-import numpy as np
+    The model equation is defined as:
 
-from river import base, optim, utils
+ class FwFMClassifier(FwFM, base.Classifier):
+    """Field-weighted Factorization Machine for binary classification.
 
-from .base import BaseFM
+    The model equation is defined as:
 
-__all__ = ["FwFMClassifier", "FwFMRegressor"]
+    $$\\hat{y}(x) = w_{0} + \\sum_{j=1}^{p} w_{j} x_{j}  + \\sum_{j=1}^{p} \\sum_{j'=j+1}^{p} r_{f_j, f_{j'}} \\langle \\mathbf{v}_j, \\mathbf{v}_{j'} \\rangle x_{j} x_{j'}$$
 
+    Where $f_j$ and $f_{j'}$ are $j$ and $j'$ fields, respectively, and $\\mathbf{v}_j$ and
+    $\\mathbf{v}_{j'}$ are $j$ and $j'$ latent vectors, respectively.
 
-class FwFM(BaseFM):
-    """Field-Weighted Factorization Machine base class."""
+    For more efficiency, this model automatically one-hot encodes strings features considering them
+    as categorical variables. Field names are inferred from feature names by taking everything
+    before the first underscore: `feature_name.split('_')[0]`.
+
+    Parameters
+    ----------
+    n_factors: int
+        Dimensionality of the factorization or number of latent factors.
+    weight_optimizer: optim.base.Optimizer | None
+        The sequential optimizer used for updating the feature weights. Note that the intercept is
+        handled separately.
+    latent_optimizer: optim.base.Optimizer | None
+        The sequential optimizer used for updating the latent factors.
+    int_weight_optimizer: optim.base.Optimizer | None
+        The sequential optimizer used for updating the field pairs interaction weights.
+    loss: optim.losses.ClassificationLoss | None
+        The loss function to optimize for.
+    sample_normalization: bool
+        Whether to divide each element of `x` by `x`'s L2-norm.
+    l1_weight: float
+        Amount of L1 regularization used to push weights towards 0.
+    l2_weight: float
+        Amount of L2 regularization used to push weights towards 0.
+    l1_latent: float
+        Amount of L1 regularization used to push latent weights towards 0.
+    l2_latent: float
+        Amount of L2 regularization used to push latent weights towards 0.
+    intercept: float
+        Initial intercept value.
+    intercept_lr: optim.base.Scheduler | float
+        Learning rate scheduler used for updating the intercept. An instance of
+        `optim.schedulers.Constant` is used if a `float` is passed. No intercept will be used
+        if this is set to 0.
+    weight_initializer: optim.initializers.Initializer | None
+        Weights initialization scheme. Defaults to `optim.initializers.Zeros()`.
+    latent_initializer: optim.initializers.Initializer | None
+        Latent factors initialization scheme. Defaults to
+        `optim.initializers.Normal(mu=.0, sigma=.1, random_state=self.random_state)`.
+    clip_gradient: float
+        Clips the absolute value of each gradient value.
+    seed: int | None
+        Randomization seed used for reproducibility.
+
+    Attributes
+    ----------
+    weights: Dict[str, float]
+        The current weights assigned to the features.
+    latents: Dict[str, Dict[int, float]]
+        The current latent weights assigned to the features.
+    interaction_weights: Dict[str, float]
+        The current interaction strengths of field pairs.
+
+    Examples
+    --------
+    >>> from river import facto
+
+    >>> dataset = (
+    ...     ({'user': 'Alice', 'item': 'Superman'}, True),
+    ...     ({'user': 'Alice', 'item': 'Terminator'}, True),
+    ...     ({'user': 'Alice', 'item': 'Star Wars'}, True),
+    ...     ({'user': 'Alice', 'item': 'Notting Hill'}, False),
+    ...     ({'user': 'Alice', 'item': 'Harry Potter '}, True),
+    ...     ({'user': 'Bob', 'item': 'Superman'}, True),
+    ...     ({'user': 'Bob', 'item': 'Terminator'}, True),
+    ...     ({'user': 'Bob', 'item': 'Star Wars'}, True),
+    ...     ({'user': 'Bob', 'item': 'Notting Hill'}, False)
+    ... )
+
+    >>> model = facto.FwFMClassifier(
+    ...     n_factors=10,
+    ...     seed=42,
+    ... )}^{p} r_{f_j, f_{j'}} \\langle \\mathbf{v}_j, \\mathbf{v}_{j'} \\rangle x_{j} x_{j'}$$
+
+    Where $f_j$ and $f_{j'}$ are $j$ and $j'$ fields, respectively, and $\\mathbf{v}_j$ and
+    $\\mathbf{v}_{j'}$ are $j$ and $j'$ latent vectors, respectively.
+
+    For more efficiency, this model automatically one-hot encodes strings features considering them
+    as categorical variables. Field names are inferred from feature names by taking everything
+    before the first underscore: `feature_name.split('_')[0]`.
+
+    Parameters
+    ----------
+    n_factors: int
+        Dimensionality of the factorization or number of latent factors.
+    weight_optimizer: optim.base.Optimizer | None
+        The sequential optimizer used for updating the feature weights. Note that the intercept is
+        handled separately.
+    latent_optimizer: optim.base.Optimizer | None
+        The sequential optimizer used for updating the latent factors.
+    int_weight_optimizer: optim.base.Optimizer | None
+        The sequential optimizer used for updating the field pairs interaction weights.
+    loss: optim.losses.RegressionLoss | None
+        The loss function to optimize for.
+    sample_normalization: bool
+        Whether to divide each element of `x` by `x`'s L2-norm.
+    l1_weight: float
+        Amount of L1 regularization used to push weights towards 0.
+    l2_weight: float
+        Amount of L2 regularization used to push weights towards 0.
+    l1_latent: float
+        Amount of L1 regularization used to push latent weights towards 0.
+    l2_latent: float
+        Amount of L2 regularization used to push latent weights towards 0.
+    intercept: float
+        Initial intercept value.
+    intercept_lr: optim.base.Scheduler | float
+        Learning rate scheduler used for updating the intercept. An instance of
+        `optim.schedulers.Constant` is used if a `float` is passed. No intercept will be used
+        if this is set to 0.
+    weight_initializer: optim.initializers.Initializer | None
+        Weights initialization scheme. Defaults to `optim.initializers.Zeros()`.
+    latent_initializer: optim.initializers.Initializer | None
+        Latent factors initialization scheme. Defaults to
+        `optim.initializers.Normal(mu=.0, sigma=.1, random_state=self.random_state)`.
+    clip_gradient: float
+        Clips the absolute value of each gradient value.
+    seed: int | None
+        Randomization seed used for reproducibility.
+
+    Attributes
+    ----------
+    weights: Dict[str, float]
+        The current weights assigned to the features.
+    latents: Dict[str, Dict[int, float]]
+        The current latent weights assigned to the features.
+    interaction_weights: Dict[str, float]
+        The current interaction strengths of field pairs.
+
+    Examples
+    --------
+    >>> from river import facto
+
+    >>> dataset = (
+    ...     ({'user': 'Alice', 'item': 'Superman'}, 8),
+    ...     ({'user': 'Alice', 'item': 'Terminator'}, 9),
+    ...     ({'user': 'Alice', 'item': 'Star Wars'}, 8),
+    ...     ({'user': 'Alice', 'item': 'Notting Hill'}, 2),
+    ...     ({'user': 'Alice', 'item': 'Harry Potter '}, 5),
+    ...     ({'user': 'Bob', 'item': 'Superman'}, 8),
+    ...     ({'user': 'Bob', 'item': 'Terminator'}, 9),
+    ...     ({'user': 'Bob', 'item': 'Star Wars'}, 8),
+    ...     ({'user': 'Bob', 'item': 'Notting Hill'}, 2)
+    ... )
+
+    >>> model = facto.FwFMRegressor(
+    ...     n_factors=10,
+    ...     intercept=5,
+    ...     seed=42,
+    ... )
+
+    >>> for x, y in dataset:
+    ...     model = model.learn_one(x, y)
+
+    >>> model.predict_one({'Bob': 1, 'Harry Potter': 1})
+    5.236501
+
+    >>> report = model.debug_one({'Bob': 1, 'Harry Potter': 1})
+
+    >>> print(report)
+    Name                                    Value      Weight     Contribution
+                                Intercept    1.00000    5.23426        5.23426
+    Bob(Harry Potter) - Harry Potter(Bob)    1.00000    0.00224        0.00224
+                             Harry Potter    1.00000    0.00000        0.00000
+                                      Bob    1.00000    0.00000        0.00000
+
+    References
+    ----------
+    [^1]: [Junwei Pan, Jian Xu, Alfonso Lobos Ruiz, Wenliang Zhao, Shengjun Pan, Yu Sun, and Quan Lu, 2018, April. Field-weighted Factorization Machines for Click-Through Rate Prediction in Display Advertising. In Proceedings of the 2018 World Wide Web Conference on World Wide Web. International World Wide Web Conferences Steering Committee, (pp. 1349–1357).](https://arxiv.org/abs/1806.03514)
+
+    """
+
+    def __init__(
+        self,
+        n_factors: int = 10,
+        weight_optimizer: optim.base.Optimizer | None = None,
+        latent_optimizer: optim.base.Optimizer | None = None,
+        int_weight_optimizer: optim.base.Optimizer | None = None,
+        loss: optim.losses.RegressionLoss | None = None,
+        sample_normalization: bool = False,
+        l1_weight: float = 0.0,
+        l2_weight: float = 0.0,
+        l1_latent: float = 0.0,
+        l2_latent: float = 0.0,
+        intercept: float = 0.0,
+        intercept_lr: optim.base.Scheduler | float = 0.01,
+        weight_initializer: optim.initializers.Initializer | None = None,
+        latent_initializer: optim.initializers.Initializer | None = None,
+        clip_gradient: float = 1e12,
+        seed: int | None = None,
+    ):
+        super().__init__(
+            n_factors=n_factors,
+            weight_optimizer=weight_optimizer,
+            int_weight_optimizer=int_weight_optimizer,
+            latent_optimizer=latent_optimizer,
+            loss=optim.losses.Squared() if loss is None else loss,d Factorization Machine base class."""
 
     def __init__(
         self,

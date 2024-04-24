@@ -4,7 +4,15 @@ import calendar
 import math
 import random
 
-import pytest
+import    ...     {'date': '1971-03', 'autosale': 6.9    15  {'date': 'Apr-71', 'autosale': 7.10, 'cpi': 0.315, 'var1': 22.54, 'var2': 0.5, 'var3': 2.74, 'var4': -0.5}
+    16  {'date': 'May-71', 'autosale': 7.02, 'cpi': 0.316, 'var1': 22.22, 'var2': -0.32, 'var3': 2.15, 'var4': -0.59}
+    17  {'date': 'Jun-71', 'autosale': 7.58, 'cpi': 0.319, 'var1': 23.76, 'var2': 1.54, 'var3': 2.28, 'var4': 0.13}
+    18  {'date': 'Jul-71', 'autosale': 6.93, 'cpi': 0.319, 'var1': 21.72, 'var2': -2.04, 'var3': 1.75, 'var4': -0.53}cpi': 0.314},
+    ...     {'date': '1971-04', 'autosale': 7.10, 'cpi': 0.315},
+    ...     {'date': '1971-05', 'autosale': 7.02, 'cpi': 0.316},
+    ...     {'date': '1971-06', 'autosale': 7.58, 'cpi': 0.319},
+    ...     {'date': '1971-07', 'autosale': 6.93, 'cpi': 0.319},
+    ... ])t
 import sympy
 
 from river import compose, datasets, metrics, time_series

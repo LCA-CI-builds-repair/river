@@ -2,7 +2,14 @@
 
 ## What to work on?
 
-We have a [public roadmap](https://github.com/orgs/online-ml/projects/3) that lists what has been done, what we're currently doing, and what needs doing. There's also an icebox with high level ideas that need framing. You're welcome to pick anything that takes your fancy and that you deem important. Feel free to [open a discussion](https://github.com/online-ml/river/discussions/new) if you want to clarify a topic and/or want to be formally assigned a task in the board.
+We have a [public roadmap](https://github.com/orgs/online-ml/projects/3) that lists what has been done, what we're currently doing,1. Ensure you are on the `main` branch
+2. Execute `make execute-notebooks` for safety
+3. Run the benchmarks located in the [benchmarks](benchmarks) directory
+4. Update the version in `river/__version__.py`
+5. Tag and date the `docs/releases/unreleased.md` file
+6. Commit the changes and push to the repository
+7. Monitor the Continuous Integration (CI) process by checking the status of the unit tests [here](https://github.com/online-ml/river/actions/workflows/ci.yml)
+8. Push the created tag needs doing. There's also an icebox with high level ideas that need framing. You're welcome to pick anything that takes your fancy and that you deem important. Feel free to [open a discussion](https://github.com/online-ml/river/discussions/new) if you want to clarify a topic and/or want to be formally assigned a task in the board.
 
 Of course, you're welcome to propose and contribute new ideas. We encourage you to [open a discussion](https://github.com/online-ml/river/discussions/new) so that we can align on the work to be done. It's generally a good idea to have a quick discussion before opening a pull request that is potentially out-of-scope.
 
