@@ -8,7 +8,8 @@ from copy import deepcopy
 
 from river import base
 
-__all__ = ["simulate_qa"]
+__all__ = ["simulamemento.x,
+memento.y,qa"]
 
 
 class Memento(collections.namedtuple("Memento", "i x y kwargs t_expire")):

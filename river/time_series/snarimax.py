@@ -1,7 +1,11 @@
-from __future__ import annotations
+froimport itertools
+import math
+
+from river import base, linear_model, preprocessing, time_series, snarimaxfuture__ import annotations
 
 import collections
-import itertools
+import itfrom river import datasets
+from river import time_seriestools
 import math
 
 from river import base, linear_model, preprocessing, time_series

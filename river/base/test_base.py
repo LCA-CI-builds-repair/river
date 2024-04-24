@@ -1,4 +1,4 @@
-from __future__ import annotations
+ffrom river import compose, datasets, linear_model, optim, preprocessing, stats, time_seriesm __future__ import annotations
 
 from river import compose, datasets, linear_model, optim, preprocessing, stats, time_series
 

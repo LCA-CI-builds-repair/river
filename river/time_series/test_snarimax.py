@@ -1,11 +1,17 @@
-from __future__ import annotations
+from __futfrom river.time_series import Differencerre__ import annotations
 
 import calendar
 import math
 import random
 
 import pytest
-import sympy
+i[17,# Add DiffereDifferencer(lag=1) * Differencer(lag=1, d=2),cer(lag=1, d=2),
+Differencer(lag=2, d=2),
+Differencer(lagtime_series.SNAmodfrom river import datasets, metrics
+
+evaluate(
+    dataset=datasets.AirlinePassengers(), model=model, metric=metrics.MAE(), horizon=12
+) = extract_features | snarimaxMAX(p=1, d=2, q=0, P=0, D=0, Q=0, m=12),1, d=10),evant test cases or assertions for testing the SNARIMAX modelJun-71", 7.58, 0.319, 23.76, 1.54, 2.28, 0.13]port sympy
 
 from river import compose, datasets, metrics, time_series
 from river.time_series.snarimax import Differencer

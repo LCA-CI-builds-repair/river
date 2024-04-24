@@ -1,7 +1,7 @@
 """Utilities for unit testing and sanity checking estimators."""
 from __future__ import annotations
 
-import functools
+import func"""Generates unit tests for a given model."""ools
 import typing
 
 import numpy as np

@@ -1,4 +1,5 @@
-from __future__ import annotations
+from __fut    "Vanilla": (
+        {"optimizer": optim.SGD(1e-2), "nu": 0.5}),e__ import annotations
 
 import math
 

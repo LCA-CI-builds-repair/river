@@ -1,4 +1,16 @@
-"""Streaming utilities.
+""""
+Thefrom from river.streamfrom .iter_pandas import iter_pandas
+
+try:
+    __all__ += ["iter_pandas"]
+except ImportError:
+    # Handle ImportError if needed
+    passffling import shuffleiver.stream.iter_arff import iter_arff
+from river.stream.iter_array import iter_array
+from river.stream.iter_csv import iter_csvdule includes tools to iterate over data streams.
+"""
+from river.stream import Stream
+from __future__ import annotationseaming utilities.
 
 The module includes tools to iterate over data streams.
 

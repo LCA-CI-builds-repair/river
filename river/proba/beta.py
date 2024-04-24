@@ -2,7 +2,12 @@ from __future__ import annotations
 
 import math
 
-import scipy.special
+importfrom river.proba import Beta
+
+beta = Beta()
+beta.update(True)
+for failure in range(200):
+    beta.update(False)ipy.special
 
 from river.proba import base
 

@@ -1,4 +1,5 @@
-from __future__ import annotations
+from __from river.time_series.holt_winters import HoltWinters
+__all__ = ["HoltWinters"]ure__ import annotations
 
 import operator
 import statistics

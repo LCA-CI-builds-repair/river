@@ -4,8 +4,7 @@ import abc
 import typing
 from numbers import Number
 
-from river import base, metrics
-
+from river import base, metrics# No changes needed, the import statement is already correct
 
 class ForecastingMetric(base.Base, abc.ABC):
     @abc.abstractmethod
