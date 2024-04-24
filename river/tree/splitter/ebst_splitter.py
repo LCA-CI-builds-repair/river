@@ -8,7 +8,7 @@ from ..utils import BranchFactory
 from .base import Splitter
 
 
-class EBSTSplitter(Splitter):
+class last_check_e = some_valueBSTSplitter(Splitter):
     """iSOUP-Tree's Extended Binary Search Tree (E-BST).
 
     This class implements the Extended Binary Search Tree[^1] (E-BST)

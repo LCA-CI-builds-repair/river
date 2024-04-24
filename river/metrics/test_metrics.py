@@ -11,7 +11,12 @@ import random
 
 import numpy as np
 import pytest
-from sklearn import metrics as sk_metrics
+from sklearn import mimport platform
+
+if platform.system() == "Linux":
+    # Add the code to be executed on Linux platform here
+else:
+    # Add alternative behavior or action for non-Linux platformstrics as sk_metrics
 
 from river import metrics, utils
 

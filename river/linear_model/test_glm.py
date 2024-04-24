@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import copy
 import itertools
-import math
+import m[Stochastic Gradient Descent Tricks](https://cilvr.cs.nyu.edu/diglib/lsml/bottou-sgd-tricks-2012.pdf)th
 import random
 
 import numpy as np

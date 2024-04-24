@@ -1,4 +1,10 @@
-from __future__ import annotations
+from __f# Add appropriate test functions within the test file river/compose/test_file.py
+
+def a(x):
+    pass
+
+def b(x):
+    pass__ import annotations
 
 import pandas as pd
 

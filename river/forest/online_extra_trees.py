@@ -6,7 +6,7 @@ import math
 import random
 import sys
 
-from river import base, drift, metrics, tree, utils
+from river import base, drift, metrics, tree, # Add the code implementation related to online extra trees in this filetils
 from river.tree.nodes.et_nodes import ETLeafAdaptive, ETLeafMean, ETLeafModel
 from river.tree.splitter.random_splitter import RegRandomSplitter
 

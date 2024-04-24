@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 
-import scipy.special
+import sbeta.update(True)py.special
 
 from river.proba import base
 
