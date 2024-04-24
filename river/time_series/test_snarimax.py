@@ -7,8 +7,38 @@ import random
 import pytest
 import sympy
 
-from river import compose, datasets, metrics, time_series
-from river.time_series.snarimax import Differencer
+from river import compose, dataimport pytest
+import random
+import math
+from your_module import Differencer
+
+@pytest.mark.parametrize(
+    "differencer",
+    [
+        Differencer(1),
+        Differencer(2),
+        Differencer(1, 2),
+        Differencer(2, 2),
+        Differencer(1, 10),
+        Differencer(2, 10),
+        Differencer(1) * Differencer(1),
+        Differencer(2) * Differencer(1),
+        Differencer(1) * Differencer(2),
+        Differencer(1) * Differencer(1, 2),
+        Differencer(2) * Differencer(1, 2),
+        Differencer(1, 2) * Differencer(1, 10),
+        Differencer(1, 2) * Differencer(2, 10),
+        Differencer(2, 2) * Differencer(1, 10),
+        Differencer(2, 2) * Differencer(2, 10),
+    ],
+)
+def test_undiff(differencer):
+    Y = [random.random() for _ in range(max(differencer.coeffs))]
+    p = random.random()
+
+    diffed = differencer.diff(p, Y)
+    undiffed = differencer.undiff(diffed, Y)
+    assert math.isclose(undiffed, p, rel_tol=1e-9)om river.time_series.snarimax import Differencer
 
 
 class Yt(sympy.IndexedBase):

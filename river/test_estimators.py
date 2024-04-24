@@ -1,4 +1,28 @@
-"""General tests that all estimators need to pass."""
+"from __future__ import annotations
+
+import importlib
+import inspect
+
+import pytest
+
+from river import (
+    anomaly,
+    base,
+    checks,
+    compat,
+    compose,
+    facto,
+    feature_extraction,
+    feature_selection,
+    imblearn,
+    linear_model,
+    model_selection,
+    multiclass,
+    neighbors,
+    neural_net,
+    preprocessing,
+    time_series,
+)estimators need to pass."""
 from __future__ import annotations
 
 import importlib

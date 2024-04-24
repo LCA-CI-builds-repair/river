@@ -6,10 +6,38 @@ import functools
 import importlib
 import inspect
 import pickle
-import platform
-import random
+import platformimport metrics
+from functools import partial
+import sklearn.meimport platform
+import metrics
+from functools import partial
+import sklearn.metrics as sk_metrics
 
-import numpy as np
+# Assuming the missing imports are already handled in the original code
+
+if platform.system() != "Linux":
+    if "TEST_CASES" not in locals():
+        TEST_CASES = []
+
+    TEST_CASES.append(
+        (
+            metrics.AdjustedMutualInfo(average_method="min"),
+            partial(sk_metrics.adjusted_mutual_info_score, average_method="min"),
+        )
+    )s sk_metrics
+
+# Assuming the missing imports are already handled in the original code
+
+(
+    (metrics.FBeta(beta=0.5), partial(sk_metrics.fbeta_score, beta=0.5, zero_division=0)),
+    (metrics.MacroFBeta(beta=0.5), partial(sk_metrics.fbeta_score, beta=0.5, average="macro", zero_division=0)),
+    (metrics.MicroFBeta(beta=0.5), partial(sk_metrics.fbeta_score, beta=0.5, average="micro", zero_division=0)),
+    (metrics.WeightedFBeta(beta=0.5), partial(sk_metrics.fbeta_score, beta=0.5, average="weighted", zero_division=0)),
+    (metrics.F1(), partial(sk_metrics.f1_score, zero_division=0)),
+    (metrics.MacroF1(), partial(sk_metrics.f1_score, average="macro", zero_division=0)),
+    (metrics.MicroF1(), partial(sk_metrics.f1_score, average="micro", zero_division=0)),
+    (metrics.WeightedF1(), partial(sk_metrics.f1_score, average="weighted", zero_division=0)),
+)umpy as np
 import pytest
 from sklearn import metrics as sk_metrics
 

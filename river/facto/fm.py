@@ -10,7 +10,21 @@ from river import base, optim, utils
 
 from .base import BaseFM
 
-__all__ = ["FMClassifier", "FMRegressor"]
+__all__# Assuming missing code context for the `model` and its functions
+
+model.learn_one(x, y)
+
+>>> model.predict_one({'Bob': 1, 'Harry Potter': 1})
+5.236504
+
+>>> report = model.debug_one({'Bob': 1, 'Harry Potter': 1})
+
+>>> print(report)
+Name                 Value      Weight     Contribution
+         Intercept    1.00000    5.23426        5.23426
+Bob - Harry Potter    1.00000    0.00224        0.00224
+      Harry Potter    1.00000    0.00000        0.00000
+               Bob    1.00000    0.00000        0.00000fier", "FMRegressor"]
 
 
 class FM(BaseFM):

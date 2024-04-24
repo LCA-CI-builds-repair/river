@@ -1,4 +1,59 @@
-from __future__ import annotations
+fimport collections
+import functools
+import itertools
+
+import numpy as np
+
+from river import base, optim, utils
+
+from .base import BaseFM
+from .classification import FwFMClassifier
+from .regression import FwFMRegressor
+
+__all__ = ["FwFMClassifier", "FwFMRegressor", "FwFM"]    def transform_o    ----------
+    n_factors: int
+         ----------
+    weights: np.ndarray
+        The current weights assigned to the features.
+    latents: np.ndarray
+        The current latent weights assigned to the features.
+    interaction_weights: np.ndarray
+        The current interaction strengths of field pairs.nsionality of the factorization or number of latent factors.
+    weight_optimizer: optim.Optimizer
+        The sequential optimizer used for updating the feature weights. Note that the intercept is
+        handled separately.
+    latent_optimizer: optim.Optimizer
+        The sequential optimizer used for updating the latent factors.
+    int_weight_optimizer: optim.Optimizer
+        The sequential optimizer used for updating the field pairs interaction weights.
+    loss: optim.losses.RegressionLoss
+        The loss function to optimize for.
+    sample_normalization: bool
+        Whether to divide each element of `x` by `x`'s L2-norm.
+    l1_weight: float
+        Amount of L1 regularization used to push weights towards 0.
+    l2_weight: float
+        Amount of L2 regularization used to push weights towards 0.
+    l1_latent: float
+        Amount of L1 regularization used to push latent weights towards 0.
+    l2_latent: float
+        Amount of L2 regularization used to push latent weights towards 0.
+    intercept: bool
+        Initial intercept value.
+    intercept_lr: float
+        Learning rate scheduler used for updating the intercept. An instance of
+        `optim.schedulers.Constant` is used if a `float` is passed. No intercept will be used
+        if this is set to 0.
+    weight_initializer: base.typing.Initializer
+        Weights initialization scheme. Defaults to `optim.initializers.Zeros()`.
+    latent_initializer: base.typing.Initializer
+        Latent factors initialization scheme. Defaults to
+        `optim.initializers.Normal(mu=.0, sigma=.1, random_state=self.random_state)`.
+    clip_gradient: float
+        Clips the absolute value of each gradient value.
+    seed: int
+        Randomization seed used for reproducibility.    x = self._ohe_cat_features(x)
+        return self._raw_dot(x)rt annotations
 
 import collections
 import functools

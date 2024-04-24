@@ -1,4 +1,57 @@
-from __future__ import annotations
+fimport collecti    def __init__(
+        self,
+        degree: int,
+        n_factors: int,
+        weight_optimizer: optim$$
+\hat{y}(x) = w_{0} + \sum_{j=1}^{p} w_{j} x_{j}  + \sum_{l=2}^{d} \sum_{j_1=1}^{p}    >>> print(report)
+    Model Summary:
+    Name                                  Value      Weight     Contribution
+    Intercept                             1.00000    5.23495        5.23495
+    user_Bob                              1.00000    0.11436        0.11436
+    time                                  0.14000    0.03185        0.00446
+    user_Bob - time                       0.14000    0.00884        0.00124
+    user_Bob - item_Harry Potter - time   0.14000    0.00117        0.00016
+    item_Harry Potter                      1.00000    0.00000        0.00000
+    item_Harry Potter - time               0.14000   -0.00695       -0.00097
+    user_Bob - item_Harry Potter           1.00000   -0.04246       -0.04246
+
+    References
+    ----------
+    [^1]: [Rendle, S., 2010, December. Factorization machines. In 2010 IEEE International Conference on Data Mining (pp. 995-1000). IEEE.](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf)_l=j_{l-1}+1}^{p} \left(\prod_{j'=1}^{l} x_{j_{j'}} \right) \left(\sum_{f=1}^{k_l} \prod_{j'=1}^{l} v_{j_{j'}, f}^{(l)} \right)
+$$
+
+For more efficiency, this model automatically one-hot encodes string features considering them as categorical variables.
+
+Parameters
+----------
+degree : int
+    Polynomial degree or model order.
+n_factors : int
+        latent_optimizer: optim.Optimizer,
+        loss: optim.losses.RegressionLoss,
+        sample_normalization: bool = True,
+        l1_weight: float = 0.0,
+        l2_weight: float = 0.0,
+        l1_latent: float = 0.0,
+        l2_latent: float = 0.0,
+        intercept: bool = True,
+        intercept_lr: float = 0.01,
+        weight_initializer: base.typing.Initializer = optim.initializers.Zeros(),
+        latent_initializer: base.typing.Initializer = optim.initializers.Zeros(),
+        clip_gradient: float = 1e12,
+        seed: int = None,
+    ):ls
+import itertools
+
+import numpy as np
+
+from river import base, optim, utils
+
+from .base import BaseFM
+from .classification import HOFMClassifier
+from .regression import HOFMRegressor
+
+__all__ = ["HOFMClassifier", "HOFMRegressor", "HOFM"]mport annotations
 
 import collections
 import functools
