@@ -2,8 +2,39 @@ from __future__ import annotations
 
 import math
 
-from river import stats as st
-from river.utils.norm import normalize_values_in_dict
+from river import s        if error_change and old_error > self._mean_error.get():
+            # Reset the error estimator
+            self._mean_error = self._mean_error.                bound = math.sqrt(
+               child = self.next(x)
+        except KeyError:
+            child = None             2.0
+                    * old_error_rate
+                    * (1.0 - old_error_rate)
+                    * math.log(2.0 / tree.switch_significance)
+                    * n
+                )
+
+                if bound < (old_error_rate - alt_error_rate):
+                    tree._n_active_leaves -= self.n_leaves
+                    tree._n_active_leaves += self._alternate_tree.n_leaves     # Update statistics
+        super().learn_one(x, y, sample_weight=sample_weight, tree=tree)
+
+        weight_seen = self.total_weight
+
+        if weight_seen - self.last_split_attempt_at >= tree.grace_period:
+            if self.depth >= tree.max_depth:
+                # Depth-based pre-pruning
+                self.deactivate()
+                tree._n_inactive_leaves += 1
+                tree._n_active_leaves -= 1
+            elif self.is_active():
+                tree._attempt_to_split(
+                    self,
+                    parent,
+                    parent_branch,
+                    drift_detector=tree.drift_detector.clone(),
+                )
+                self.last_split_attempt_at = weight_seentils.norm import normalize_values_in_dict
 from river.utils.random import poisson
 
 from ..utils import do_naive_bayes_prediction

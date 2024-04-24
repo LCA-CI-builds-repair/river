@@ -5,7 +5,19 @@ import math
 
 from scipy.stats import f as f_dist
 
-from river import base, tree
+from river im                    # And we keep trying to reach a leaf
+                    if isinstance(node, DTBranch):
+                        node = node.traverse(x, until_leaf=False)
+                # Once a leaf is reached, the trave        List with identifiers of the nominal attributes. If None, all features containing
+        numbers are assumed to be numeric.
+    feature_quantizer:
+        The algorithm used to quantize numeric features. Either a static quantizer (as in the
+        original implementation) or a dynamic quantizer can be used. The correct choice and setup
+        of the feature quantizer is a crucial step to determine the performance of SGTs.
+        Feature quantizers are akin to the attribute observers used in Hoeffding Trees. By
+        default, an instance of `tree.splitter.StaticQuantizer` (with default parameters) is used. stop
+                if isinstance(node, SGTLeaf):
+                    breakse, tree
 
 from .losses import BinaryCrossEntropyLoss, SquaredErrorLoss
 from .nodes.branch import DTBranch, NominalMultiwayBranch, NumericBinaryBranch

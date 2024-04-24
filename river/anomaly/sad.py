@@ -2,7 +2,14 @@ from __future__ import annotations
 
 from river import anomaly, stats
 
-__all__ = ["StandardAbsoluteDeviation"]
+__all__ = [        assert len(x) == 1
+        ((x_key, x_value),) = x.items()
+
+        score = (x_value - self.subtracted_statistic_estimator.get()) / (
+            self.variance.get() ** 0.5 + 1e-10
+        )
+
+        return abs(score)AbsoluteDeviation"]
 
 
 class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):

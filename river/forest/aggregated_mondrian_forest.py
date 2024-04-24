@@ -4,7 +4,43 @@ import abc
 import random
 
 from river import base
-from river.tree.mondrian import MondrianTreeClassifier, MondrianTreeRegressor
+from    More details can be found in the paper cited in the references below.
+
+    The        self.data: list[MondrianTreeClassifier] = []
+        for _ in range(self.n_estimators):
+            tree = MondrianTreeClassifier(
+               return self
+
+    def predict_one(self, x):
+        # Checking that the model has been trained once at least
+        if not self._is_initialized:
+            return None
+
+        prediction = 0
+        for tree in self:
+            tree.use_aggregation = self.use_aggregation
+            prediction += tree.predict_one(x)
+        prediction = prediction / self.n_estimators
+
+        return predictionep,
+                self.use_aggregation,
+                self.dirichlet,
+                self.split_pure,
+                iteration=0,
+                # We don't want to have the same stochastic scheme for each tree, or it'll break the randomness
+                # Hence we introduce a new seed for each, derived from the given seed by a deterministic process
+                seed=self._rng.randint(0, 9999999),
+            )
+            self.data.append(tree)
+
+    def learn_one(self, x, y):
+        # Updating the previously seen classes with the new sample
+        self._classes.add(y)
+
+        # Checking if the forest has been created
+        if not self._is_initialized:
+            self._initialize_trees()e the average class probabilities predicted by each of the
+    `n_estimators` trees in the forest.r.tree.mondrian import MondrianTreeClassifier, MondrianTreeRegressor
 
 
 class AMFLearner(base.Ensemble, abc.ABC):

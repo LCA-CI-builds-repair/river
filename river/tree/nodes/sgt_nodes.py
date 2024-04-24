@@ -1,7 +1,29 @@
-from __future__ import annotations
+from __future__ import annotations        super().__init__()
+        self.                    # Create a new quantizer
+                    self._split_stats[idx] = sgt.feature_quantizer.clone(  # type: ignore
+                        self.split_params[idx]
+                    )
+                    self._split_stats[idx].update(x_val, gh, w)  # type: ignorection = prediction
+        self.depth = depth
 
-import collections
-import math
+        # Quantizer params are dynamically updated
+        self.split_params = (
+            split_params if split_params is not None else collections.defaultdict(dict)
+        )
+        self.last_split_attempt_at = 0
+
+        self._split_stats: dict[
+            FeatureName, dict[Hashable, GradHessStats] | DynamicQuantizer | StaticQuantizer
+        ] | None = {}
+        self._update_stats = GradHessStats()
+
+    def reset(self):
+        self._split_stats = {}
+        self._update_stats = GradHessStats()
+
+    @staticmethod
+    def is_categorical(idx, x_val, nominal_attributes):
+        return not isinstance(x_val, numbers.Number) or idx in nominal_attributesmport math
 import numbers
 import sys
 from collections.abc import Hashable

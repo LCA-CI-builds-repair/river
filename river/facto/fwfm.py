@@ -6,9 +6,47 @@ import itertools
 
 import numpy as np
 
-from river import base, optim, utils
+from river import bclass FwFMRegressor(FwFM, base.Regressor):
+    """Field-weighted Factorization Machine for regression.
 
-from .base import BaseFM
+    The model equation is defined as:
+
+    $$\\hat{y}(x) = w_{0} + \\sum_{j=1}^{p} w_{j} x_{j}  + \\sum_{j=1}^{p} \\sum_{j'=j+1}^{p} r_{f_j, f_{j'}} \\langle \\mathbf{v}_j, \\mathbf{v}_{j'} \\rangle x_{j} x_{j'}$$
+
+    Where $f_j$ and $f_{j'}$ are $j$ and $j'$ fields, respectively, and $\\mathbf{v}_j$ and
+    $\\mathbf{v}_{j'}$ are $j$ and $j'$ latent vectors, respectively.
+
+    For more efficiency, this model automatically one-hot encodes strings features considering them
+    as categorical variables. Field names are inferred from feature names by taking everything
+    before the first underscore: `feature_name.split('_')[0]`.
+
+    Parameters
+    ----------
+    n_factors : int
+        Dimensionality of the factorization or number of latent factors.
+    weight_optimizer : optim.optimizer.SequentialOptimizer
+        The sequential optimizer used for updating the feature weights. Note that the intercept is
+        handled separately.
+    latent_optimizer : optim.optimizer.SequentialOptimizer
+        The sequential optimizer used for updating the latent factors.
+    int_weight_optimizer : optim.optimizer.SequentialOptimizer
+        The sequential optimizer used for updating the field pairs interaction weights.
+    loss : optim.loss.RegressionLoss
+        The loss function to optimize for.
+    sample_normalization : bool
+        Whether to divide each element of `x` by `x`'s L2-norm.
+    l1_weight : float
+        Amount of L1 regularization used to push weights towards 0.
+    l2_weight : float
+        Amount of L2 regularization used to push weights towards 0.
+    l1_latent : float
+        Amount of L1 regularization used to push latent weights towards 0.
+    l2_latent : float
+        Amount of L2 regularization used to push latent weights towards 0.
+    intercept : float
+        Initial intercept value.
+    intercept_lr : float
+        Learning rate for the intercept.M
 
 __all__ = ["FwFMClassifier", "FwFMRegressor"]
 

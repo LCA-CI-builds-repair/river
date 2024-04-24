@@ -11,7 +11,47 @@ __all__ = ["TextClust"]
 
 
 class TextClust(base.Clusterer):
-    r"""textClust, a clustering algorithm for text data.
+    r"""textClust, a clustering algori        self.n += 1
+        return clusterId
+
+    ## predicts the cluster number. The type specifies whether this should happen on micro-cluster
+    ## or macro-cluster level
+    def predict_one(self, x, sample_weight=None, type="micro"):
+        localdict = {}
+        for key in x.keys():
+          assignment = None
+        idf = None
+
+        idf = self._calculateIDF(self.micro_clusters.values())
+
+        # proceed, if the processed text is not empty
+        if len(x) > 0:
+            # create temporary micro cluster
+            mc = self.microcluster(x, 1, 1, self.realtime, None)
+
+            # initialize distances to infinity
+            dist = float("inf")
+            closest = None
+
+            # identify the closest micro cluster using the predefined distance measure
+            for key in self.micro_clusters.keys():
+                if self.micro_clusters[key].weight > self.min_weight:
+                    cur_dist = self.micro_distance.dist(mc, self.micro_clusters[key], idf)
+                    if cur_dist < dist:
+                        dist = cur_dist
+                        closest = key
+
+            # add assignment
+            assignment = closest
+
+            if type == "micro":
+                return assignment         localdict[new_key] = {}
+            localdict[new_key]["tf"] = x[key]
+
+        ngrams = localdict
+        ngrams = dict(ngrams)
+
+        return self.get_assignment(ngrams, type=type).
 
     textClust [^1][^2] is a stream clustering algorithm for textual data that can identify and track topics
     over time in a stream of texts. The algorithm uses a widely popular two-phase clustering

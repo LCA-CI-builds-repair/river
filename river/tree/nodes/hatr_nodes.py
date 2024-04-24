@@ -7,7 +7,18 @@ from river.utils.random import poisson
 
 from .branch import (
     DTBranch,
-    NominalBinaryBranch,
+    N        old_error = self._ealt_mean_error = self._alternate_tree._error_tracker.mean.get()
+cur_mean_error = self._error_tracker.mean.get()or_tracker.mean.get()
+
+        self.drift_detector.update(drift_input)
+        self._error_tracker.update(drift_input)
+        error_change = self.drift_detector.drift_detected
+
+        # Error is decreasing, better to keep things as they are
+        if error_change and self._error_tracker.mean.get() < old_error:
+            # Reset the error estimator
+            self._error_tracker = self._error_tracker.clone()
+            error_change = FalseyBranch,
     NominalMultiwayBranch,
     NumericBinaryBranch,
     NumericMultiwayBranch,
