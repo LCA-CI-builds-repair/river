@@ -73,6 +73,9 @@ def test_not_fitted_still_works_regression(estimator):
             ),
         ]
     ],
+            ),
+        ]
+    ],
 )
 def test_not_fitted_still_works_classification(estimator, n_classes):
     X, _ = sk_datasets.make_classification(

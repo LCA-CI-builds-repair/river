@@ -48,6 +48,7 @@ def iter_perturbations(keys, n=10):
             [
                 optim.AdaBound(),
                 optim.AdaDelta(),
+            ],
                 optim.AdaGrad(),
                 optim.AdaMax(),
                 optim.Adam(),
