@@ -19,7 +19,7 @@ from river import base, cluster, compat, linear_model, preprocessing
             preprocessing.StandardScaler(),
             cluster.KMeans(n_clusters=3, seed=42),
         ]
-    ],
+    ]
 )
 @pytest.mark.filterwarnings("ignore::sklearn.utils.estimator_checks.SkipTestWarning")
 def test_river_to_sklearn_check_estimator(estimator: base.Estimator):
@@ -70,6 +70,9 @@ def test_not_fitted_still_works_regression(estimator):
                 | compat.convert_sklearn_to_river(
                     sk_linear_model.SGDClassifier(loss="log_loss"), classes=list(range(n_classes))
                 )
+            ]
+        )
+    ]
             ),
         ]
     ],
