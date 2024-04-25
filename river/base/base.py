@@ -33,15 +33,8 @@ class Base:
         """Instantiates an object with default arguments.
 
         Most parameters of each object have a default value. However, this isn't always the case,
-        in particular for meta-models where the wrapped model is typically not given a default
-        value. It's useful to have a default value set for testing reasons, which is the purpose of
-        this method. By default it simply calls the __init__ function. It may be overridden on an
-        individual as needed.
-
-        """
-        yield {}
-
     def _get_params(self) -> dict[str, typing.Any]:
+        pass
         """Return the parameters that were used during initialization."""
 
         params = {}

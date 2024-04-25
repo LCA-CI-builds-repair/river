@@ -26,10 +26,7 @@ class Set(base.Base):
     filter decreases, and false positives are produced. For instance, a previously unobserved item is signalized
     as observed. Increasing the size of the binary array and the value of `k` increase the filter's accuracy as
     hash collisions are avoided. Nonetheless, even using an increased number of hash functions, hash collisions
-    will frequently happen if the array capacity is too small. The length of the bit array and the number of
-    hash functions are inferred automatically from the supplied `capacity` and `fp_rate`.
-
-
+No edits required for this code snippet.
     Parameters
     ----------
     capacity

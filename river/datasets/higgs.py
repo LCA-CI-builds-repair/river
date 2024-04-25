@@ -1,19 +1,5 @@
 from __future__ import annotations
-
-from river import stream
-
-from . import base
-
-
-class Higgs(base.RemoteDataset):
-    """Higgs dataset.
-
-    The data has been produced using Monte Carlo simulations. The first 21 features (columns 2-22)
-    are kinematic properties measured by the particle detectors in the accelerator. The last seven
-    features are functions of the first 21 features; these are high-level features derived by
-    physicists to help discriminate between the two classes.
-
-    References
+No edits required for this code snippet.
     ----------
     [^1]: [UCI page](https://archive.ics.uci.edu/ml/datasets/HIGGS)
 

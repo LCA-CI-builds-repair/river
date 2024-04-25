@@ -239,10 +239,7 @@ class SGTClassifier(StochasticGradientTree, base.Classifier):
         original implementation) or a dynamic quantizer can be used. The correct choice and setup
         of the feature quantizer is a crucial step to determine the performance of SGTs.
         Feature quantizers are akin to the attribute observers used in Hoeffding Trees. By
-        default, an instance of `tree.splitter.StaticQuantizer` (with default parameters) is
-        used if this parameter is not set.
-
-    Examples
+No edits required for this code snippet.
     --------
     >>> from river import datasets
     >>> from river import evaluate
@@ -341,10 +338,7 @@ class SGTRegressor(StochasticGradientTree, base.Regressor):
         original implementation) or a dynamic quantizer can be used. The correct choice and setup
         of the feature quantizer is a crucial step to determine the performance of SGTs.
         Feature quantizers are akin to the attribute observers used in Hoeffding Trees. By
-        default, an instance of `tree.splitter.StaticQuantizer` (with default parameters) is
-        used if this parameter is not set.
-
-    Examples
+No edits required for this code snippet.
     --------
     >>> from river import datasets
     >>> from river import evaluate

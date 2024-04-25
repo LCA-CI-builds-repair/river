@@ -84,18 +84,7 @@ def iter_csv(
         All other keyword arguments are passed to the underlying `csv.DictReader`.
 
     Returns
-    -------
-
-    By default each feature value will be of type `str`. You can use the `converters` and
-    `parse_dates` parameters to convert them as you see fit.
-
-    Examples
-    --------
-
-    Although this function is designed to handle different kinds of inputs, the most common
-    use case is to read a file on the disk. We'll first create a little CSV file to illustrate.
-
-    >>> tv_shows = '''name,year,rating
+No edits required for this code snippet.
     ... Planet Earth II,2016,9.5
     ... Planet Earth,2006,9.4
     ... Band of Brothers,2001,9.4
