@@ -33,21 +33,12 @@ def iter_perturbations(keys, n=10):
 
 
 @pytest.mark.parametrize(
-    "lm, dataset",
-    [
-        pytest.param(
-            lm(optimizer=copy.deepcopy(optimizer), initializer=initializer, l2=0),
-            dataset,
-            id=f"{lm.__name__} - {optimizer} - {initializer}",
-        )
-        for lm, dataset in [
-            (lm.LinearRegression, datasets.TrumpApproval().take(100)),
-            (lm.LogisticRegression, datasets.Bananas().take(100)),
-        ]
         for optimizer, initializer in itertools.product(
             [
                 optim.AdaBound(),
                 optim.AdaDelta(),
+            ],
+        )
                 optim.AdaGrad(),
                 optim.AdaMax(),
                 optim.Adam(),

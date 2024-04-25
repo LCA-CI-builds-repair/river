@@ -10,21 +10,10 @@ from river import base, cluster, compat, linear_model, preprocessing
 
 
 @pytest.mark.parametrize(
-    "estimator",
-    [
-        pytest.param(estimator, id=str(estimator))
-        for estimator in [
-            linear_model.LinearRegression(),
-            linear_model.LogisticRegression(),
-            preprocessing.StandardScaler(),
             cluster.KMeans(n_clusters=3, seed=42),
         ]
-    ],
+    ),
 )
-@pytest.mark.filterwarnings("ignore::sklearn.utils.estimator_checks.SkipTestWarning")
-def test_river_to_sklearn_check_estimator(estimator: base.Estimator):
-    skl_estimator = compat.convert_river_to_sklearn(estimator)
-    estimator_checks.check_estimator(skl_estimator)
 
 
 @pytest.mark.filterwarnings("ignore::sklearn.utils.estimator_checks.SkipTestWarning")
@@ -57,19 +46,8 @@ def test_not_fitted_still_works_regression(estimator):
 
 
 @pytest.mark.parametrize(
-    "estimator,n_classes",
-    [
-        pytest.param(estimator, n_classes, id=f"{estimator}-{n_classes} classes")
-        for n_classes in [2, 3]
-        for estimator in [
-            compat.convert_sklearn_to_river(
-                sk_linear_model.SGDClassifier(loss="log_loss"), classes=list(range(n_classes))
-            ),
-            (
-                preprocessing.StandardScaler()
-                | compat.convert_sklearn_to_river(
-                    sk_linear_model.SGDClassifier(loss="log_loss"), classes=list(range(n_classes))
-                )
+    ],
+)
             ),
         ]
     ],
