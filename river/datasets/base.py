@@ -205,6 +205,7 @@ class FileDataset(Dataset):
         Extra dataset parameters to pass as keyword arguments.
 
     """
+import pathlib
 
     def __init__(self, filename, directory=None, **desc):
         super().__init__(**desc)

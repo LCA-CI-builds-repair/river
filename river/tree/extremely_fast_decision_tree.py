@@ -315,9 +315,9 @@ class ExtremelyFastDecisionTreeClassifier(HoeffdingTreeClassifier):
         branch_index
             Parent node's branch index.
         """
-        if isinstance(node, BaseEFDTBranch):
-            # Update split nodes as the tree is traversed
-            node.learn_one(x, y, sample_weight=sample_weight, tree=self)
+        if isinstance(current_node, BaseEFDTBranch):
+            # Update split nodes based on the incoming data as the tree is traversed
+            current_node.learn_one(x, y, sample_weight=sample_weight, tree=self)
 
             old_weight = node.last_split_reevaluation_at
             new_weight = node.total_weight

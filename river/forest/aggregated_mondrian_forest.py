@@ -192,7 +192,7 @@ class AMFClassifier(AMFLearner, base.Classifier):
         if not self._is_initialized:
             self._initialize_trees()
 
-        # we fit all the trees using the new sample
+        # Fitting all trees in the forest with the new sample
         for tree in self:
             tree.learn_one(x, y)
 

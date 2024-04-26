@@ -20,13 +20,9 @@ batch-processing fashion.
 All the available Hoeffding Tree (HT) implementation share some common functionalities:
 
 * Set the maximum tree depth allowed (`max_depth`).
+* Handle **Active** and **Inactive** nodes: Active learning nodes update their own internal state to improve predictions and monitor input features to perform split attempts. Inactive learning nodes do not update their internal state and only keep the predictors; they are used to save memory in the tree (`max_size`).
 
-* Handle *Active* and *Inactive* nodes: Active learning nodes update their own
-internal state to improve predictions and monitor input features to perform split
-attempts. Inactive learning nodes do not update their internal state and only keep the
-predictors; they are used to save memory in the tree (`max_size`).
-
-*  Enable/disable memory management.
+* Enable/disable memory management.
 
 * Define strategies to sort leaves according to how likely they are going to be split.
 This enables deactivating non-promising leaves to save memory.

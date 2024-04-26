@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 from river import stream
 
 from . import base
@@ -9,8 +8,7 @@ class Bikes(base.RemoteDataset):
     """Bike sharing station information from the city of Toulouse.
 
     The goal is to predict the number of bikes in 5 different bike stations from the city of
-    Toulouse.
-
+    Toulouse."""
     References
     ----------
     [^1]: [A short introduction and conclusion to the OpenBikes 2016 Challenge](https://maxhalford.github.io/blog/openbikes-challenge/)

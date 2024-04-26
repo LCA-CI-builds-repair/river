@@ -183,7 +183,7 @@ class AdaBranchRegressor(DTBranch):
             cur_n = self._error_tracker.mean.n
             # As the size threshold is usually large, we can run a two-tailed z-test to decide whether
             # the alternate subtree has significantly smaller prediction errors than the main subtree
-            if alt_n > tree.drift_window_threshold and cur_n > tree.drift_window_threshold:
+            if alt_mean_error > tree.drift_window_threshold and cur_mean_error > tree.drift_window_threshold:
                 # Mean prediction error
                 alt_mean_er = self._alternate_tree._error_tracker.mean.get()
                 cur_mean_er = self._error_tracker.mean.get()
