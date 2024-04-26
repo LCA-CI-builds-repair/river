@@ -52,6 +52,8 @@ class Beta(base.ContinuousDistribution):
     >>> beta(.21), beta(.35)
     (0.867..., 0.165...)
 
+    >>> beta = proba.Beta()
+
     >>> for success in range(100):
     ...     beta = beta.update(True)
     >>> for failure in range(200):

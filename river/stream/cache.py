@@ -72,7 +72,6 @@ class Cache:
     /tmp
 
     There is also a `clear_all` method to remove all the items in the cache.
-
     >>> cache.clear_all()
 
     """
@@ -81,7 +80,12 @@ class Cache:
         # Guess the directory from the system
         system = platform.system()
         if directory is None:
-            directory = {"Linux": "/tmp", "Darwin": "/tmp", "Windows": "C:\\TEMP"}.get(system)
+            default_directories = {
+                "Linux": "/tmp",
+                "Darwin": "/tmp",
+                "Windows": "C:\\TEMP"
+            }
+            directory = default_directories.get(system)
 
         if directory is None:
             raise ValueError(

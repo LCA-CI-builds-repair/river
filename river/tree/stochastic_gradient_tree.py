@@ -54,7 +54,7 @@ class StochasticGradientTree(base.Estimator, abc.ABC):
         )
 
         self._root: SGTLeaf | DTBranch = SGTLeaf(prediction=self.init_pred)
-
+# Implementation of Stochastic Gradient Tree algorithm including tree node creation, splitting, learning, and prediction functionalities.
         # set used to check whether categorical feature has been already split
         self._split_features = set()
         self._n_splits = 0

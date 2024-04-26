@@ -173,10 +173,10 @@ class AMFClassifier(AMFLearner, base.Classifier):
         self.data: list[MondrianTreeClassifier] = []
         for _ in range(self.n_estimators):
             tree = MondrianTreeClassifier(
-                self.step,
-                self.use_aggregation,
-                self.dirichlet,
-                self.split_pure,
+                step=self.step,
+                use_aggregation=self.use_aggregation,
+                dirichlet=self.dirichlet,
+                split_pure=self.split_pure,
                 iteration=0,
                 # We don't want to have the same stochastic scheme for each tree, or it'll break the randomness
                 # Hence we introduce a new seed for each, that is derived of the given seed by a deterministic process
@@ -258,12 +258,12 @@ class AMFRegressor(AMFLearner, base.Regressor):
     >>> from river import forest
     >>> from river import metrics
 
-    >>> dataset = datasets.TrumpApproval()
+    >>> dataset = datasets.TrumpApproval().take(500)
     >>> model = forest.AMFRegressor(seed=42)
     >>> metric = metrics.MAE()
 
-    >>> evaluate.progressive_val_score(dataset, model, metric)
-    MAE: 0.268533
+    >>> evaluator = evaluate.ProgressiveValScore(metric, print_every=1000)
+    >>> evaluator.evaluate(model, dataset, n_wait=1000, show_memory=False)
 
     References
     ----------

@@ -196,12 +196,12 @@ class FileDataset(Dataset):
 
     Parameters
     ----------
-    filename
+    filename : str
         The file's name.
-    directory
+    directory : str, optional
         The directory where the file is contained. Defaults to the location of the `datasets`
         module.
-    desc
+    desc : dict
         Extra dataset parameters to pass as keyword arguments.
 
     """

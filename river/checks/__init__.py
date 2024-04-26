@@ -183,7 +183,8 @@ def check_estimator(model: Estimator):
 
     Parameters
     ----------
-    model
+    model : Estimator
+        The model to be checked for adherence to River's conventions.
 
     """
     for check in yield_checks(model):

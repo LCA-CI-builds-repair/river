@@ -226,7 +226,7 @@ class HoeffdingTree(ABC):
         """Return the prediction strategy used by the tree at its leaves."""
         return self._leaf_prediction
 
-    @leaf_prediction.setter  # type: ignore
+    @leaf_prediction.setter
     @abstractmethod
     def leaf_prediction(self, leaf_prediction):
         """Define the prediction strategy used by the tree in its leaves."""

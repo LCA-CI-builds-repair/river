@@ -367,6 +367,7 @@ class LeveragingBaggingClassifier(BaggingClassifier):
             k = 1
         else:
             k = 0
+            k = 0
         return k
 
     def _leveraging_bag_half(self, **kwargs):

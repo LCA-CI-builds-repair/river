@@ -48,16 +48,14 @@ def learn_during_predict():
     ... )
 
     >>> class_condition = lambda x: x.__class__.__name__ in ('StandardScaler', 'LinearRegression')
-
     >>> logger = logging.getLogger()
     >>> logger.setLevel(logging.DEBUG)
 
     >>> logs = io.StringIO()
     >>> sh = logging.StreamHandler(logs)
     >>> sh.setLevel(logging.DEBUG)
-    >>> logger.addHandler(sh)
 
-    >>> with utils.log_method_calls(class_condition):
+    >>> with utils.log_method_calls(class_condition, logger=logger, handler=sh):
     ...     for x, y in datasets.TrumpApproval().take(1):
     ...         _ = model.predict_one(x)
 
@@ -77,6 +75,7 @@ def learn_during_predict():
     ...         _ = model.predict_one(x)
 
     >>> print(logs.getvalue())
+    >>> print(logs.getvalue())
     StandardScaler.learn_one
     StandardScaler.transform_one
     LinearRegression.predict_one
@@ -88,9 +87,9 @@ def learn_during_predict():
     >>> logs = io.StringIO()
     >>> sh = logging.StreamHandler(logs)
     >>> sh.setLevel(logging.DEBUG)
-    >>> logger.addHandler(sh)
 
     >>> with utils.log_method_calls(class_condition):
+    >>> with utils.log_method_calls(class_condition, logger=logger, handler=sh):
     ...     for x, y in datasets.TrumpApproval().take(1):
     ...         _ = model.predict_many(pd.DataFrame([x]))
     >>> print(logs.getvalue())
@@ -99,8 +98,6 @@ def learn_during_predict():
 
     >>> logs = io.StringIO()
     >>> sh = logging.StreamHandler(logs)
-    >>> sh.setLevel(logging.DEBUG)
-    >>> logger.addHandler(sh)
 
     >>> with utils.log_method_calls(class_condition), compose.learn_during_predict():
     ...     for x, y in datasets.TrumpApproval().take(1):

@@ -198,7 +198,7 @@ class AdaBranchClassifier(DTBranch):
 
         # Classification error is decreasing: skip drift adaptation
         if error_change and old_error > self._mean_error.get():
-            # Reset the error estimator
+            # Reset the error estimator by cloning
             self._mean_error = self._mean_error.clone()
             error_change = False
 
@@ -290,8 +290,8 @@ class AdaBranchClassifier(DTBranch):
             else:
                 child_id, child = self.most_common_path()
                 child.learn_one(
-                    x,
-                    y,
+                    x=x,
+                    y=y,
                     sample_weight=sample_weight,
                     tree=tree,
                     parent=self,

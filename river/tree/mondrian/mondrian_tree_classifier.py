@@ -42,6 +42,11 @@ class MondrianTreeClassifier(MondrianTree, base.Classifier):
     >>> from river import tree
 
     >>> dataset = datasets.Bananas().take(500)
+    >>> model = tree.MondrianTreeClassifier()
+    >>> metric = metrics.Accuracy()
+
+    >>> evaluator = evaluate.ProgressiveValScore(metric, print_every=1000)
+    >>> evaluator = evaluator.evaluate(model, dataset, n_wait=1000, show_memory=False)
 
     >>> model = tree.mondrian.MondrianTreeClassifier(
     ...     step=0.1,

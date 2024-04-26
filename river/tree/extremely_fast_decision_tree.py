@@ -317,7 +317,7 @@ class ExtremelyFastDecisionTreeClassifier(HoeffdingTreeClassifier):
         """
         if isinstance(node, BaseEFDTBranch):
             # Update split nodes as the tree is traversed
-            node.learn_one(x, y, sample_weight=sample_weight, tree=self)
+            node.learn_one(x=x, y=y, sample_weight=sample_weight, tree=self)
 
             old_weight = node.last_split_reevaluation_at
             new_weight = node.total_weight

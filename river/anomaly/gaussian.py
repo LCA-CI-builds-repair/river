@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 from river import anomaly, proba, utils
 
 
@@ -7,7 +6,7 @@ class GaussianScorer(anomaly.base.SupervisedAnomalyDetector):
     """Univariate Gaussian anomaly detector.
 
     This is a supervised anomaly detector. It fits a Gaussian distribution to the target values.
-    The anomaly score is then computed as so:
+    The anomaly score is then computed as follows:
 
     $$score = 2 \\mid CDF(y) - 0.5 \\mid$$
 
