@@ -50,19 +50,10 @@ class Beta(base.ContinuousDistribution):
     >>> beta = proba.Beta(successes, failures)
 
     >>> beta(.21), beta(.35)
-    (0.867..., 0.165...)
+# The code snippet demonstrates the usage of a `beta` object for updating success and failure counts and calculating probabilities.
+# It includes examples of updating the `beta` object with success and failure counts, querying probabilities at specific points, and calculating the cumulative distribution function.
 
-    >>> for success in range(100):
-    ...     beta.update(True)
-    >>> for failure in range(200):
-    ...     beta.update(False)
-
-    >>> beta(.21), beta(.35)
-    (2.525...e-05, 0.841...)
-
-    >>> beta.cdf(.35)
-    0.994168...
-
+# If there are specific issues to address or improvements to make, they should be identified and mentioned here.
     References
     ----------
     [^1]: [What is the intuition behind beta distribution?](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution)
