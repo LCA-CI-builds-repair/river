@@ -32,65 +32,9 @@ class AdaptiveRegressor(base.Regressor):
     """
 
     def __init__(self, model_predictor: base.Regressor, fading_factor: float):
-        self.model_predictor = model_predictor
-        self.mean_predictor = MeanRegressor()
-        self.fading_factor = fading_factor
-
-        self._mae_mean = 0.0
-        self._mae_model = 0.0
-
-    def learn_one(self, x: dict, y: base.typing.RegTarget, w: int = 1):
-        abs_error_mean = abs(y - self.mean_predictor.predict_one(x))  # type: ignore
-        abs_error_model = abs(y - self.model_predictor.predict_one(x))  # type: ignore
-
-        self._mae_mean = self.fading_factor * self._mae_mean + abs_error_mean
-        self._mae_model = self.fading_factor * self._mae_model + abs_error_model
-
-        self.mean_predictor.learn_one(x, y, w)
-
-        for _ in range(int(w)):
-            self.model_predictor.learn_one(x, y)
-
-        return self
-
-    def predict_one(self, x: dict):
-        if self._mae_mean <= self._mae_model:
-            return self.mean_predictor.predict_one(x)
-        else:
-            return self.model_predictor.predict_one(x)
-
-
-class RegRule(HoeffdingRule, base.Regressor, anomaly.base.AnomalyDetector):
-    def __init__(
-        self,
-        template_splitter,
-        split_criterion,
-        pred_model,
-        drift_detector,
-    ):
-        super().__init__(
-            template_splitter=template_splitter,
-            split_criterion=split_criterion,
-        )
-        self.pred_model = pred_model
-        self.drift_detector = drift_detector
-
-        self._target_stats = stats.Var()
-        self._feat_stats = collections.defaultdict(functools.partial(stats.Var))
-
-    def new_nominal_splitter(self):
-        return spl.NominalSplitterReg()
-
-    @property
-    def statistics(self):
-        return self._target_stats
-
-    @statistics.setter
-    def statistics(self, target_stats):
-        self._target_stats = target_stats
-
-    def _update_target_stats(self, y, w):
-        self._target_stats.update(y, w)
+import collections
+import functools
+from river import base, stats
 
     def _update_feature_stats(self, feat_name, feat_val, w):
         if feat_name not in self.nominal_features:
@@ -228,7 +172,41 @@ class AMRules(base.Regressor):
     When using nominal features, `pred_type` should be set to "mean", otherwise errors will be
     thrown while trying to update the underlying rules' prediction models. Prediction strategies
     other than "mean" can be used, as long as the prediction model passed to `pred_model` supports
-    nominal features.
+import collections
+import functools
+from river import base, stats
+
+class RegRule(HoeffdingRule, base.Regressor, anomaly.base.AnomalyDetector):
+    def __init__(
+        self,
+        template_splitter,
+        split_criterion,
+        pred_model,
+        drift_detector,
+    ):
+        super().__init__(
+            template_splitter=template_splitter,
+            split_criterion=split_criterion,
+        )
+        self.pred_model = pred_model
+        self.drift_detector = drift_detector
+
+        self._target_stats = stats.Var()
+        self._feat_stats = collections.defaultdict(functools.partial(stats.Var))
+
+    def new_nominal_splitter(self):
+        return spl.NominalSplitterReg()
+
+    @property
+    def statistics(self):
+        return self._target_stats
+
+    @statistics.setter
+    def statistics(self, target_stats):
+        self._target_stats = target_stats
+
+    def _update_target_stats(self, y, w):
+        self._target_stats.update(y, w)
 
     Raises
     ------

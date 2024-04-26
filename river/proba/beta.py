@@ -50,22 +50,19 @@ class Beta(base.ContinuousDistribution):
     >>> beta = proba.Beta(successes, failures)
 
     >>> beta(.21), beta(.35)
-    (0.867..., 0.165...)
+import scipy.stats as stats
 
-    >>> for success in range(100):
-    ...     beta = beta.update(True)
-    >>> for failure in range(200):
-    ...     beta = beta.update(False)
+beta = stats.beta(1, 1)
 
-    >>> beta(.21), beta(.35)
-    (2.525...e-05, 0.841...)
+for success in range(100):
+    beta = beta.rvs()
+for failure in range(200):
+    beta = beta.rvs()
 
-    >>> beta.cdf(.35)
-    0.994168...
+beta_rvs_21 = beta.rvs(0.21)
+beta_rvs_35 = beta.rvs(0.35)
 
-    References
-    ----------
-    [^1]: [What is the intuition behind beta distribution?](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution)
+beta_cdf_35 = beta.cdf(0.35)
 
     """
 

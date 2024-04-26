@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import importlib
 import inspect
-
 import pytest
 
 from river import (
@@ -27,6 +26,8 @@ from river import (
 
 try:
     from river.compat.pytorch import PyTorch2RiverBase
+except ImportError:
+    pass
 
     PYTORCH_INSTALLED = True
 except ImportError:

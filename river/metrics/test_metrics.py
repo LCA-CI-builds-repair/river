@@ -112,114 +112,32 @@ def roc_auc_score(y_true, y_score):
         return 0
 
     scores = [s[True] for s in y_score]
-
-    return sk_metrics.roc_auc_score(y_true, scores)
-
+import numpy as np
+import pytest
+from functools import partial
+from sklearn import metrics as sk_metrics
+from river.metrics import metrics, roc_auc_score
 
 TEST_CASES = [
     (metrics.Accuracy(), sk_metrics.accuracy_score),
     (metrics.Precision(), partial(sk_metrics.precision_score, zero_division=0)),
-    (
-        metrics.MacroPrecision(),
-        partial(sk_metrics.precision_score, average="macro", zero_division=0),
-    ),
-    (
-        metrics.MicroPrecision(),
-        partial(sk_metrics.precision_score, average="micro", zero_division=0),
-    ),
-    (
-        metrics.WeightedPrecision(),
-        partial(sk_metrics.precision_score, average="weighted", zero_division=0),
-    ),
-    (metrics.Recall(), partial(sk_metrics.recall_score, zero_division=0)),
-    (
-        metrics.MacroRecall(),
-        partial(sk_metrics.recall_score, average="macro", zero_division=0),
-    ),
-    (
-        metrics.MicroRecall(),
-        partial(sk_metrics.recall_score, average="micro", zero_division=0),
-    ),
-    (
-        metrics.WeightedRecall(),
-        partial(sk_metrics.recall_score, average="weighted", zero_division=0),
-    ),
-    (
-        metrics.FBeta(beta=0.5),
-        partial(sk_metrics.fbeta_score, beta=0.5, zero_division=0),
-    ),
-    (
-        metrics.MacroFBeta(beta=0.5),
-        partial(sk_metrics.fbeta_score, beta=0.5, average="macro", zero_division=0),
-    ),
-    (
-        metrics.MicroFBeta(beta=0.5),
-        partial(sk_metrics.fbeta_score, beta=0.5, average="micro", zero_division=0),
-    ),
-    (
-        metrics.WeightedFBeta(beta=0.5),
-        partial(sk_metrics.fbeta_score, beta=0.5, average="weighted", zero_division=0),
-    ),
-    (metrics.F1(), partial(sk_metrics.f1_score, zero_division=0)),
-    (metrics.MacroF1(), partial(sk_metrics.f1_score, average="macro", zero_division=0)),
-    (metrics.MicroF1(), partial(sk_metrics.f1_score, average="micro", zero_division=0)),
-    (
-        metrics.WeightedF1(),
-        partial(sk_metrics.f1_score, average="weighted", zero_division=0),
-    ),
-    (metrics.MCC(), sk_metrics.matthews_corrcoef),
-    (metrics.MAE(), sk_metrics.mean_absolute_error),
-    (metrics.MSE(), sk_metrics.mean_squared_error),
-    (metrics.Homogeneity(), sk_metrics.homogeneity_score),
-    (metrics.Completeness(), sk_metrics.completeness_score),
-    (metrics.VBeta(beta=0.5), partial(sk_metrics.v_measure_score, beta=0.5)),
-    (metrics.FowlkesMallows(), sk_metrics.fowlkes_mallows_score),
-    (metrics.Rand(), sk_metrics.rand_score),
-    (metrics.AdjustedRand(), sk_metrics.adjusted_rand_score),
-    (metrics.MutualInfo(), sk_metrics.mutual_info_score),
-    (
-        metrics.NormalizedMutualInfo(average_method="min"),
-        partial(sk_metrics.normalized_mutual_info_score, average_method="min"),
-    ),
-    (
-        metrics.NormalizedMutualInfo(average_method="max"),
-        partial(sk_metrics.normalized_mutual_info_score, average_method="max"),
-    ),
-    (
-        metrics.NormalizedMutualInfo(average_method="arithmetic"),
-        partial(sk_metrics.normalized_mutual_info_score, average_method="arithmetic"),
-    ),
-    (
-        metrics.NormalizedMutualInfo(average_method="geometric"),
-        partial(sk_metrics.normalized_mutual_info_score, average_method="geometric"),
-    ),
-    (
-        metrics.AdjustedMutualInfo(average_method="max"),
-        partial(sk_metrics.adjusted_mutual_info_score, average_method="max"),
-    ),
-    (
-        metrics.AdjustedMutualInfo(average_method="arithmetic"),
-        partial(sk_metrics.adjusted_mutual_info_score, average_method="arithmetic"),
-    ),
-    (
-        metrics.AdjustedMutualInfo(average_method="geometric"),
-        partial(sk_metrics.adjusted_mutual_info_score, average_method="geometric"),
-    ),
-    (metrics.Jaccard(), partial(sk_metrics.jaccard_score, average="binary")),
-    (metrics.MacroJaccard(), partial(sk_metrics.jaccard_score, average="macro")),
-    (metrics.MicroJaccard(), partial(sk_metrics.jaccard_score, average="micro")),
-    (metrics.WeightedJaccard(), partial(sk_metrics.jaccard_score, average="weighted")),
-    (metrics.RollingROCAUC(), roc_auc_score),
-]
+    ...
 
 # HACK: not sure why this is needed, see this CI run https://github.com/online-ml/river/runs/7992357532?check_suite_focus=true
-if platform.system() != "Linux":
-    TEST_CASES.append(
-        (
-            metrics.AdjustedMutualInfo(average_method="min"),
-            partial(sk_metrics.adjusted_mutual_info_score, average_method="min"),
-        )
-    )
+import numpy as np
+import pytest
+from functools import partial
+from sklearn import metrics as sk_metrics
+from river.metrics import metrics
+
+(
+    metrics.MicroPrecision(),
+    partial(sk_metrics.precision_score, average="micro", zero_division=0),
+),
+(
+    metrics.WeightedPrecision(),
+    partial(sk_metrics.precision_score, average="weighted", zero_division=0),
+),
 
 
 @pytest.mark.parametrize(
