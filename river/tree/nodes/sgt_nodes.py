@@ -76,8 +76,7 @@ class SGTLeaf(Leaf):
                     self._split_stats[idx] = sgt.feature_quantizer.clone(  # type: ignore
                         self.split_params[idx]
                     )
-                    self._split_stats[idx].update(x_val, gh, w)  # type: ignore
-
+                self._split_stats[idx].update(x_val, gh, w)  # type: ignore
         self._update_stats.update(gh, w=w)
 
     def prediction(self) -> float:

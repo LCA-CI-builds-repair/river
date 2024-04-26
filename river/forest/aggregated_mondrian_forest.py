@@ -110,8 +110,8 @@ class AMFClassifier(AMFLearner, base.Classifier):
     split_pure
         Controls if nodes that contains only sample of the same class should be
         split ("pure" nodes). Default is `False`, namely pure nodes are not split,
-        but `True` can be sometimes better.
-    seed
+        but `True` can sometimes be better.
+    seed:
         Random seed for reproducibility.
 
     Notes

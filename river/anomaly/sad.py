@@ -61,7 +61,6 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
     def __init__(self, sub_stat: str = "mean"):
         self.variance = stats.Var()
         self.sub_stat = sub_stat
-
         if self.sub_stat == "mean":
             self.subtracted_statistic_estimator = stats.Mean()
         elif self.sub_stat == "median":

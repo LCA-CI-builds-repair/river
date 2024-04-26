@@ -86,7 +86,7 @@ class AdaLeafClassifier(LeafNaiveBayesAdaptive):
                     self,
                     parent,
                     parent_branch,
-                    drift_detector=tree.drift_detector.clone(),
+                    drift_detector=self.drift_detector.clone(),
                 )
                 self.last_split_attempt_at = weight_seen
 
