@@ -63,6 +63,8 @@ def iter_perturbations(keys, n=10):
                 optim.initializers.Normal(mu=0, sigma=1, seed=42),
             ],
         )
+            ],
+        )
     ],
 )
 def test_finite_differences(lm, dataset):

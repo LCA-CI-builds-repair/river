@@ -21,6 +21,11 @@ from river import feature_extraction
             six
 
             seven""",
+                ),
+            ],
+        )
+    ],
+)
                     ["one", "two", "three", "four", "five", "six", "seven"],
                 ),
                 (

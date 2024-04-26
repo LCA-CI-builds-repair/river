@@ -113,6 +113,9 @@ def iter_estimators_which_can_be_tested():
                     regressor=linear_model.LinearRegression(),
                 )
             ),
+        ]
+                )
+            ),
             (
                 preprocessing.StandardScaler()
                 | multiclass.OneVsRestClassifier(linear_model.LogisticRegression())

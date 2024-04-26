@@ -125,6 +125,9 @@ class ClassificationReport(metrics.base.MultiClassMetric):
                     ],
                 ),
             ],
+                    ],
+                ),
+            ],
             # Support
             ["", *[str(self.cm.sum_row[c]).rstrip("0").rstrip(".") for c in classes], *[""] * 4],
         ]

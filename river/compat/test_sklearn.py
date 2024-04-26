@@ -43,7 +43,7 @@ def test_sklearn_check_twoway():
             compat.convert_sklearn_to_river(sk_linear_model.SGDRegressor()),
             (
                 preprocessing.StandardScaler()
-                | compat.convert_sklearn_to_river(sk_linear_model.SGDRegressor())
+                + compat.convert_sklearn_to_river(sk_linear_model.SGDRegressor())
             ),
         ]
     ],
@@ -70,6 +70,8 @@ def test_not_fitted_still_works_regression(estimator):
                 | compat.convert_sklearn_to_river(
                     sk_linear_model.SGDClassifier(loss="log_loss"), classes=list(range(n_classes))
                 )
+            ),
+        ]
             ),
         ]
     ],

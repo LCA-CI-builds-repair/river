@@ -180,6 +180,7 @@ class BaseFM:
             [
                 self._interaction_coefficient(combination) * self._interaction_val(x, combination)
                 for combination in self._interaction_combination_keys(x)
+            ]
             ]  # latents
             + [xi * self.weights.get(i, 0) for i, xi in x.items()]  # weights
             + [self.intercept]  # intercept

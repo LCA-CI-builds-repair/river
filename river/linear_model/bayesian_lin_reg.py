@@ -154,6 +154,16 @@ class BayesianLinearRegression(base.Regressor):
                         for j in features
                     ]
                     for i in features
+                ]
+            )
+            if ss_inv
+            else None
+        )
+                            1.0 / self.alpha if i == j else 0.0,
+                        )
+                        for j in features
+                    ]
+                    for i in features
                 ],
                 order="F",
             )

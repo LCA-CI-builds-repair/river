@@ -30,6 +30,8 @@ from river import metrics
                 metrics.multioutput.MacroAverage(metrics.Precision()),
                 functools.partial(sk_metrics.precision_score, average="macro", zero_division=0),
             ),
+        ]
+            ),
             (
                 metrics.multioutput.MicroAverage(metrics.Precision()),
                 functools.partial(sk_metrics.precision_score, average="micro", zero_division=0),
