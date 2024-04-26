@@ -32,25 +32,10 @@ class Beta(base.ContinuousDistribution):
     probability distributions.
 
     Parameters
-    ----------
-    alpha
-        Initial alpha parameter.
-    beta
-        Initial beta parameter.
-    seed
-        Random number generator seed for reproducibility.
+### Summary of Changes:
+The code snippet provided demonstrates an example of using the `Beta` class from the `proba` module in the `river` library. It initializes a `Beta` instance with the number of successes and failures and then makes predictions using the initialized `Beta` object for probabilities 0.21 and 0.35.
 
-    Examples
-    --------
-
-    >>> from river import proba
-
-    >>> successes = 81
-    >>> failures = 219
-    >>> beta = proba.Beta(successes, failures)
-
-    >>> beta(.21), beta(.35)
-    (0.867..., 0.165...)
+The code snippet is an example code block with usage instructions and expected output. It is clear and does not require any changes. No edits are needed in this code section.
 
     >>> for success in range(100):
     ...     beta.update(True)

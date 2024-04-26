@@ -71,11 +71,9 @@ def _iter_synth_datasets():
         yield dataset
 
     synth = importlib.import_module("river.datasets.synth")
-    for name, dataset in inspect.getmembers(synth, inspect.isclass):
-        # TODO: test the following synth datasets also
-        if name in ("RandomRBF", "RandomRBFDrift", "RandomTree"):
-            continue
-        yield dataset
+for dataset_name in synth.__all__:
+    if dataset_name not in ["RandomRBF", "RandomRBFDrift", "RandomTree"]:
+        yield getattr(synth, dataset_name)
 
 
 @pytest.mark.parametrize(

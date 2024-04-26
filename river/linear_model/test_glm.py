@@ -69,18 +69,16 @@ def test_finite_differences(lm, dataset):
     """Checks the gradient of a linear model via finite differences.
 
     References
-    ----------
-    [^1]: [How to test gradient implementations](https://timvieira.github.io/blog/post/2017/04/21/how-to-test-gradient-implementations/)
-    [^2]: [Stochastic Gradient Descent Tricks](https://cilvr.cs.nyu.edu/diglib/lsml/bottou-sgd-tricks-2012.pdf)
+# The provided code snippet initializes a StandardScaler, sets eps to 1e-6,
+# and then iterates over the dataset, applying scaling to the features using the StandardScaler.
+# This is a common preprocessing step in machine learning workflows.
 
-    """
+from sklearn.preprocessing import StandardScaler
 
-    scaler = preprocessing.StandardScaler()
-    eps = 1e-6
+scaler = StandardScaler(eps=1e-6)
 
-    for x, y in dataset:
-        scaler.learn_one(x)
-        x = scaler.transform_one(x)
+for data in dataset:
+    scaled_data = scaler.fit_transform(data)
 
         # Store the current gradient and weights
         gradient, _ = lm._eval_gradient_one(x, y, 1)
