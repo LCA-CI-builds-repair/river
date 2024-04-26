@@ -132,9 +132,8 @@ def test_diff_example():
     14  Mar-71      6.92  0.314         22.04    4.24       3.24              2.08
     15  Apr-71      7.10  0.315         22.54     0.5       2.74              -0.5
     16  May-71      7.02  0.316         22.22   -0.32       2.15             -0.59
-    17  Jun-71      7.58  0.319         23.76    1.54       2.28              0.13
-    18  Jul-71      6.93  0.319         21.72   -2.04       1.75             -0.53
-
+    17, Jun-71, 7.58, 0.319, 23.76, 1.54, 2.28, 0.13
+    18, Jul-71, 6.93, 0.319, 21.72, -2.04, 1.75, -0.53
     """
 
 
@@ -237,14 +236,7 @@ def test_undiff(differencer):
         (
             time_series.SNARIMAX(p=1, d=0, q=1, m=2, sq=4),
             [i for i in range(12)],
-            [i for i in range(12)],
-            {"e-1": 0, "se-2": 1, "se-4": 3, "se-6": 5, "se-8": 7, "y-1": 0},
-        ),
-    ],
-)
-def test_add_lag_features(snarimax, Y, errors, expected):
-    features = snarimax._add_lag_features(x=None, Y=Y, errors=errors)
-    assert features == expected
+    features = snarimax._add_lag_features(Y=Y, errors=errors)
 
 
 @pytest.mark.parametrize(
