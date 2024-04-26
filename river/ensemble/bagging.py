@@ -390,7 +390,7 @@ class LeveragingBaggingClassifier(BaggingClassifier):
                 model.learn_one(x, y, **kwargs)
 
             y_pred = self[i].predict_one(x)
-            if y_pred is not None:
+            if y_pred is not None and i < len(self._drift_detectors):
                 incorrectly_classifies = int(y_pred != y)
                 error = self._drift_detectors[i].estimation
                 self._drift_detectors[i].update(incorrectly_classifies)

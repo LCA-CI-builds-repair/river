@@ -498,25 +498,18 @@ class TextClust(base.Clusterer):
         print("-------------------------------------------")
 
     # for a new observation(s) get the assignment to micro or macro clusters
-    def get_assignment(self, x, type):
+    def get_assignment(self, x, cluster_type):
         self._updateweights()
 
-        # assignment is an empty list
         assignment = None
-        idf = None
-
         idf = self._calculateIDF(self.micro_clusters.values())
 
-        # proceed, if the processed text is not empty
         if len(x) > 0:
-            # create temporary micro cluster
             mc = self.microcluster(x, 1, 1, self.realtime, None)
 
-            # initialize distances to infinity
             dist = float("inf")
             closest = None
 
-            # identify the closest micro cluster using the predefined distance measure
             for key in self.micro_clusters.keys():
                 if self.micro_clusters[key].weight > self.min_weight:
                     cur_dist = self.micro_distance.dist(mc, self.micro_clusters[key], idf)
@@ -524,19 +517,13 @@ class TextClust(base.Clusterer):
                         dist = cur_dist
                         closest = key
 
-            # add assignment
             assignment = closest
 
-            if type == "micro":
+            if cluster_type == "micro":
                 return assignment
-
-            ## if type is macro then get macro cluster assignment
             else:
                 self.updateMacroClusters()
                 return self.microToMacro[assignment] if assignment else None
-
-    ## tf container
-    class tfcontainer:
         def __init__(self, tfvalue, ids):
             self.tfvalue = tfvalue
             self.ids = ids
