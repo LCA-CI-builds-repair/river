@@ -52,7 +52,7 @@ def test_diff_formula():
     p - y[-m + t + 1]
 
     (1 - B)(1 - B^m)
-    >>> (D(1) * D(1, m)).diff(p, Y)
+    >>> (D(1, m) * D(1, m)).diff(p, Y)
     p - y[-m + t + 1] + y[-m + t] - y[t]
 
     (1 - B)(1 - B^12)
