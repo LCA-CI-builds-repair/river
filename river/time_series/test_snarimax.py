@@ -164,8 +164,8 @@ def test_undiff(differencer):
 
     diffed = differencer.diff(p, Y)
     undiffed = differencer.undiff(diffed, Y)
-    assert math.isclose(undiffed, p)
-
+    for i in range(len(undiffed)):
+        assert math.isclose(undiffed[i], p[i])
 
 @pytest.mark.parametrize(
     "snarimax, Y, errors, expected",
