@@ -10,6 +10,7 @@ from river import base, cluster, compat, linear_model, preprocessing
 
 
 @pytest.mark.parametrize(
+(
     "estimator",
     [
         pytest.param(estimator, id=str(estimator))
@@ -36,7 +37,6 @@ def test_sklearn_check_twoway():
 
 
 @pytest.mark.parametrize(
-    "estimator",
     [
         pytest.param(estimator, id=str(estimator))
         for estimator in [
@@ -53,11 +53,11 @@ def test_not_fitted_still_works_regression(estimator):
     X = pd.DataFrame(X)
     y_pred = estimator.predict_many(X)
     assert len(y_pred) == len(X)
+    assert len(y_pred) == len(X)
     assert y_pred.eq(0).all()
 
 
 @pytest.mark.parametrize(
-    "estimator,n_classes",
     [
         pytest.param(estimator, n_classes, id=f"{estimator}-{n_classes} classes")
         for n_classes in [2, 3]
@@ -70,6 +70,9 @@ def test_not_fitted_still_works_regression(estimator):
                 | compat.convert_sklearn_to_river(
                     sk_linear_model.SGDClassifier(loss="log_loss"), classes=list(range(n_classes))
                 )
+            ),
+        ]
+    ],
             ),
         ]
     ],

@@ -174,7 +174,7 @@ class BaseFM:
                 ]  # latents
                 + [self.weights.get(i, 0) for i in x]  # weights
                 + [self.intercept],  # intercept
-            )
+            ),
         )
         contributions = (
             [

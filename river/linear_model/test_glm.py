@@ -62,6 +62,9 @@ def iter_perturbations(keys, n=10):
                 optim.initializers.Zeros(),
                 optim.initializers.Normal(mu=0, sigma=1, seed=42),
             ],
+        ),
+    ],
+            ],
         )
     ],
 )

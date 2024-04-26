@@ -30,6 +30,7 @@ def test_r2():
         0.04474250926418322,
         0.34180002419963607,
         0.7018106760663595,
+    ]
         0.4650385019574035,
         0.8556417963590652,
         0.6818470809869084,
@@ -63,7 +64,6 @@ def test_rolling_r2():
         return collections.deque(iterable, maxlen=n)
 
     r2 = utils.Rolling(metrics.R2(), window_size=3)
-    n = r2.window_size
     sk_r2 = sk_metrics.r2_score
     y_true = [
         0.4656520648923188,
@@ -80,7 +80,9 @@ def test_rolling_r2():
         0.9194776501054074,
     ]
 
+    r2 = metrics.R2()
     for i, (yt, yp) in enumerate(zip(y_true, y_pred)):
+        r2.update(yt, yp)
         r2.update(yt, yp)
 
         if i >= 2:

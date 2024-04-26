@@ -149,6 +149,8 @@ class BayesianLinearRegression(base.Regressor):
                             # Get value if it exists
                             min((i, j), (j, i)),
                             # Initialize to eye matrix
+                        ]
+                        1.0 / self.alpha if i == j else 0.0,
                             1.0 / self.alpha if i == j else 0.0,
                         )
                         for j in features
