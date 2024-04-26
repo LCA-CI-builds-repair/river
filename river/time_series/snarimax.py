@@ -153,11 +153,11 @@ class SNARIMAX(time_series.base.Forecaster):
     Attributes
     ----------
     differencer : Differencer
+        The differencer used for the time series.
     y_trues : collections.deque
         The `p` past target values.
     errors : collections.deque
         The `q` past error values.
-
     Examples
     --------
 
@@ -270,7 +270,6 @@ class SNARIMAX(time_series.base.Forecaster):
     [^4]: [Anava, O., Hazan, E., Mannor, S. and Shamir, O., 2013, June. Online learning for time series prediction. In Conference on learning theory (pp. 172-184)](https://arxiv.org/pdf/1302.6927.pdf)
 
     """
-
     def __init__(
         self,
         p: int,

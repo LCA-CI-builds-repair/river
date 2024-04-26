@@ -19,9 +19,6 @@ def _beta_func(a, b):
     for more details.
 
     """
-    return math.exp(math.lgamma(a) + math.lgamma(b) - math.lgamma(a + b))
-
-
 class Beta(base.ContinuousDistribution):
     """Beta distribution for binary data.
 
@@ -29,6 +26,9 @@ class Beta(base.ContinuousDistribution):
     of boolean events. The differences lies in what is being measured. A Binomial distribution
     models the probability of an event occurring, whereas a Beta distribution models the
     probability distribution itself. In other words, it's a probability distribution over
+    probability distributions.
+
+    Parameters
     probability distributions.
 
     Parameters
@@ -65,9 +65,6 @@ class Beta(base.ContinuousDistribution):
 
     References
     ----------
-    [^1]: [What is the intuition behind beta distribution?](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution)
-
-    """
 
     def __init__(self, alpha: int = 1, beta: int = 1, seed: int | None = None):
         super().__init__(seed)

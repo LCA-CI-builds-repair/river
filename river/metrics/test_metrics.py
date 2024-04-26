@@ -112,7 +112,6 @@ def roc_auc_score(y_true, y_score):
         return 0
 
     scores = [s[True] for s in y_score]
-
     return sk_metrics.roc_auc_score(y_true, scores)
 
 
@@ -212,6 +211,7 @@ TEST_CASES = [
     (metrics.RollingROCAUC(), roc_auc_score),
 ]
 
+# HACK: not sure why this is needed, see this CI run https://github.com/online-ml/river/runs/7992357532?check_suite_focus=true
 # HACK: not sure why this is needed, see this CI run https://github.com/online-ml/river/runs/7992357532?check_suite_focus=true
 if platform.system() != "Linux":
     TEST_CASES.append(

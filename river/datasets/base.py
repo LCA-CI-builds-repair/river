@@ -205,7 +205,6 @@ class FileDataset(Dataset):
         Extra dataset parameters to pass as keyword arguments.
 
     """
-
     def __init__(self, filename, directory=None, **desc):
         super().__init__(**desc)
         self.filename = filename
@@ -270,6 +269,7 @@ class RemoteDataset(FileDataset):
         archive_path = directory.joinpath(os.path.basename(self.url))
 
         with request.urlopen(self.url) as r:
+        with request.urlopen(self.url) as r:
             # Notify the user
             if verbose:
                 meta = r.info()
@@ -277,7 +277,6 @@ class RemoteDataset(FileDataset):
                     n_bytes = int(meta["Content-Length"])
                     msg = f"Downloading {self.url} ({utils.pretty.humanize_bytes(n_bytes)})"
                 except (KeyError, TypeError):
-                    msg = f"Downloading {self.url}"
                 print(msg)
 
             # Now dump the contents of the requests
@@ -319,12 +318,12 @@ class RemoteDataset(FileDataset):
             return sum(f.stat().st_size for f in self.path.glob("**/*") if f.is_file())
 
         return False
+        return False
 
     def __iter__(self):
         if not self.is_downloaded:
             self.download(verbose=True)
         if not self.is_downloaded:
-            raise RuntimeError("Something went wrong during the download")
         yield from self._iter()
 
     @property

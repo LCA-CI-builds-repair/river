@@ -89,7 +89,6 @@ def test_diff_example():
     ...     {'date': 'Jun-71', 'autosale': 7.58, 'cpi': 0.319},
     ...     {'date': 'Jul-71', 'autosale': 6.93, 'cpi': 0.319},
     ... ])
-
     >>> sales['autosale/cpi'] = sales.eval('autosale / cpi').round(2)
     >>> Y = sales['autosale/cpi'].to_list()
 
@@ -108,10 +107,11 @@ def test_diff_example():
     ... ]
 
     >>> sales['(1 - B)(1 - B^12)'] = [
+    >>> sales['(1 - B)(1 - B^12)'] = [
     ...     (diff * sdiff).diff(p, Y[:i][::-1])
     ...     if i >= 13 else ''
     ...     for i, p in enumerate(Y)
-    ... ]
+    ]
 
     >>> sales
           date  autosale    cpi  autosale/cpi (1 - B) (1 - B^12) (1 - B)(1 - B^12)
@@ -136,8 +136,6 @@ def test_diff_example():
     18  Jul-71      6.93  0.319         21.72   -2.04       1.75             -0.53
 
     """
-
-
 @pytest.mark.parametrize(
     "differencer",
     [
@@ -166,7 +164,7 @@ def test_undiff(differencer):
     undiffed = differencer.undiff(diffed, Y)
     assert math.isclose(undiffed, p)
 
-
+@pytest.mark.parametrize(
 @pytest.mark.parametrize(
     "snarimax, Y, errors, expected",
     [
@@ -180,9 +178,6 @@ def test_undiff(differencer):
         (
             time_series.SNARIMAX(p=2, d=0, q=3),
             [1, 2, 3],
-            [-4, -5, -6],
-            {"e-1": -4, "e-2": -5, "e-3": -6, "y-1": 1, "y-2": 2},
-        ),
         (
             time_series.SNARIMAX(p=3, d=0, q=2),
             [1, 2, 3],
