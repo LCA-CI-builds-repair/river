@@ -176,7 +176,7 @@ class BaseFM:
                 ]  # latents
                 + [self.weights.get(i, 0) for i in x]  # weights
                 + [self.intercept],  # intercept
-            )
+            )  # Add closing parenthesis here
         )
         contributions = (
             [
@@ -188,7 +188,6 @@ class BaseFM:
         )
         order = list(reversed(np.argsort(contributions)))
         contributions_str = list(map(fmt_float, contributions))
-
         table = utils.pretty.print_table(
             headers=["Name", "Value", "Weight", "Contribution"],
             columns=[names, values, weights, contributions_str],

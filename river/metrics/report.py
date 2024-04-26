@@ -124,6 +124,9 @@ class ClassificationReport(metrics.base.MultiClassMetric):
                         self._weighted_f1.get(),
                     ],
                 ),
+            ],  # Add closing parenthesis here
+                    ],
+                ),
             ],
             # Support
             ["", *[str(self.cm.sum_row[c]).rstrip("0").rstrip(".") for c in classes], *[""] * 4],

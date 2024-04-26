@@ -24,6 +24,7 @@ from river import compose, linear_model, optim, preprocessing, tree, utils
             },
             2 + 3 * 4,
         ),
+    ],  # Add closing parenthesis here
         (
             preprocessing.StandardScaler() | linear_model.LinearRegression(),
             {

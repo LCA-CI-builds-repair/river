@@ -46,7 +46,7 @@ def test_sklearn_check_twoway():
                 | compat.convert_sklearn_to_river(sk_linear_model.SGDRegressor())
             ),
         ]
-    ],
+    ],  # Add closing parenthesis here
 )
 def test_not_fitted_still_works_regression(estimator):
     X, _ = sk_datasets.make_regression(n_samples=500, n_features=4)
@@ -70,6 +70,9 @@ def test_not_fitted_still_works_regression(estimator):
                 | compat.convert_sklearn_to_river(
                     sk_linear_model.SGDClassifier(loss="log_loss"), classes=list(range(n_classes))
                 )
+            ),
+        ]
+    ],
             ),
         ]
     ],

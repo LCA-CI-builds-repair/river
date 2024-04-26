@@ -1,9 +1,7 @@
 from __future__ import annotations
-
 import pytest
 
 from river import feature_extraction
-
 
 @pytest.mark.parametrize(
     "params, text, expected_ngrams",
@@ -21,6 +19,11 @@ from river import feature_extraction
             six
 
             seven""",
+                ),
+            ],
+        ),
+    ],
+)
                     ["one", "two", "three", "four", "five", "six", "seven"],
                 ),
                 (

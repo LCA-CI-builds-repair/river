@@ -64,6 +64,9 @@ def iter_perturbations(keys, n=10):
             ],
         )
     ],
+            ],
+        )
+    ],
 )
 def test_finite_differences(lm, dataset):
     """Checks the gradient of a linear model via finite differences.
