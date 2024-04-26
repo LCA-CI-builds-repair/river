@@ -39,7 +39,6 @@ class KMeans(base.Clusterer):
         Random seed used for generating initial centroid positions.
 
     Attributes
-    ----------
     centers : dict
         Central positions of each cluster.
 

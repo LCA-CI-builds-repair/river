@@ -25,7 +25,6 @@ class DTBranch(Branch):
 
     def next(self, x):
         return self.children[self.branch_no(x)]
-
     @abc.abstractmethod
     def max_branches(self):
         pass

@@ -103,7 +103,6 @@ class Quantizer(base.Estimator, abc.ABC):
     In Asian Conference on Machine Learning (pp. 1094-1109).
 
     """
-
     @abc.abstractmethod
     def __len__(self):
         pass

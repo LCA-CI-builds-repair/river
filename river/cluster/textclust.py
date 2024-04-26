@@ -67,8 +67,6 @@ class TextClust(base.Clusterer):
     Applications to Twitch Streams. In: Advances in Conceptual Modeling. ER 2017.
 
     Examples
-    --------
-
     >>> from river import compose
     >>> from river import feature_extraction
     >>> from river import metrics
