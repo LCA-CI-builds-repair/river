@@ -32,7 +32,7 @@ class DenStream(base.Clusterer):
 
     * For each `T_p` iterations, consider the weights of all potential and
     outlier micro-clusters. If their weights are smaller than a certain
-    threshold (different for each type of micro-clusters), the micro-cluster is
+    threshold (different for each type of micro-clusters), the micro-cluster are
     deleted.
 
     **Offline generation of clusters on-demand (clustering)**

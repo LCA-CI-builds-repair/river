@@ -78,12 +78,26 @@ class EntropySampler(ActiveLearningClassifier):
         1.0
 
         """
-        if not (entropy := -sum(p * math.log2(p) for p in y_pred.values() if p > 0)):
+import math
+
+class EntropyCalculator:
+    
+    def calculate_entropy(self, y_pred) -> float:
+        if not y_pred:
             return 0.0
+        
+        entropy = -sum(p * math.log2(p) for p in y_pred.values() if p > 0)
+        if not entropy:
+            return 0.0
+
         # Normalize entropy to [0, 1]. We only consider non-zero probabilities in order to avoid
         # cases where two classes are at 50%, and the rest of the classes are at 0%. In such a
         # case, the entropy would be close to 0, which is not desirable.
-        entropy /= math.log2(sum(1 for p in y_pred.values() if p > 0))
+        total_nonzero_probabilities = sum(1 for p in y_pred.values() if p > 0)
+        if total_nonzero_probabilities == 0:
+            return 0.0
+        entropy /= math.log2(total_nonzero_probabilities)
+        
         return entropy**self.discount_factor
 
     def _ask_for_label(self, x, y_pred) -> bool:

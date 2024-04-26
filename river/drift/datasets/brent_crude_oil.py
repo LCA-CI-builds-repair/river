@@ -17,6 +17,7 @@ class BrentSpotPrice(ChangePointFileDataset):
         Since the original data has observations only on trading days, there are arguably gaps in this time
         series (on non-trading days). However we consider these to be consecutive, and thus also consider
         the sampled time series to have consecutive observations.
+        This data distribution assumption is critical for downstream analysis and model training.
 
     References
     ----------

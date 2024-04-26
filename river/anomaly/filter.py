@@ -23,6 +23,9 @@ class ThresholdFilter(anomaly.base.AnomalyFilter):
 
     Examples
     --------
+    - Detecting gradual concept drift where previously anomalous scores become normal over time.
+    - Adapting to changing data patterns where anomalies are expected to shift in significance.
+    --------
 
     Anomaly filters can be used as part of a pipeline. For instance, we might want to filter out
     anomalous observations so as not to corrupt a supervised model. As an example, let's take
@@ -119,10 +122,12 @@ class QuantileFilter(anomaly.base.AnomalyFilter):
         Indicates whether or not the anomaly detector should be updated when the anomaly score is
         anomalous. If the data contains sporadic anomalies, then the anomaly detector should likely
         not be updated. Indeed, if it learns the anomaly score, then it will slowly start to
-        consider anomalous anomaly scores as normal. This might be desirable, for instance in the
-        case of drift.
-
     Examples
+    --------
+    - Using anomaly detection to identify outliers in a time series dataset.
+    - Applying anomaly detection techniques to detect fraudulent transactions in real-time.
+    - Utilizing anomaly detection for monitoring system logs for unusual behavior.
+    >>> from river import anomaly
     --------
 
     >>> from river import anomaly

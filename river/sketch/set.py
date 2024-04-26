@@ -5,8 +5,6 @@ import random
 import typing
 
 from river import base
-
-
 class Set(base.Base):
     """Approximate tracking of observed items using Bloom filters.
 
@@ -16,6 +14,23 @@ class Set(base.Base):
     currently supported.
 
     Bloom filters store a bit array and map incoming items to `k` index positions in the such array.
+
+    Parameters
+    ----------
+    k : int
+        The number of hash functions to use for mapping items to index positions in the bit array.
+
+    Methods
+    -------
+    add(item)
+        Add an item to the Bloom filter for tracking.
+
+    __contains__(item)
+        Check if an item is possibly in the set (may return false positives).
+
+    References
+    ----------
+    - Wikipedia: https://en.wikipedia.org/wiki/Bloom_filter
     The selected positions are set to `True`. Therefore, a binary code representation is created for each item.
     Membership works by projecting the query item and checking if every position of its binary code is
     `True`. If that is not the case, the item was not observed yet. A nice property of Bloom filters is
@@ -26,10 +41,13 @@ class Set(base.Base):
     filter decreases, and false positives are produced. For instance, a previously unobserved item is signalized
     as observed. Increasing the size of the binary array and the value of `k` increase the filter's accuracy as
     hash collisions are avoided. Nonetheless, even using an increased number of hash functions, hash collisions
-    will frequently happen if the array capacity is too small. The length of the bit array and the number of
-    hash functions are inferred automatically from the supplied `capacity` and `fp_rate`.
+    --------
 
+    >>> import random
+    >>> from river import sketch
 
+    # Example of importing and using the Set class from river.sketch
+    >>> set_sketch = sketch.Set(k=3)
     Parameters
     ----------
     capacity

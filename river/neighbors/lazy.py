@@ -11,7 +11,7 @@ from .base import BaseNN, DistanceFunc, FunctionWrapper
 
 
 class LazySearch(BaseNN):
-    """Exact nearest neighbors using a lazy search estrategy.
+    """Exact nearest neighbors using a lazy search strategy.
 
     Parameters
     ----------

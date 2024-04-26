@@ -96,6 +96,15 @@ def iter_csv(
     use case is to read a file on the disk. We'll first create a little CSV file to illustrate.
 
     >>> tv_shows = '''name,year,rating
+    >>>             The Office,2005,8.8
+    >>>             Friends,1994,8.9
+    >>>             Breaking Bad,2008,9.5
+    >>>             '''
+
+    >>> with open('tv_shows.csv', 'w') as f:
+    >>>     f.write(tv_shows)
+
+    >>> stream = iter_csv('tv_shows.csv')
     ... Planet Earth II,2016,9.5
     ... Planet Earth,2006,9.4
     ... Band of Brothers,2001,9.4

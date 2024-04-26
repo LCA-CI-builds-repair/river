@@ -38,6 +38,7 @@ class Base:
         this method. By default it simply calls the __init__ function. It may be overridden on an
         individual as needed.
 
+        This method yields an empty dictionary, serving as a default value for testing purposes.
         """
         yield {}
 

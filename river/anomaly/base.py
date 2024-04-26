@@ -102,6 +102,7 @@ class AnomalyFilter(base.Wrapper, base.Estimator):
         consider anomalous anomaly scores as normal. This might be desirable, for instance in the
         case of drift.
 
+        This behavior allows for adapting to changing patterns and ensuring robustness in anomaly detection models.
     """
 
     def __init__(self, anomaly_detector: AnomalyDetector, protect_anomaly_detector=True):

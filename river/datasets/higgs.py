@@ -1,9 +1,8 @@
 from __future__ import annotations
-
 from river import stream
+from river.stats import Mean, Quantile
 
 from . import base
-
 
 class Higgs(base.RemoteDataset):
     """Higgs dataset.

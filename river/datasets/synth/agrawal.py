@@ -17,6 +17,10 @@ class Agrawal(datasets.base.SyntheticDataset):
     Classification functions are listed in the original paper [^1].
 
     **Feature** | **Description** | **Values**
+    ------------|-----------------|---------
+    Feature 1   | Numeric feature 1 | Continuous values
+    Feature 2   | Numeric feature 2 | Continuous values
+    ...
 
     * `salary` | salary | uniformly distributed from 20k to 150k
 

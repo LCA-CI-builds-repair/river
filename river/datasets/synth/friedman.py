@@ -63,8 +63,6 @@ class Friedman(datasets.base.SyntheticDataset):
             )
 
             yield x, y
-
-
 class FriedmanDrift(Friedman):
     """Friedman synthetic dataset with concept drifts.
 
@@ -75,6 +73,18 @@ class FriedmanDrift(Friedman):
     The three available modes of operation of the data generator are described in [^1].
 
     Parameters
+    ----------
+    mode : str
+        The mode of operation for the data generator. Options include Mode1, Mode2, and Mode3, each
+        representing a different way to introduce concept drifts in the dataset.
+
+    noise : float, default=0.1
+        The level of noise to introduce in the dataset. Higher values indicate more noise in the data.
+
+    seed : int, default=None
+        The random seed for reproducibility of the dataset generation.
+
+    References
     ----------
     drift_type
         The variant of concept drift.</br>

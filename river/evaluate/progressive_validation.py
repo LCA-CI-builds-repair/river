@@ -262,6 +262,10 @@ def progressive_val_score(
 
     Parameters
     ----------
+    delay : int, default=0
+        The delay in observing ground truths for evaluation, simulating scenarios in production where
+        labels are available only after a certain delay.
+    ----------
     dataset
         The stream of observations against which the model will be evaluated.
     model

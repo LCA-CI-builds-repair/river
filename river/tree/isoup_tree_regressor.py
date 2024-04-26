@@ -41,6 +41,7 @@ class iSOUPTreeRegressor(tree.HoeffdingTreeRegressor, base.MultiTargetRegressor)
         and not all target models are specified, copies from the first model match in the
         dictionary will be used to the remaining targets.
     model_selector_decay
+        The decay rate for the model selector.
         The exponential decaying factor applied to the learning models' squared errors, that
         are monitored if `leaf_prediction='adaptive'`. Must be between `0` and `1`. The closer
         to `1`, the more importance is going to be given to past observations. On the other hand,

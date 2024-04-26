@@ -24,13 +24,13 @@ class KNNClassifier(base.Classifier):
         documentation of each available search engine for more details on its usage.
         By default, use the `SWINN` search engine for approximate search queries.
     weighted
-        Weight the contribution of each neighbor by it's inverse distance.
+        Weight the contribution of each neighbor by its inverse distance.
     cleanup_every
         This determines at which rate old classes are cleaned up. Classes that
         have been seen in the past but that are not present in the current
         window are dropped. Classes are never dropped when this is set to 0.
     softmax
-        Whether or not to use softmax normalization to normalize the neighbors contributions.
+        Whether or not to use softmax normalization to normalize the neighbors' contributions.
         Votes are divided by the total number of votes if this is `False`.
 
     Notes
@@ -117,7 +117,7 @@ class KNNClassifier(base.Classifier):
         """Clean up classes added to the window.
 
         Classes that are added (and removed) from the window may no longer be valid.
-        This method cleans up the window and and ensures only known classes
+        This method cleans up the window and ensures only known classes
         are added, and we do not consider "None" a class. It is called every
         `cleanup_every` step, or can be called manually.
 
