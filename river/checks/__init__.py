@@ -103,22 +103,12 @@ def _yield_datasets(model: Estimator):
         # Multi-class classification
         if model._multiclass and base.tags.POSITIVE_INPUT not in model._tags:  # type: ignore
             yield datasets.ImageSegments().take(200)
+            return
 
-    # Anomaly detection
-    elif utils.inspect.isanomalydetector(model):
-        yield datasets.CreditCard().take(1000)
-
-
-def yield_checks(model: Estimator) -> typing.Iterator[typing.Callable]:
-    """Generates unit tests for a given model.
-
-    Parameters
-    ----------
-    model
-
-    """
-
-    from river import base, utils
+        # Anomaly detection
+        elif utils.inspect.isanomalydetector(model):
+            yield datasets.CreditCard().take(1000)
+            return
 
     # General checks
     yield common.check_repr
@@ -168,11 +158,13 @@ def yield_checks(model: Estimator) -> typing.Iterator[typing.Callable]:
         yield reco.check_reco_routine
 
     if utils.inspect.isanomalydetector(model):
-        dataset_checks.append(anomaly.check_roc_auc)
+                _allow_exception(clf.check_predict_proba_one_binary, NotImplementedError)
+            )
+            return
 
-    for dataset_check in dataset_checks:
-        for dataset in _yield_datasets(model):
-            yield _wrapped_partial(dataset_check, dataset=dataset)
+    if isinstance(utils.inspect.extract_relevant(model), ModelSelector):
+        dataset_checks.append(model_selection.check_model_selection_order_does_not_matter)
+        return
 
 
 def check_estimator(model: Estimator):

@@ -109,10 +109,11 @@ class Dataset(abc.ABC):
         if self.n_features:
             content["Features"] = f"{self.n_features:,}"
         if self.n_outputs:
+        if self.n_outputs:
             content["Outputs"] = f"{self.n_outputs:,}"
         if self.n_classes:
             content["Classes"] = f"{self.n_classes:,}"
-        content["Sparse"] = str(self.sparse)
+        content["Sparse"] = f"{self.sparse}"
 
         return content
 
@@ -190,8 +191,7 @@ class SyntheticDataset(Dataset):
 
 
 class FileDataset(Dataset):
-    """Base class for datasets that are stored in a local file.
-
+    """
     Small datasets that are part of the river package inherit from this class.
 
     Parameters
@@ -202,6 +202,8 @@ class FileDataset(Dataset):
         The directory where the file is contained. Defaults to the location of the `datasets`
         module.
     desc
+        Extra dataset parameters to pass as keyword arguments.
+    """
         Extra dataset parameters to pass as keyword arguments.
 
     """

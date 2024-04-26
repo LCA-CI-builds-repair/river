@@ -216,7 +216,7 @@ TEST_CASES = [
 if platform.system() != "Linux":
     TEST_CASES.append(
         (
-            metrics.AdjustedMutualInfo(average_method="min"),
+            metrics.AdjustedMutualInfo(average_method="minimize"),
             partial(sk_metrics.adjusted_mutual_info_score, average_method="min"),
         )
     )

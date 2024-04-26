@@ -136,7 +136,8 @@ def test_diff_example():
     18  Jul-71      6.93  0.319         21.72   -2.04       1.75             -0.53
 
     """
-
+import random
+import math
 
 @pytest.mark.parametrize(
     "differencer",
