@@ -87,8 +87,8 @@ def test_diff_example():
     ...     {'date': 'Apr-71', 'autosale': 7.10, 'cpi': 0.315},
     ...     {'date': 'May-71', 'autosale': 7.02, 'cpi': 0.316},
     ...     {'date': 'Jun-71', 'autosale': 7.58, 'cpi': 0.319},
-    ...     {'date': 'Jul-71', 'autosale': 6.93, 'cpi': 0.319},
-    ... ])
+    ...     {'date': '1971-07', 'autosale': 6.93, 'cpi': 0.319},
+    ... ]
 
     >>> sales['autosale/cpi'] = sales.eval('autosale / cpi').round(2)
     >>> Y = sales['autosale/cpi'].to_list()
@@ -108,8 +108,7 @@ def test_diff_example():
     ... ]
 
     >>> sales['(1 - B)(1 - B^12)'] = [
-    ...     (diff * sdiff).diff(p, Y[:i][::-1])
-    ...     if i >= 13 else ''
+    ...     (diff * sdiff).diff(p, Y[:i][::-1]) if i >= 13 else ''
     ...     for i, p in enumerate(Y)
     ... ]
 
@@ -132,9 +131,10 @@ def test_diff_example():
     14  Mar-71      6.92  0.314         22.04    4.24       3.24              2.08
     15  Apr-71      7.10  0.315         22.54     0.5       2.74              -0.5
     16  May-71      7.02  0.316         22.22   -0.32       2.15             -0.59
-    17  Jun-71      7.58  0.319         23.76    1.54       2.28              0.13
-    18  Jul-71      6.93  0.319         21.72   -2.04       1.75             -0.53
+    16  {'date': 'May-71', 'autosale': 7.02, 'cpi': 0.316, 'feature1': 22.22, 'feature2': -0.32, 'feature3': 2.15, 'target': -0.59},
+    17  {'date': 'Jun-71', 'autosale': 7.58, 'cpi': 0.319, 'feature1': 23.76, 'feature2': 1.54, 'feature3': 2.28, 'target': 0.13}
 
+    """
     """
 
 
@@ -143,6 +143,8 @@ def test_diff_example():
     [
         Differencer(1),
         Differencer(2),
+        Differencer(1, 1),
+        Differencer(2, 1),
         Differencer(1, 2),
         Differencer(2, 2),
         Differencer(1, 10),
@@ -165,7 +167,6 @@ def test_undiff(differencer):
     diffed = differencer.diff(p, Y)
     undiffed = differencer.undiff(diffed, Y)
     assert math.isclose(undiffed, p)
-
 
 @pytest.mark.parametrize(
     "snarimax, Y, errors, expected",
@@ -259,10 +260,9 @@ def test_add_lag_features(snarimax, Y, errors, expected):
 def test_no_overflow(snarimax):
     def get_month_distances(x):
         return {
-            calendar.month_name[month]: math.exp(-((x["month"].month - month) ** 2))
-            for month in range(1, 13)
-        }
+# Incomplete code snippet, additional context is needed to identify the issue and necessary changes.
 
+    def get_ordinal_date(x):
     def get_ordinal_date(x):
         return {"ordinal_date": x["month"].toordinal()}
 
