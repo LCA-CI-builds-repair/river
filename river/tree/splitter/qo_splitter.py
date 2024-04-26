@@ -79,12 +79,13 @@ class QOSplitter(Splitter):
         candidate = BranchFactory()
 
         # In case the hash carries just one element return the null split
-        if len(self._quantizer) == 1:
-            return candidate
+    from river.tree.splitter import Quantizer
 
-        # Numeric multiway test
-        if self.allow_multiway_splits and not binary_only:
-            slot_ids, post_split_dists = self._quantizer.all()
+    if len(self._quantizer) <= 1:
+        return candidate
+
+    if self.allow_multiway_splits and not binary_only:
+        slot_ids, post_split_dists = self._quantizer.all()
             merit = criterion.merit_of_split(pre_split_dist, post_split_dists)
 
             candidate = BranchFactory(

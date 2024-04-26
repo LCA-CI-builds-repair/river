@@ -101,13 +101,14 @@ def _yield_datasets(model: Estimator):
         yield ((x, np.bool_(y)) for x, y in datasets.Phishing().take(200))
 
         # Multi-class classification
-        if model._multiclass and base.tags.POSITIVE_INPUT not in model._tags:  # type: ignore
+from river import base, datasets, utils, tags
+
+        if model._multiclass and tags.POSITIVE_INPUT not in model._tags:  # type: ignore
             yield datasets.ImageSegments().take(200)
 
     # Anomaly detection
     elif utils.inspect.isanomalydetector(model):
         yield datasets.CreditCard().take(1000)
-
 
 def yield_checks(model: Estimator) -> typing.Iterator[typing.Callable]:
     """Generates unit tests for a given model.

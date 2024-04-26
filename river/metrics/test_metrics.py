@@ -213,6 +213,11 @@ TEST_CASES = [
 ]
 
 # HACK: not sure why this is needed, see this CI run https://github.com/online-ml/river/runs/7992357532?check_suite_focus=true
+import platform
+from functools import partial
+from river import metrics
+from sklearn import metrics as sk_metrics
+
 if platform.system() != "Linux":
     TEST_CASES.append(
         (

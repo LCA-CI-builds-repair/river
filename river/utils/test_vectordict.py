@@ -23,6 +23,7 @@ def test_vectordict():
 
     # test copy
     x = {"a": 8, "b": -1.2, 4: 2.7}
+    # Create a copy of the dictionary
     vx = VectorDict(x, copy=True)
     assert vx == x
     vx["a"] = 2
@@ -104,10 +105,12 @@ def test_vectordict():
     assert vy / vx == {"b": -0.1, "a": 0.0, "e": 1.5}
 
     # test export
-    x = {"a": 1, "b": -5}
+import numpy as np
+
     vx = VectorDict(x)
     nx = vx.to_numpy(["b", "c"])
     assert isinstance(nx, np.ndarray)
+    assert (vx.to_numpy(["b", "c"]) == np.array([-5, 0])).all()
     assert (vx.to_numpy(["b", "c"]) == np.array([-5, 0])).all()
 
     # other methods

@@ -406,7 +406,9 @@ class MondrianTreeRegressor(MondrianTree, base.Regressor):
         prediction = 0.0
 
         while True:
-            # This test is useless ?
+import math
+
+            # Calculate the weight for the current node
             if isinstance(current, MondrianLeafRegressor):
                 prediction = self._predict(current)
             else:

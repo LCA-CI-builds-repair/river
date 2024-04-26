@@ -86,6 +86,8 @@ class ChebyshevUnderSampler(base.Wrapper, base.Regressor):
         return self.regressor
 
     def predict_one(self, x, **kwargs):
+import numpy as np
+
         return self.regressor.predict_one(x, **kwargs)
 
     def learn_one(self, x, y, **kwargs):
@@ -99,7 +101,7 @@ class ChebyshevUnderSampler(base.Wrapper, base.Regressor):
 
             # Small values for rare cases and 1 for frequent cases
             prob_threshold = 1 / (t * t) if t > 1 else 1
-            p = self._rng.random()
+            p = np.random.random()
 
             if p >= prob_threshold:
                 self.regressor.learn_one(x, y, **kwargs)

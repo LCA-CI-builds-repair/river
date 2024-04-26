@@ -32,7 +32,7 @@ class DTBranch(Branch):
 
     @abc.abstractmethod
     def repr_branch(self, index: int, shorten=False):
-        """Return a string representation of the test performed in the branch at `index`.
+        """Return a string representation of the test performed in the branch at `index`."""
 
         Parameters
         ----------

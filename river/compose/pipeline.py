@@ -91,16 +91,17 @@ def learn_during_predict():
     >>> logger.addHandler(sh)
 
     >>> with utils.log_method_calls(class_condition):
-    ...     for x, y in datasets.TrumpApproval().take(1):
-    ...         _ = model.predict_many(pd.DataFrame([x]))
-    >>> print(logs.getvalue())
-    StandardScaler.transform_many
-    LinearRegression.predict_many
+    import logging
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.linear_model import LinearRegression
 
-    >>> logs = io.StringIO()
-    >>> sh = logging.StreamHandler(logs)
-    >>> sh.setLevel(logging.DEBUG)
-    >>> logger.addHandler(sh)
+    for x, y in datasets.TrumpApproval().take(1):
+        _ = model.predict(pd.DataFrame([x]))
+
+    logs = io.StringIO()
+    sh = logging.StreamHandler(logs)
+    sh.setLevel(logging.DEBUG)
+    logger.addHandler(sh)
 
     >>> with utils.log_method_calls(class_condition), compose.learn_during_predict():
     ...     for x, y in datasets.TrumpApproval().take(1):

@@ -441,16 +441,19 @@ def log_method_calls(
     ... )
 
     >>> class_condition = lambda x: x.__class__.__name__ in ('MinMaxScaler', 'HalfSpaceTrees')
+import logging
+import io
+from river import utils
 
-    >>> logger = logging.getLogger()
-    >>> logger.setLevel(logging.DEBUG)
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
-    >>> logs = io.StringIO()
-    >>> sh = logging.StreamHandler(logs)
-    >>> sh.setLevel(logging.DEBUG)
-    >>> logger.addHandler(sh)
+logs = io.StringIO()
+sh = logging.StreamHandler(logs)
+sh.setLevel(logging.DEBUG)
+logger.addHandler(sh)
 
-    >>> with utils.log_method_calls(class_condition):
+with utils.log_method_calls(class_condition):
     ...     for x, y in datasets.CreditCard().take(1):
     ...         score = model.score_one(x)
     ...         model.learn_one(x)

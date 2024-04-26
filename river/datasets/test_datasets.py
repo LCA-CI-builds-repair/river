@@ -88,6 +88,8 @@ def test_synth_idempotent(dataset):
 
 
 # HACK: there's no reason Logical should fail this test
+import pytest
+
 @pytest.mark.parametrize(
     "dataset",
     [

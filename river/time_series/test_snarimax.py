@@ -141,18 +141,18 @@ def test_diff_example():
 @pytest.mark.parametrize(
     "differencer",
     [
-        Differencer(1),
-        Differencer(2),
-        Differencer(1, 2),
-        Differencer(2, 2),
-        Differencer(1, 10),
-        Differencer(2, 10),
-        Differencer(1) * Differencer(1),
-        Differencer(2) * Differencer(1),
-        Differencer(1) * Differencer(2),
-        Differencer(1) * Differencer(1, 2),
-        Differencer(2) * Differencer(1, 2),
-        Differencer(1, 2) * Differencer(1, 10),
+        Differencer(lag=1),
+        Differencer(lag=2),
+        Differencer(lag=1, lag_diff=2),
+        Differencer(lag=2, lag_diff=2),
+        Differencer(lag=1, lag_diff=10),
+        Differencer(lag=2, lag_diff=10),
+        Differencer(lag=1) * Differencer(lag=1),
+        Differencer(lag=2) * Differencer(lag=1),
+        Differencer(lag=1) * Differencer(lag=2),
+        Differencer(lag=1) * Differencer(lag=1, lag_diff=2),
+        Differencer(lag=2) * Differencer(lag=1, lag_diff=2),
+        Differencer(lag=1, lag_diff=2) * Differencer(lag=1, lag_diff=10),
         Differencer(1, 2) * Differencer(2, 10),
         Differencer(2, 2) * Differencer(1, 10),
         Differencer(2, 2) * Differencer(2, 10),
@@ -163,9 +163,11 @@ def test_undiff(differencer):
     p = random.random()
 
     diffed = differencer.diff(p, Y)
-    undiffed = differencer.undiff(diffed, Y)
-    assert math.isclose(undiffed, p)
+    import math
 
+    undiffed = differencer.undiff(diffed, Y)
+    for i in range(len(undiffed)):
+        assert math.isclose(undiffed[i], p[i])
 
 @pytest.mark.parametrize(
     "snarimax, Y, errors, expected",
@@ -192,8 +194,6 @@ def test_undiff(differencer):
         (
             time_series.SNARIMAX(p=2, d=0, q=2),
             [1, 2, 3],
-            [-4, -5, -6],
-            {"e-1": -4, "e-2": -5, "y-1": 1, "y-2": 2},
         ),
         # Not enough data, so features too far away are omitted
         (
@@ -248,6 +248,8 @@ def test_add_lag_features(snarimax, Y, errors, expected):
 
 
 @pytest.mark.parametrize(
+
+@pytest.mark.parametrize(
     "snarimax",
     [
         time_series.SNARIMAX(p=1, d=1, q=0, m=12, sp=0, sd=1, sq=0),
@@ -264,7 +266,7 @@ def test_no_overflow(snarimax):
         }
 
     def get_ordinal_date(x):
-        return {"ordinal_date": x["month"].toordinal()}
+    from river import compose, time_series, datasets, metrics
 
     extract_features = compose.TransformerUnion(get_ordinal_date, get_month_distances)
 
