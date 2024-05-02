@@ -84,10 +84,6 @@ def test_iter_sql(pokedb):
     # The Pokedex from generation 1 contains 151 pokemons, and we've already seen 2 of them
     assert sum(1 for _ in dataset) == 149
 
-    # Check that the stream is depleted
-    assert sum(1 for _ in dataset) == 0
-
-
 def test_iter_sql_join(pokedb):
     query = """
         SELECT

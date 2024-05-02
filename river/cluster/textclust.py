@@ -527,10 +527,10 @@ class TextClust(base.Clusterer):
             # add assignment
             assignment = closest
 
-            if type == "micro":
+            if type_ == "micro":
                 return assignment
 
-            ## if type is macro then get macro cluster assignment
+            # if type is macro then get macro cluster assignment
             else:
                 self.updateMacroClusters()
                 return self.microToMacro[assignment] if assignment else None

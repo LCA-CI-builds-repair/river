@@ -309,7 +309,6 @@ class RemoteDataset(FileDataset):
     @abc.abstractmethod
     def _iter(self):
         pass
-
     @property
     def is_downloaded(self):
         """Indicate whether or the data has been correctly downloaded."""
