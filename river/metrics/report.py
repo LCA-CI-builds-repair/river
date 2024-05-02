@@ -123,7 +123,7 @@ class ClassificationReport(metrics.base.MultiClassMetric):
                         self._micro_f1.get(),
                         self._weighted_f1.get(),
                     ],
-                ),
+                )
             ],
             # Support
             ["", *[str(self.cm.sum_row[c]).rstrip("0").rstrip(".") for c in classes], *[""] * 4],
