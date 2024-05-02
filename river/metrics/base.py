@@ -318,14 +318,11 @@ class WrapperMetric(Metric):
     def __repr__(self):
         name = self.__class__.__name__
         return super().__repr__().replace(name, f"{name}({self.metric.__class__.__name__})")
-
-
 class MeanMetric(abc.ABC):
     """Many metrics are just running averages. This is a utility class that avoids repeating
     tedious stuff throughout the module for such metrics.
 
     """
-
     def __init__(self):
         self._mean = stats.Mean()
 
@@ -341,6 +338,9 @@ class MeanMetric(abc.ABC):
         self._mean.revert(x=self._eval(y_true, y_pred), w=w)
         return self
 
+        self._mean.revert(x=self._eval(y_true, y_pred), w=w)
+        return self
+
     def get(self):
         return self._mean.get()
 
@@ -348,8 +348,7 @@ class MeanMetric(abc.ABC):
 class ClusteringMetric(base.Base, abc.ABC):
     """
     Mother class of all internal clustering metrics.
-    """
-
+    _fmt = ",.6f"  # Use commas to separate big numbers and show 6 decimals
     # Define the format specification used for string representation.
     _fmt = ",.6f"  # Use commas to separate big numbers and show 6 decimals
 

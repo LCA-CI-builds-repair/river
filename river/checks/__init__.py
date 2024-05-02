@@ -11,7 +11,6 @@ from river.model_selection.base import ModelSelector
 from river.reco.base import Ranker
 
 from . import anomaly, clf, common, model_selection, reco
-
 __all__ = ["check_estimator", "yield_checks"]
 
 

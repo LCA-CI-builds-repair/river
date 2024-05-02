@@ -33,7 +33,6 @@ class WebTraffic(base.RemoteDataset):
     This dataset is well suited for time series forecasting models, as well as anomaly detection
     methods. Ideally, the goal is to build a time series forecasting model that is robust to the
     anomalous events and generalise well on normal operating conditions.
-
     """
 
     def __init__(self):
