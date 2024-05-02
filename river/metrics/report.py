@@ -121,6 +121,11 @@ class ClassificationReport(metrics.base.MultiClassMetric):
                     [
                         self._macro_f1.get(),
                         self._micro_f1.get(),
+                    ]
+                )
+            ]
+        ]
+    )
                         self._weighted_f1.get(),
                     ],
                 ),
