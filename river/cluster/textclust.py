@@ -501,10 +501,6 @@ class TextClust(base.Clusterer):
     def get_assignment(self, x, type):
         self._updateweights()
 
-        # assignment is an empty list
-        assignment = None
-        idf = None
-
         idf = self._calculateIDF(self.micro_clusters.values())
 
         # proceed, if the processed text is not empty

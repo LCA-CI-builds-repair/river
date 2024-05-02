@@ -395,7 +395,7 @@ class LeveragingBaggingClassifier(BaggingClassifier):
                 error = self._drift_detectors[i].estimation
                 self._drift_detectors[i].update(incorrectly_classifies)
                 if self._drift_detectors[i].drift_detected:
-                    if self._drift_detectors[i].estimation > error:
+                    if error is not None and self._drift_detectors[i].estimation > error:
                         change_detected = True
 
         if change_detected:
