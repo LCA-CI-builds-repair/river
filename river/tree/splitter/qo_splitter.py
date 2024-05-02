@@ -84,6 +84,7 @@ class QOSplitter(Splitter):
 
         # Numeric multiway test
         if self.allow_multiway_splits and not binary_only:
+            # Add the code block or action to be executed when the condition is met
             slot_ids, post_split_dists = self._quantizer.all()
             merit = criterion.merit_of_split(pre_split_dist, post_split_dists)
 

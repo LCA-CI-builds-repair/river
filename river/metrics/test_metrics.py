@@ -225,7 +225,7 @@ if platform.system() != "Linux":
 @pytest.mark.parametrize(
     "metric, sk_metric",
     [
-        pytest.param(metric, sk_metric, id=f"{metric.__class__.__name__}")
+        pytest.param(metric, sk_metric, id=f"{metric.__class__.__name_}")
         for metric, sk_metric in TEST_CASES
     ],
 )

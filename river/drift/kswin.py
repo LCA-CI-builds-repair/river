@@ -153,6 +153,7 @@ class KSWIN(DriftDetector):
                 self._drift_detected = True
                 self.window = collections.deque(most_recent, maxlen=self.window_size)
             else:
+                # Add the appropriate action or condition when drift is not detected
                 self._drift_detected = False
         else:  # Not enough samples in the sliding window for a valid test
             self._drift_detected = False

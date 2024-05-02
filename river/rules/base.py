@@ -36,7 +36,6 @@ class NumericLiteral(Literal):
                 return x[self.on] <= self.at
             else:
                 return x[self.on] > self.at
-
         return False
 
     def describe(self):
@@ -272,7 +271,6 @@ class HoeffdingRule(base.Estimator, metaclass=abc.ABCMeta):
         pass
 
     def update(self, x, y, w):
-        self._total_weight += w
         self._update_target_stats(y, w)
 
         for feat_name, feat_val in self._iter_features(x):

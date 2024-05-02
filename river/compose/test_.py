@@ -10,6 +10,7 @@ def test_pipeline_funcs():
         pass
 
     def b(x):
+        # Add the missing part of function b(x) here
         pass
 
     pipelines = [

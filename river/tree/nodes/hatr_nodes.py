@@ -194,7 +194,7 @@ class AdaBranchRegressor(DTBranch):
 
                 # Perform z-test to determine whether mean errors are significantly different
                 z = (alt_mean_er - cur_mean_er) / math.sqrt(alt_s2_er / alt_n + cur_s2_er / cur_n)
-                # We double the p-value due to the double-tailed test
+                # Double the p-value due to the double-tailed test
                 p_value = 2.0 * tree._norm_dist.cdf(-abs(z))
 
                 # The mean errors are significantly different accordingly to the z-test

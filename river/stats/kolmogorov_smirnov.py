@@ -176,7 +176,7 @@ class KolmogorovSmirnov(stats.base.Bivariate):
     where N is the number of sample observations. This is a significant improvement compared
     to the O(N logN) cost of non-incremental implementation.
 
-    This implementation also supports the calculation of the Kuiper statistics. Different from the orginial
+    This implementation also supports the calculation of the Kuiper statistics. Different from the original
     Kolmogorov-Smirnov statistics, Kuiper's test [^3] calculates the sum of the absolute sizes of the most positive and
     most negative differences between the two cumulative distribution functions taken into account. As such,
     Kuiper's test is very sensitive in the tails as at the median.
