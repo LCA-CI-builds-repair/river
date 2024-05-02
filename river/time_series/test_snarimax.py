@@ -8,8 +8,7 @@ import pytest
 import sympy
 
 from river import compose, datasets, metrics, time_series
-from river.time_series.snarimax import Differencer
-
+from river.time_series.transform import Differencer
 
 class Yt(sympy.IndexedBase):
     t = sympy.symbols("t", cls=sympy.Idx)
