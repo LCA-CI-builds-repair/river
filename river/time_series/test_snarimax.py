@@ -259,13 +259,14 @@ def test_add_lag_features(snarimax, Y, errors, expected):
 def test_no_overflow(snarimax):
     def get_month_distances(x):
         return {
-            calendar.month_name[month]: math.exp(-((x["month"].month - month) ** 2))
-            for month in range(1, 13)
-        }
+def get_month_distances(x):
+    return {
+        calendar.month_name[month]: math.exp(-((x["month"].month - month) ** 2))
+        for month in range(1, 13)
+    }
 
-    def get_ordinal_date(x):
-        return {"ordinal_date": x["month"].toordinal()}
-
+def get_ordinal_date(x):
+    return {"ordinal_date": x["month"].toordinal()}
     extract_features = compose.TransformerUnion(get_ordinal_date, get_month_distances)
 
     model = extract_features | snarimax
