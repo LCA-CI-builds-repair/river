@@ -40,7 +40,6 @@ class Base:
 
         """
         yield {}
-
     def _get_params(self) -> dict[str, typing.Any]:
         """Return the parameters that were used during initialization."""
 
