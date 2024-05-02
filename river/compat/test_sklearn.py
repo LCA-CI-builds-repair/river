@@ -70,10 +70,10 @@ def test_not_fitted_still_works_regression(estimator):
                 | compat.convert_sklearn_to_river(
                     sk_linear_model.SGDClassifier(loss="log_loss"), classes=list(range(n_classes))
                 )
-            ),
+            ]
         ]
-    ],
-)
+    )
+
 def test_not_fitted_still_works_classification(estimator, n_classes):
     X, _ = sk_datasets.make_classification(
         n_samples=500, n_features=10, n_informative=6, n_classes=n_classes

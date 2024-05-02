@@ -62,12 +62,12 @@ def iter_perturbations(keys, n=10):
                 optim.initializers.Zeros(),
                 optim.initializers.Normal(mu=0, sigma=1, seed=42),
             ],
-        )
-    ],
+        ),
+    ]
 )
+
 def test_finite_differences(lm, dataset):
     """Checks the gradient of a linear model via finite differences.
-
     References
     ----------
     [^1]: [How to test gradient implementations](https://timvieira.github.io/blog/post/2017/04/21/how-to-test-gradient-implementations/)
