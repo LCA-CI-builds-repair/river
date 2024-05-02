@@ -54,3 +54,5 @@ try:
     __all__ += ["iter_vaex"]
 except ImportError:
     pass
+except ImportError:
+    pass
