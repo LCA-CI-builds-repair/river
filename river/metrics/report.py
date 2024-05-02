@@ -122,14 +122,12 @@ class ClassificationReport(metrics.base.MultiClassMetric):
                         self._macro_f1.get(),
                         self._micro_f1.get(),
                         self._weighted_f1.get(),
-                    ],
+                    ]
                 ),
             ],
             # Support
-            ["", *[str(self.cm.sum_row[c]).rstrip("0").rstrip(".") for c in classes], *[""] * 4],
+            ["", *[str(self.cm.sum_row[c]).rstrip("0").rstrip(".") for c in classes], *[""] * 4]
         ]
-
-        # Build the table
         table = utils.pretty.print_table(headers, columns)
 
         # Write down the accuracy

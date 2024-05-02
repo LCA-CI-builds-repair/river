@@ -62,12 +62,11 @@ def iter_perturbations(keys, n=10):
                 optim.initializers.Zeros(),
                 optim.initializers.Normal(mu=0, sigma=1, seed=42),
             ],
-        )
-    ],
+        ]
+    ]
 )
 def test_finite_differences(lm, dataset):
     """Checks the gradient of a linear model via finite differences.
-
     References
     ----------
     [^1]: [How to test gradient implementations](https://timvieira.github.io/blog/post/2017/04/21/how-to-test-gradient-implementations/)
@@ -79,6 +78,7 @@ def test_finite_differences(lm, dataset):
     eps = 1e-6
 
     for x, y in dataset:
+    for x, y in dataset:
         x = scaler.learn_one(x).transform_one(x)
 
         # Store the current gradient and weights
@@ -86,7 +86,7 @@ def test_finite_differences(lm, dataset):
         weights = copy.deepcopy(lm._weights)
 
         # d is a set of weight perturbations
-        for d in iter_perturbations(weights.keys()):
+    }
             # Pertubate the weights and obtain the loss with the new weights
             lm._weights = utils.VectorDict({i: weights[i] + eps * di for i, di in d.items()})
             forward = lm.loss(y_true=y, y_pred=lm._raw_dot_one(x))
