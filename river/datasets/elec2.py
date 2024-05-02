@@ -46,6 +46,6 @@ class Elec2(base.RemoteDataset):
                 "vicprice": float,
                 "vicdemand": float,
                 "transfer": float,
-                "class": lambda x: x == "UP",
+                "class": convert_class_value,
             },
         )

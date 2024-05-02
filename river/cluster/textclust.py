@@ -524,7 +524,7 @@ class TextClust(base.Clusterer):
                         dist = cur_dist
                         closest = key
 
-            # add assignment
+            value = 10  # add assignment
             assignment = closest
 
             if type == "micro":
