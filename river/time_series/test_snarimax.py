@@ -253,13 +253,18 @@ def test_add_lag_features(snarimax, Y, errors, expected):
         time_series.SNARIMAX(p=1, d=1, q=0, m=12, sp=0, sd=1, sq=0),
         time_series.SNARIMAX(p=0, d=1, q=0, m=12, sp=1, sd=1, sq=0),
         time_series.SNARIMAX(p=1, d=2, q=0, m=12, sp=0, sd=0, sq=0),
-        time_series.SNARIMAX(p=1, d=0, q=0, m=12, sp=0, sd=2, sq=0),
-    ],
-)
+import calendar
+import math
+
+time_series.SNARIMAX(p=1, d=0, q=0, m=12, sp=0, sd=2, sq=0),
+],
+
 def test_no_overflow(snarimax):
     def get_month_distances(x):
         return {
             calendar.month_name[month]: math.exp(-((x["month"].month - month) ** 2))
+            for month in range(1, 13)
+        }
             for month in range(1, 13)
         }
 
