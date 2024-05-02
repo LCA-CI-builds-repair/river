@@ -265,7 +265,6 @@ def test_no_overflow(snarimax):
 
     def get_ordinal_date(x):
         return {"ordinal_date": x["month"].toordinal()}
-
     extract_features = compose.TransformerUnion(get_ordinal_date, get_month_distances)
 
     model = extract_features | snarimax
