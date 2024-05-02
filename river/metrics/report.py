@@ -72,30 +72,29 @@ class ClassificationReport(metrics.base.MultiClassMetric):
     def __repr__(self):
         def fmt_pct(x):
             return f"{x:.{self.decimals}%}"
-
-        headers = ["", "Precision", "Recall", "F1", "Support"]
-        classes = sorted(self.cm.classes)
-
-        for c in classes:
-            if c not in self._f1s:
-                self._f1s[c] = metrics.F1(cm=self.cm, pos_val=c)
-
-        columns = [
             # Row names
+            []
+        ]
             ["", *map(str, classes), "", "Macro", "Micro", "Weighted"],
             # Precision values
             [
+            [
                 "",
-                *[fmt_pct(self._f1s[c].precision.get()) for c in classes],
+                *map(str, classes),
                 "",
-                *map(
-                    fmt_pct,
-                    [
-                        self._macro_precision.get(),
+                "Macro",
+                "Micro",
+                "Weighted"
+            ],
                         self._micro_precision.get(),
                         self._weighted_precision.get(),
                     ],
                 ),
+            ],
+            # Recall values
+            [
+                "",
+                ],
             ],
             # Recall values
             [
@@ -108,17 +107,10 @@ class ClassificationReport(metrics.base.MultiClassMetric):
                         self._macro_recall.get(),
                         self._micro_recall.get(),
                         self._weighted_recall.get(),
-                    ],
+                    ]
                 ),
             ],
             # F1 values
-            [
-                "",
-                *[fmt_pct(self._f1s[c].get()) for c in classes],
-                "",
-                *map(
-                    fmt_pct,
-                    [
                         self._macro_f1.get(),
                         self._micro_f1.get(),
                         self._weighted_f1.get(),
