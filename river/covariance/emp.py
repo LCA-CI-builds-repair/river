@@ -183,79 +183,27 @@ class EmpiricalCovariance(SymmetricMatrix):
             )
         }
 
-        self._update_from_state(n=n, mean=mean, cov=cov)
-
-    def _update_from_state(self, n: int, mean: dict, cov: float | dict):
-        """Update from state information.
-
-        Parameters
-        ----------
-        n
-            The number of data points.
-        mean
-            A dictionary of variable means.
-        cov
-            A dictionary of covariance or variance values.
-        ddof
-            Degrees of freedom for covariance calculation. Defaults to 1.
-
-        Raises
-        ----------
-            KeyError: If an element in `mean` or `cov` is missing.
-        """
-        for i, j in itertools.combinations(mean.keys(), r=2):
+        for i, j in itertools.combinations(sorted(mean.keys()), r=2):
             try:
                 self[i, j]
             except KeyError:
                 self._cov[i, j] = stats.Cov(self.ddof)
-                if isinstance(cov, dict):
-                    cov_ = cov.get((i, j), cov.get((j, i)))
-                else:
-                    cov_ = cov
-                self._cov[i, j] += stats.Cov._from_state(
-                    n=n,
-                    mean_x=mean[i],
-                    mean_y=mean[j],
-                    cov=cov_,
-                    ddof=self.ddof,
-                )
+            self._cov[i, j] += stats.Cov._from_state(
+                n=n,
+                mean_x=mean[i],
+                mean_y=mean[j],
+                cov=cov.get((i, j), cov.get((j, i))),
+                ddof=self.ddof,
+            )
 
         for i in mean.keys():
             try:
                 self[i, i]
             except KeyError:
                 self._cov[i, i] = stats.Var(self.ddof)
-            if isinstance(cov, dict):
-                if isinstance(cov, dict):
-                    cov_ = cov[i, i]
-                else:
-                    cov_ = cov
-            self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
-
-    @classmethod
-    def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof=1):
-        """Create a new instance from state information.
-
-        Parameters
-        ----------
-        cls
-            The class type.
-        n
-            The number of data points.
-        mean
-            A dictionary of variable means.
-        cov
-            A dictionary of covariance or variance values.
-        ddof
-            Degrees of freedom for covariance calculation. Defaults to 1.
-
-        Returns
-        ----------
-            cls: A new instance of the class with updated covariance matrix.
-        """
-        new = cls(ddof=ddof)
-        new._update_from_state(n=n, mean=mean, cov=cov)
-        return new
+            self._cov[i, i] += stats.Var._from_state(
+                n=n, m=mean[i], sig=cov[i, i], ddof=self.ddof
+            )
 
 
 class EmpiricalPrecision(SymmetricMatrix):
