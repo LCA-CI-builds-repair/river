@@ -42,6 +42,8 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     dynamic_squared_error_variance : stats.Var
         The running variance of the (squared) errors the model made to update the dynamic threshold.
     iterations : int
+        The number of examples that have been processed so far.
+    warmup_completed : bool
         The number of iterations the model has seen
 
     Examples
@@ -123,6 +125,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
         # Initialize necessary values for warm-up procedure
         self.iterations: int = 0
+        self.warmup_completed: bool = False
 
     # This method is called to make the predictive model learn one example
     def learn_one(self, x: dict | None, y: base.typing.Target | float):
@@ -149,6 +152,10 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
         # Calculate the errors necessary for thresholding
         squared_error = (y_pred - y) ** 2
+        
+        # Update the iteration count and check if warmup is completed
+        self.iterations += 1
+        self.warmup_completed = self.iterations >= self.warmup_period
 
         # Based on the errors and hyperparameters, calculate threshold
         threshold = self.dynamic_mean_squared_error.get() + (
@@ -158,10 +165,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
 
-        # When warmup hyperparam is used, only return score if warmed up
-        if self.iterations < self.warmup_period:
-            return 0.0
-
+        # Calculate the anomaly score
         # Every error above threshold is scored with 100% or 1.0
         # Everything below is distributed linearly from 0.0 - 0.999...
         if squared_error >= threshold:
