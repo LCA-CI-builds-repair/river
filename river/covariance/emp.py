@@ -128,7 +128,11 @@ class EmpiricalCovariance(SymmetricMatrix):
 
         """
 
-        for i, j in itertools.combinations(sorted(x), r=2):
+        # Sort the keys to ensure deterministic ordering
+        keys = sorted(x.keys())
+
+        for i, j in itertools.combinations(keys, r=2):
+            # Try to get the existing Cov/Var statistic, or create a new one
             try:
                 cov = self[i, j]
             except KeyError:
@@ -137,7 +141,7 @@ class EmpiricalCovariance(SymmetricMatrix):
             cov.update(x[i], x[j])
 
         for i, xi in x.items():
-            try:
+            if i in self._cov:
                 var = self[i, i]
             except KeyError:
                 self._cov[i, i] = stats.Var(self.ddof)
@@ -153,7 +157,7 @@ class EmpiricalCovariance(SymmetricMatrix):
             A sample.
 
         """
-
+        # Sort the keys to ensure deterministic ordering
         for i, j in itertools.combinations(sorted(x), r=2):
             self[i, j].revert(x[i], x[j])
 
@@ -168,11 +172,17 @@ class EmpiricalCovariance(SymmetricMatrix):
         X
             A dataframe of samples.
 
+        Raises
+        ------
+        KeyError
+            If a feature in the samples is missing from the covariance matrix.
+
         """
 
         X_arr = X.values
         mean_arr = X_arr.mean(axis=0)
         cov_arr = np.cov(X_arr.T, ddof=self.ddof)
+        features = X.columns
 
         n = len(X)
         mean = dict(zip(X.columns, mean_arr))
@@ -180,10 +190,11 @@ class EmpiricalCovariance(SymmetricMatrix):
             (i, j): cov_arr[r, c]
             for (r, i), (c, j) in itertools.combinations_with_replacement(
                 enumerate(X.columns), r=2
-            )
+            ) if i in self._cov and j in self._cov
         }
 
         self._update_from_state(n=n, mean=mean, cov=cov)
+        return self
 
     def _update_from_state(self, n: int, mean: dict, cov: float | dict):
         """Update from state information.
@@ -221,7 +232,7 @@ class EmpiricalCovariance(SymmetricMatrix):
                 )
 
         for i in mean.keys():
-            try:
+            if i in self._cov:
                 self[i, i]
             except KeyError:
                 self._cov[i, i] = stats.Var(self.ddof)
