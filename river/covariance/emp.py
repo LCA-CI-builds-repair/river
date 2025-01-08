@@ -111,6 +111,8 @@ class EmpiricalCovariance(SymmetricMatrix):
     """
 
     def __init__(self, ddof=1):
+        if ddof <= 0:
+            raise ValueError("Degrees of freedom (ddof) must be greater than 0.")
         self.ddof = ddof
         self._cov = {}
 
