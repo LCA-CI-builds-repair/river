@@ -1,0 +1,44 @@
+name: unit-tests
+
+on: push
+jobs:
+  run:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ['3.12', '3.11', '3.10']
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build River
+      uses: ./.github/actions/install-env
+      with:
+        python-version: '3.12'
+
+    - name: Cache River datasets
+      uses: actions/cache@v3
+      with:
+        path: ~/river_data
+        key: ${{ runner.os }}
+
+    - name: Cache scikit-learn datasets
+      uses: actions/cache@v3
+      with:
+        path: ~/scikit_learn_data
+        key: ${{ runner.os }}
+
+    - name: Download datasets
+      run: |
+        poetry run python -c "from river import datasets; datasets.CreditCard().download(); datasets.Elec2().download(); datasets.SMSSpam().download()"
+        poetry run python -c "from river import bandit; bandit.datasets.NewsArticles().download()"
+
+    - name: pytest
+      run: |
+        poetry run pytest -m "not datasets" --durations=10 -n logical # Run pytest on all logical CPU cores
+
+env:
+  PIP_INDEX_URL: https://pypi-wayback-449168051873.europe-west3.run.app/2023-11-29
+  UV_INDEX_URL: https://pypi-wayback-449168051873.europe-west3.run.app/2023-11-29
