@@ -150,9 +150,16 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         # Calculate the errors necessary for thresholding
         squared_error = (y_pred - y) ** 2
 
+        # Handle case where dynamic statistics are not yet initialized
+        mean_squared_error = self.dynamic_mean_squared_error.get()
+        variance_squared_error = self.dynamic_squared_error_variance.get()
+        if mean_squared_error is None or variance_squared_error is None:
+            # Default to 0 to avoid invalid math operations
+            mean_squared_error = 0.0
+            variance_squared_error = 0.0
         # Based on the errors and hyperparameters, calculate threshold
-        threshold = self.dynamic_mean_squared_error.get() + (
-            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
+        threshold = mean_squared_error + (
+            self.n_std * math.sqrt(variance_squared_error)
         )
 
         self.dynamic_mean_squared_error.update(squared_error)
