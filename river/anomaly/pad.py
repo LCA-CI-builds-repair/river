@@ -147,6 +147,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         else:
             y_pred = self.predictive_model.predict_one(x)
 
+
         # Calculate the errors necessary for thresholding
         squared_error = (y_pred - y) ** 2
 
@@ -167,6 +168,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         if squared_error >= threshold:
             return 1.0
         else:
+            print(f"Prediction: {y_pred}, Actual: {y}, Score: {squared_error / threshold}") # Debug print
             return squared_error / threshold
 
     # This version of score_one also returns the score along with the prediction, error and threshold of the model
