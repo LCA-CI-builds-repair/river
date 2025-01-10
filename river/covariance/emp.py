@@ -175,6 +175,12 @@ class EmpiricalCovariance(SymmetricMatrix):
         cov_arr = np.cov(X_arr.T, ddof=self.ddof)
 
         n = len(X)
+
+        # Handle the case where there is only one sample
+        if n == 1:
+            self._update_from_state(n=n, mean=mean, cov=cov_arr)
+            return
+
         mean = dict(zip(X.columns, mean_arr))
         cov = {
             (i, j): cov_arr[r, c]
