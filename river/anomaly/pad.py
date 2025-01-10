@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import warnings
 import math
+from typing import Any, Union
 
 from river import anomaly, base, linear_model, preprocessing, stats, time_series
 
@@ -106,6 +108,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         n_std: float = 3.0,
         warmup_period: int = 0,
     ):
+        super().__init__()
         # Setting the predictive model that learns how normal data behaves
         self.predictive_model = (
             predictive_model
@@ -126,33 +129,39 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
     # This method is called to make the predictive model learn one example
     def learn_one(self, x: dict | None, y: base.typing.Target | float):
+        if x is None and not isinstance(self.predictive_model, time_series.base.Forecaster):
+            warnings.warn(
+                "PredictiveAnomalyDetection received a None value for 'x' "
+                "but the underlying model is not a time-series forecasting model. "
+                "This may lead to unexpected behavior."
+            )
         self.iterations += 1
 
         # Check if model is a time-series forecasting model or regressor/classification
-        if isinstance(self.predictive_model, time_series.base.Forecaster) and isinstance(y, float):
+        if isinstance(self.predictive_model, time_series.base.Forecaster):
             # When theres no feature-dict just pass target to forecaster
-            if not x:
-                self.predictive_model.learn_one(y)
-            else:
+            if x is not None:
                 self.predictive_model.learn_one(y, x)
+            else:
+                self.predictive_model.learn_one(y)
         else:
             self.predictive_model.learn_one(x=x, y=y)
         return self
 
     # This method is calles to calculate an anomaly score for one example
-    def score_one(self, x: dict, y: base.typing.Target):
+    def score_one(self, x: dict | None, y: base.typing.Target) -> float:
         # Check if model is a time-series forecasting model
         if isinstance(self.predictive_model, time_series.base.Forecaster):
-            y_pred = self.predictive_model.forecast(self.horizon)[0]
+            y_pred = self.predictive_model.forecast(self.horizon).iloc[0]
         else:
-            y_pred = self.predictive_model.predict_one(x)
+            y_pred = self.predictive_model.predict_one(x or {})
 
         # Calculate the errors necessary for thresholding
         squared_error = (y_pred - y) ** 2
 
         # Based on the errors and hyperparameters, calculate threshold
         threshold = self.dynamic_mean_squared_error.get() + (
-            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
+            self.n_std * self.dynamic_squared_error_variance.get() ** 0.5
         )
 
         self.dynamic_mean_squared_error.update(squared_error)
@@ -169,21 +178,22 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         else:
             return squared_error / threshold
 
-    # This version of score_one also returns the score along with the prediction, error and threshold of the model
+    # This version of score_one also returns the score along with the prediction, error, and threshold of the model
     def score_one_detailed(
-        self, x: dict, y: base.typing.Target
-    ) -> tuple[float, base.typing.Target, float, float]:
+        self, x: dict | None, y: base.typing.Target
+    ) -> tuple[float, Union[float, Any], float, float]:
         if isinstance(self.predictive_model, time_series.base.Forecaster):
-            y_pred = self.predictive_model.forecast(self.horizon)[0]
+            y_pred = self.predictive_model.forecast(self.horizon).iloc[0]
         else:
-            y_pred = self.predictive_model.predict_one(x)
+            y_pred = self.predictive_model.predict_one(x or {})
 
         squared_error = (y_pred - y) ** 2
 
         threshold = self.dynamic_mean_squared_error.get() + (
-            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
+            self.n_std * self.dynamic_squared_error_variance.get() ** 0.5
         )
 
+        # Update the running statistics
         self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
 
@@ -194,7 +204,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         else:
             if squared_error >= threshold:
                 score = 1.0
-            else:
+            elif threshold > 0:
                 score = squared_error / threshold
 
         return (score, y_pred, squared_error, threshold)
