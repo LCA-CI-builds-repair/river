@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import logging
 
 from river import anomaly, base, linear_model, preprocessing, stats, time_series
 
@@ -124,6 +125,8 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         # Initialize necessary values for warm-up procedure
         self.iterations: int = 0
 
+        self.logger = logging.getLogger(__name__)  # Initialize logger
+
     # This method is called to make the predictive model learn one example
     def learn_one(self, x: dict | None, y: base.typing.Target | float):
         self.iterations += 1
@@ -196,5 +199,14 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
                 score = 1.0
             else:
                 score = squared_error / threshold
+
+        self.logger.debug(  # Log detailed information for debugging
+            "Prediction: %f, Actual: %f, Squared Error: %f, Threshold: %f, Score: %f",
+            y_pred,
+            y,
+            squared_error,
+            threshold,
+            score,
+        )
 
         return (score, y_pred, squared_error, threshold)
