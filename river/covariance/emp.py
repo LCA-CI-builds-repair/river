@@ -195,7 +195,7 @@ class EmpiricalCovariance(SymmetricMatrix):
         mean
             A dictionary of variable means.
         cov
-            A dictionary of covariance or variance values.
+            A 2D numpy array of covariance values, or a single covariance/variance value.
         ddof
             Degrees of freedom for covariance calculation. Defaults to 1.
 
@@ -208,7 +208,7 @@ class EmpiricalCovariance(SymmetricMatrix):
                 self[i, j]
             except KeyError:
                 self._cov[i, j] = stats.Cov(self.ddof)
-                if isinstance(cov, dict):
+                if isinstance(cov, np.ndarray):  # cov is a matrix, access by index
                     cov_ = cov.get((i, j), cov.get((j, i)))
                 else:
                     cov_ = cov
