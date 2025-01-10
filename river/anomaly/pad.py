@@ -122,6 +122,12 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         self.dynamic_squared_error_variance = stats.Var()
 
         # Initialize necessary values for warm-up procedure
+        self.past_y_values: list[float] = []
+        self.past_y_preds: list[float] = []
+        self.past_squared_errors: list[float] = []
+        self.past_thresholds: list[float] = []
+        self.past_scores: list[float] = []
+
         self.iterations: int = 0
 
     # This method is called to make the predictive model learn one example
@@ -156,11 +162,14 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         )
 
         self.dynamic_mean_squared_error.update(squared_error)
+        self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
 
         # When warmup hyperparam is used, only return score if warmed up
         if self.iterations < self.warmup_period:
             return 0.0
+
+        self.past_thresholds.append(threshold)
 
         # Every error above threshold is scored with 100% or 1.0
         # Everything below is distributed linearly from 0.0 - 0.999...
@@ -173,6 +182,15 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     def score_one_detailed(
         self, x: dict, y: base.typing.Target
     ) -> tuple[float, base.typing.Target, float, float]:
+        self.past_y_values.append(y)
+        score, y_pred, squared_error, threshold = self._calculate_score(x, y)
+        self.past_y_preds.append(y_pred)
+        self.past_squared_errors.append(squared_error)
+        self.past_thresholds.append(threshold)
+        self.past_scores.append(score)
+        return (score, y_pred, squared_error, threshold)
+
+    def _calculate_score(self, x: dict, y: base.typing.Target) -> tuple[float, base.typing.Target, float, float]:
         if isinstance(self.predictive_model, time_series.base.Forecaster):
             y_pred = self.predictive_model.forecast(self.horizon)[0]
         else:
@@ -184,6 +202,8 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
             self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
         )
 
+        self.past_y_preds.append(y_pred)
+        self.past_squared_errors.append(squared_error)
         self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
 
@@ -197,4 +217,4 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
             else:
                 score = squared_error / threshold
 
-        return (score, y_pred, squared_error, threshold)
+        return score, y_pred, squared_error, threshold
