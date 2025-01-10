@@ -76,7 +76,10 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
         ((x_key, x_value),) = x.items()
 
         self.variance.update(x_value)
-        self.subtracted_statistic_estimator.update(x_value)
+        if self.sub_stat == "mean":
+            self.subtracted_statistic_estimator.update(x_value)
+        elif self.sub_stat == "median":
+            self.subtracted_statistic_estimator.update(x_value)
 
     def score_one(self, x):
         assert len(x) == 1
