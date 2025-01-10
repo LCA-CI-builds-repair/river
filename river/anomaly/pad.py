@@ -158,7 +158,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
 
-        # When warmup hyperparam is used, only return score if warmed up
+        # Only return score if warmed up
         if self.iterations < self.warmup_period:
             return 0.0
 
@@ -167,6 +167,8 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         if squared_error >= threshold:
             return 1.0
         else:
+            if not self.warmed_up:
+                return 0.0
             return squared_error / threshold
 
     # This version of score_one also returns the score along with the prediction, error and threshold of the model
@@ -189,7 +191,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
         score: float = 0.0
 
-        if self.iterations < self.warmup_period:
+        if not self.warmed_up:
             score = 0.0
         else:
             if squared_error >= threshold:
