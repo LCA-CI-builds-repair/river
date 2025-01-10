@@ -204,6 +204,8 @@ class EmpiricalCovariance(SymmetricMatrix):
             KeyError: If an element in `mean` or `cov` is missing.
         """
         for i, j in itertools.combinations(mean.keys(), r=2):
+            if (i,j) not in cov and (j,i) not in cov:
+                continue
             try:
                 self[i, j]
             except KeyError:
@@ -221,6 +223,8 @@ class EmpiricalCovariance(SymmetricMatrix):
                 )
 
         for i in mean.keys():
+            if (i,i) not in cov:
+                continue
             try:
                 self[i, i]
             except KeyError:
