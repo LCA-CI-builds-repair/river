@@ -233,7 +233,7 @@ class EmpiricalCovariance(SymmetricMatrix):
             self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
 
     @classmethod
-    def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof=1):
+    def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof: int = 1):
         """Create a new instance from state information.
 
         Parameters
@@ -256,6 +256,104 @@ class EmpiricalCovariance(SymmetricMatrix):
         new = cls(ddof=ddof)
         new._update_from_state(n=n, mean=mean, cov=cov)
         return new
+
+    def update_many_shuffled(self, X: pd.DataFrame):
+        """Update with a dataframe of samples.
+
+        The samples are assumed to be shuffled.
+
+        Parameters
+        ----------
+        X
+            A dataframe of samples.
+
+        """
+        X_arr = X.values
+        mean_arr = X_arr.mean(axis=0)
+        cov_arr = np.cov(X_arr.T, ddof=self.ddof)
+
+        n = len(X)
+        mean = dict(zip(X.columns, mean_arr))
+        cov = {
+            (i, j): cov_arr[r, c]
+            for (r, i), (c, j) in itertools.combinations_with_replacement(
+                enumerate(X.columns), r=2
+            )
+        }
+
+        self._update_from_state(n=n, mean=mean, cov=cov)
+
+    def update_many_sampled(self, X: pd.DataFrame):
+        """Update with a dataframe of samples.
+
+        The samples are assumed to be uniformly sampled.
+
+        Parameters
+        ----------
+        X
+            A dataframe of samples.
+
+        """
+        X_arr = X.values
+        mean_arr = X_arr.mean(axis=0)
+        cov_arr = np.cov(X_arr.T, ddof=self.ddof)
+
+        n = len(X)
+        mean = dict(zip(X.columns, mean_arr))
+        cov = {
+            (i, j): cov_arr[r, c]
+            for (r, i), (c, j) in itertools.combinations_with_replacement(
+                enumerate(X.columns), r=2
+            )
+        }
+
+        self._update_from_state(n=n, mean=mean, cov=cov)
+
+    def update_many_mini_batches(self, X: pd.DataFrame, batch_size: int):
+        """Update with a dataframe of samples in mini-batches.
+
+        Parameters
+        ----------
+        X
+            A dataframe of samples.
+        batch_size
+            The size of the mini-batches.
+
+        """
+        n = len(X)
+        batches = [X.iloc[i:i+batch_size] for i in range(0, n, batch_size)]
+
+        for batch in batches:
+            batch_arr = batch.values
+            batch_mean_arr = batch_arr.mean(axis=0)
+            batch_cov_arr = np.cov(batch_arr.T, ddof=self.ddof)
+
+            batch_mean = dict(zip(batch.columns, batch_mean_arr))
+            batch_cov = {
+                (i, j): batch_cov_arr[r, c]
+                for (r, i), (c, j) in itertools.combinations_with_replacement(
+                    enumerate(batch.columns), r=2
+                )
+            }
+
+            self._update_from_state(n=len(batch), mean=batch_mean, cov=batch_cov)
+
+
+class EmpiricalPrecision(SymmetricMatrix):
+    """Empirical precision matrix.
+
+    The precision matrix is the inverse of the covariance matrix.
+
+    This implementation leverages the Sherman-Morrison formula. The resulting inverse covariance
+    matrix is not guaranteed to be identical to a batch computation. However, the difference
+    shrinks with the number of observations.
+
+    Examples
+    --------
+
+    >>> import numpy as np
+    >>> import pandas as pd
+    >>> from river import covariance
 
 
 class EmpiricalPrecision(SymmetricMatrix):
