@@ -82,8 +82,11 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
         assert len(x) == 1
         ((x_key, x_value),) = x.items()
 
-        score = (x_value - self.subtracted_statistic_estimator.get()) / (
-            self.variance.get() ** 0.5 + 1e-10
-        )
+        try:
+            score = (x_value - self.subtracted_statistic_estimator.get()) / (
+                self.variance.get() ** 0.5 + 1e-10
+            )
+        except ZeroDivisionError:
+            score = 0.0
 
         return abs(score)
