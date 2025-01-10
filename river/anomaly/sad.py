@@ -83,7 +83,7 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
         ((x_key, x_value),) = x.items()
 
         score = (x_value - self.subtracted_statistic_estimator.get()) / (
-            self.variance.get() ** 0.5 + 1e-10
+            self.variance.get()**0.5 + 1e-10
         )
 
         return abs(score)
