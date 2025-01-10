@@ -204,6 +204,11 @@ class EmpiricalCovariance(SymmetricMatrix):
             KeyError: If an element in `mean` or `cov` is missing.
         """
         for i, j in itertools.combinations(mean.keys(), r=2):
+            # Added check for cov and cov_. This assumes cov_ should always be a scalar
+            # if cov is also a scalar. Adapt if not the case.
+            if isinstance(cov, (int, float)) and not isinstance(cov.get((i, j), cov.get((j, i))), (int, float)):
+                raise ValueError("Inconsistent covariance data provided for update.")
+
             try:
                 self[i, j]
             except KeyError:
