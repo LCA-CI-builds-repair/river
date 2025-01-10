@@ -122,6 +122,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         self.dynamic_squared_error_variance = stats.Var()
 
         # Initialize necessary values for warm-up procedure
+        self.epsilon = 1e-9  # To prevent division by zero or invalid variance calculations
         self.iterations: int = 0
 
     # This method is called to make the predictive model learn one example
@@ -141,6 +142,15 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
     # This method is calles to calculate an anomaly score for one example
     def score_one(self, x: dict, y: base.typing.Target):
+        # Validate inputs
+        if y is None or not isinstance(y, (int, float)):
+            raise ValueError(f"Invalid target value: {y}")
+
+        if self.iterations == 0:
+            # Ensure dynamic_mean_squared_error has been initialized
+            self.dynamic_mean_squared_error.update(0)
+            self.dynamic_squared_error_variance.update(0)
+
         # Check if model is a time-series forecasting model
         if isinstance(self.predictive_model, time_series.base.Forecaster):
             y_pred = self.predictive_model.forecast(self.horizon)[0]
@@ -152,7 +162,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
         # Based on the errors and hyperparameters, calculate threshold
         threshold = self.dynamic_mean_squared_error.get() + (
-            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
+            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get() + self.epsilon)
         )
 
         self.dynamic_mean_squared_error.update(squared_error)
@@ -167,7 +177,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         if squared_error >= threshold:
             return 1.0
         else:
-            return squared_error / threshold
+            return squared_error / max(threshold, self.epsilon)
 
     # This version of score_one also returns the score along with the prediction, error and threshold of the model
     def score_one_detailed(
@@ -181,7 +191,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         squared_error = (y_pred - y) ** 2
 
         threshold = self.dynamic_mean_squared_error.get() + (
-            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
+            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get() + self.epsilon)
         )
 
         self.dynamic_mean_squared_error.update(squared_error)
@@ -195,6 +205,6 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
             if squared_error >= threshold:
                 score = 1.0
             else:
-                score = squared_error / threshold
+                score = squared_error / max(threshold, self.epsilon)
 
         return (score, y_pred, squared_error, threshold)
