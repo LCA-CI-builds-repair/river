@@ -124,6 +124,8 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         # Initialize necessary values for warm-up procedure
         self.iterations: int = 0
 
+        self._y_pred = 0.0  # Initialize prediction for warmup period
+
     # This method is called to make the predictive model learn one example
     def learn_one(self, x: dict | None, y: base.typing.Target | float):
         self.iterations += 1
@@ -142,12 +144,18 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     # This method is calles to calculate an anomaly score for one example
     def score_one(self, x: dict, y: base.typing.Target):
         # Check if model is a time-series forecasting model
-        if isinstance(self.predictive_model, time_series.base.Forecaster):
-            y_pred = self.predictive_model.forecast(self.horizon)[0]
+        if self.iterations < self.warmup_period:
+            y_pred = self._y_pred  # Use initialized prediction during warmup
+            # If a time series forecaster, still learn from the data even if in warmup period
+            if isinstance(self.predictive_model, time_series.base.Forecaster):
+                if x is None:
+                    y_pred = self.predictive_model.forecast(self.horizon)[0]
+                    self.predictive_model.learn_one(y=y)
+                else:
+                    y_pred = self.predictive_model.forecast(self.horizon)[0]
+                    self.predictive_model.learn_one(y=y, x=x)
         else:
-            y_pred = self.predictive_model.predict_one(x)
-
-        # Calculate the errors necessary for thresholding
+            y_pred = self.predictive_model.predict_one(x) if x else self.predictive_model.forecast(self.horizon)[0]
         squared_error = (y_pred - y) ** 2
 
         # Based on the errors and hyperparameters, calculate threshold
@@ -157,10 +165,6 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
         self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
-
-        # When warmup hyperparam is used, only return score if warmed up
-        if self.iterations < self.warmup_period:
-            return 0.0
 
         # Every error above threshold is scored with 100% or 1.0
         # Everything below is distributed linearly from 0.0 - 0.999...
