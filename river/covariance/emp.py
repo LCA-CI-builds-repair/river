@@ -172,7 +172,7 @@ class EmpiricalCovariance(SymmetricMatrix):
 
         X_arr = X.values
         mean_arr = X_arr.mean(axis=0)
-        cov_arr = np.cov(X_arr.T, ddof=self.ddof)
+        cov_arr = np.cov(X_arr, rowvar=False, ddof=self.ddof)
 
         n = len(X)
         mean = dict(zip(X.columns, mean_arr))
