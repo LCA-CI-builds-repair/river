@@ -155,10 +155,18 @@ class EmpiricalCovariance(SymmetricMatrix):
         """
 
         for i, j in itertools.combinations(sorted(x), r=2):
-            self[i, j].revert(x[i], x[j])
+            try:
+                self[i, j].revert(x[i], x[j])
+            except KeyError:
+                # Skip reverting if the covariance doesn't exist
+                continue
 
         for i, xi in x.items():
-            self[i, i].revert(x[i])
+            try:
+                self[i, i].revert(x[i])
+            except KeyError:
+                # Skip reverting if the variance doesn't exist
+                continue
 
     def update_many(self, X: pd.DataFrame):
         """Update with a dataframe of samples.
