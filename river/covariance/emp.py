@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from typing import Union
 import abc
 import itertools
 
@@ -185,7 +186,7 @@ class EmpiricalCovariance(SymmetricMatrix):
 
         self._update_from_state(n=n, mean=mean, cov=cov)
 
-    def _update_from_state(self, n: int, mean: dict, cov: float | dict):
+    def _update_from_state(self, n: int, mean: dict, cov: Union[float, dict]):
         """Update from state information.
 
         Parameters
