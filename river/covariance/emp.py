@@ -172,12 +172,12 @@ class EmpiricalCovariance(SymmetricMatrix):
 
         X_arr = X.values
         mean_arr = X_arr.mean(axis=0)
-        cov_arr = np.cov(X_arr.T, ddof=self.ddof)
+        cov_arr = np.cov(X_arr, rowvar=False, ddof=self.ddof)
 
         n = len(X)
         mean = dict(zip(X.columns, mean_arr))
         cov = {
-            (i, j): cov_arr[r, c]
+            (i, j): cov_arr[c, r]
             for (r, i), (c, j) in itertools.combinations_with_replacement(
                 enumerate(X.columns), r=2
             )
@@ -226,10 +226,9 @@ class EmpiricalCovariance(SymmetricMatrix):
             except KeyError:
                 self._cov[i, i] = stats.Var(self.ddof)
             if isinstance(cov, dict):
-                if isinstance(cov, dict):
-                    cov_ = cov[i, i]
-                else:
-                    cov_ = cov
+                cov_ = cov[i, i]
+            else:
+                cov_ = cov
             self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
 
     @classmethod
