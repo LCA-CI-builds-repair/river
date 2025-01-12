@@ -221,7 +221,7 @@ class EmpiricalCovariance(SymmetricMatrix):
                 )
 
         for i in mean.keys():
-            try:
+            try: 
                 self[i, i]
             except KeyError:
                 self._cov[i, i] = stats.Var(self.ddof)
@@ -230,8 +230,8 @@ class EmpiricalCovariance(SymmetricMatrix):
                     cov_ = cov[i, i]
                 else:
                     cov_ = cov
-            self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
-
+            self._cov[i, i] = stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
+            
     @classmethod
     def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof=1):
         """Create a new instance from state information.
