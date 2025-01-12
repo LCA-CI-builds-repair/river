@@ -140,12 +140,12 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         return self
 
     # This method is calles to calculate an anomaly score for one example
-    def score_one(self, x: dict, y: base.typing.Target):
+    def score_one(self, x: dict | None, y: base.typing.Target | float):
         # Check if model is a time-series forecasting model
         if isinstance(self.predictive_model, time_series.base.Forecaster):
             y_pred = self.predictive_model.forecast(self.horizon)[0]
         else:
-            y_pred = self.predictive_model.predict_one(x)
+            y_pred = self.predictive_model.predict_one(x or {})
 
         # Calculate the errors necessary for thresholding
         squared_error = (y_pred - y) ** 2
@@ -171,12 +171,12 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
     # This version of score_one also returns the score along with the prediction, error and threshold of the model
     def score_one_detailed(
-        self, x: dict, y: base.typing.Target
+        self, x: dict | None, y: base.typing.Target | float
     ) -> tuple[float, base.typing.Target, float, float]:
         if isinstance(self.predictive_model, time_series.base.Forecaster):
             y_pred = self.predictive_model.forecast(self.horizon)[0]
         else:
-            y_pred = self.predictive_model.predict_one(x)
+            y_pred = self.predictive_model.predict_one(x or {})
 
         squared_error = (y_pred - y) ** 2
 
