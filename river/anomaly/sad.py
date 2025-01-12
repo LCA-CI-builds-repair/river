@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from typing import Union, Literal
 from river import anomaly, stats
 
 __all__ = ["StandardAbsoluteDeviation"]
