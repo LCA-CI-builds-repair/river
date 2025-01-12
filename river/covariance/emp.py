@@ -196,8 +196,6 @@ class EmpiricalCovariance(SymmetricMatrix):
             A dictionary of variable means.
         cov
             A dictionary of covariance or variance values.
-        ddof
-            Degrees of freedom for covariance calculation. Defaults to 1.
 
         Raises
         ----------
@@ -208,28 +206,23 @@ class EmpiricalCovariance(SymmetricMatrix):
                 self[i, j]
             except KeyError:
                 self._cov[i, j] = stats.Cov(self.ddof)
-                if isinstance(cov, dict):
-                    cov_ = cov.get((i, j), cov.get((j, i)))
-                else:
-                    cov_ = cov
-                self._cov[i, j] += stats.Cov._from_state(
-                    n=n,
-                    mean_x=mean[i],
-                    mean_y=mean[j],
-                    cov=cov_,
-                    ddof=self.ddof,
-                )
+            
+            cov_ = cov.get((i, j), cov.get((j, i))) if isinstance(cov, dict) else cov
+            self._cov[i, j] += stats.Cov._from_state(
+                n=n,
+                mean_x=mean[i],
+                mean_y=mean[j],
+                cov=cov_,
+                ddof=self.ddof,
+            )
 
         for i in mean.keys():
             try:
                 self[i, i]
             except KeyError:
                 self._cov[i, i] = stats.Var(self.ddof)
-            if isinstance(cov, dict):
-                if isinstance(cov, dict):
-                    cov_ = cov[i, i]
-                else:
-                    cov_ = cov
+            
+            cov_ = cov[i, i] if isinstance(cov, dict) else cov
             self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
 
     @classmethod
