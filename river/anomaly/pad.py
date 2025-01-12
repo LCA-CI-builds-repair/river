@@ -147,6 +147,10 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         else:
             y_pred = self.predictive_model.predict_one(x)
 
+        # Return 0.0 during warmup period before calculating any scores
+        if self.iterations < self.warmup_period:
+            return 0.0
+
         # Calculate the errors necessary for thresholding
         squared_error = (y_pred - y) ** 2
 
@@ -157,10 +161,6 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
         self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
-
-        # When warmup hyperparam is used, only return score if warmed up
-        if self.iterations < self.warmup_period:
-            return 0.0
 
         # Every error above threshold is scored with 100% or 1.0
         # Everything below is distributed linearly from 0.0 - 0.999...
@@ -177,24 +177,27 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
             y_pred = self.predictive_model.forecast(self.horizon)[0]
         else:
             y_pred = self.predictive_model.predict_one(x)
+            
+        # Initialize score and handle warmup period
+        score = 0.0
+        if self.iterations >= self.warmup_period:
+            squared_error = (y_pred - y) ** 2
 
-        squared_error = (y_pred - y) ** 2
+            threshold = self.dynamic_mean_squared_error.get() + (
+                self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
+            )
 
-        threshold = self.dynamic_mean_squared_error.get() + (
-            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
-        )
+            self.dynamic_mean_squared_error.update(squared_error)
+            self.dynamic_squared_error_variance.update(squared_error)
 
-        self.dynamic_mean_squared_error.update(squared_error)
-        self.dynamic_squared_error_variance.update(squared_error)
-
-        score: float = 0.0
-
-        if self.iterations < self.warmup_period:
-            score = 0.0
-        else:
             if squared_error >= threshold:
                 score = 1.0
             else:
                 score = squared_error / threshold
+
+            return (score, y_pred, squared_error, threshold)
+        else:
+            # During warmup, return zeros for error and threshold
+            return (0.0, y_pred, 0.0, 0.0)
 
         return (score, y_pred, squared_error, threshold)
