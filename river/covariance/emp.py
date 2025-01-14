@@ -335,8 +335,8 @@ class EmpiricalPrecision(SymmetricMatrix):
         inv_cov = np.array(
             [
                 [
-                    self._inv_cov.get(min((i, j), (j, i)), 1.0 if i == j else 0.0)
-                    for j in x
+                    self._inv_cov.get((fi, fj), self._inv_cov.get((fj, fi), 1.0 if fi == fj else 0.0))  
+                    for fj in x
                 ]
                 for i in x
             ],
@@ -374,8 +374,8 @@ class EmpiricalPrecision(SymmetricMatrix):
         inv_cov = np.array(
             [
                 [
-                    self._inv_cov.get(min((i, j), (j, i)), 1.0 if i == j else 0.0)
-                    for j in X
+                    self._inv_cov.get((fi, fj), self._inv_cov.get((fj, fi), 1.0 if fi == fj else 0.0))
+                    for fj in X
                 ]
                 for i in X
             ]
