@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from river import anomaly, stats
+from typing import Union, Literal
 
 __all__ = ["StandardAbsoluteDeviation"]
 
@@ -58,9 +59,11 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
 
     """
 
-    def __init__(self, sub_stat: str = "mean"):
+    def __init__(self, sub_stat: Literal["mean", "median"] = "mean"):
         self.variance = stats.Var()
         self.sub_stat = sub_stat
+        self.subtracted_statistic_estimator: Union[stats.Mean, stats.Quantile]
+        # Type annotation for the statistic estimator that can be either Mean or Quantile
 
         if self.sub_stat == "mean":
             self.subtracted_statistic_estimator = stats.Mean()
@@ -71,7 +74,7 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
                 f"Unknown subtracted statistic {self.sub_stat}, expected one of median, mean."
             )
 
-    def learn_one(self, x):
+    def learn_one(self, x: dict) -> None:
         assert len(x) == 1
         ((x_key, x_value),) = x.items()
 
