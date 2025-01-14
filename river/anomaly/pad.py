@@ -129,10 +129,13 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         self.iterations += 1
 
         # Check if model is a time-series forecasting model or regressor/classification
-        if isinstance(self.predictive_model, time_series.base.Forecaster) and isinstance(y, float):
-            # When theres no feature-dict just pass target to forecaster
-            if not x:
+        if isinstance(self.predictive_model, time_series.base.Forecaster):
+            if isinstance(y, float):
+                # When there's no feature-dict just pass target to forecaster
                 self.predictive_model.learn_one(y)
+            elif isinstance(y, (tuple, list)):
+                # Assume y contains exogenous features as first element 
+                self.predictive_model.learn_one(y[0], y[1])  
             else:
                 self.predictive_model.learn_one(y, x)
         else:
