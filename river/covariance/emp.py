@@ -206,7 +206,7 @@ class EmpiricalCovariance(SymmetricMatrix):
         for i, j in itertools.combinations(mean.keys(), r=2):
             try:
                 self[i, j]
-            except KeyError:
+            except (KeyError, AttributeError):
                 self._cov[i, j] = stats.Cov(self.ddof)
                 if isinstance(cov, dict):
                     cov_ = cov.get((i, j), cov.get((j, i)))
@@ -223,7 +223,7 @@ class EmpiricalCovariance(SymmetricMatrix):
         for i in mean.keys():
             try:
                 self[i, i]
-            except KeyError:
+            except (KeyError, AttributeError):
                 self._cov[i, i] = stats.Var(self.ddof)
             if isinstance(cov, dict):
                 if isinstance(cov, dict):

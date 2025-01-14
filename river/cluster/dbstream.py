@@ -220,7 +220,7 @@ class DBSTREAM(base.Clusterer):
                     if j > i:
                         try:
                             self.s[i][j] = (
-                                self.s[i][j]
+                                self.s.get(i, {}).get(j, 0)
                                 * 2 ** (-self.fading_factor * (self._time_stamp - self.s_t[i][j]))
                                 + 1
                             )
