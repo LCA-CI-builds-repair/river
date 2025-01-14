@@ -150,17 +150,25 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         # Calculate the errors necessary for thresholding
         squared_error = (y_pred - y) ** 2
 
+        # When warmup hyperparam is used, only return score if warmed up
+        if self.iterations < self.warmup_period:
+            # Still update statistics during warmup
+            self.dynamic_mean_squared_error.update(squared_error)
+            self.dynamic_squared_error_variance.update(squared_error)
+            return 0.0
+
+        # Only calculate threshold after warmup period and when we have sufficient data
+        if self.dynamic_squared_error_variance.mean.n < 2:
+            return 0.0
+            
         # Based on the errors and hyperparameters, calculate threshold
         threshold = self.dynamic_mean_squared_error.get() + (
             self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
         )
 
+        # Update statistics after threshold calculation
         self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
-
-        # When warmup hyperparam is used, only return score if warmed up
-        if self.iterations < self.warmup_period:
-            return 0.0
 
         # Every error above threshold is scored with 100% or 1.0
         # Everything below is distributed linearly from 0.0 - 0.999...
@@ -179,22 +187,31 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
             y_pred = self.predictive_model.predict_one(x)
 
         squared_error = (y_pred - y) ** 2
+        score: float = 0.0
+        
+        if self.iterations < self.warmup_period:
+            # Still update statistics during warmup
+            self.dynamic_mean_squared_error.update(squared_error)
+            self.dynamic_squared_error_variance.update(squared_error)
+            threshold = 0.0
+            return (0.0, y_pred, squared_error, threshold)
+
+        # Only calculate threshold after warmup period and when we have sufficient data
+        if self.dynamic_squared_error_variance.mean.n < 2:
+            threshold = 0.0
+            return (0.0, y_pred, squared_error, threshold)
 
         threshold = self.dynamic_mean_squared_error.get() + (
             self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
         )
 
+        # Update statistics after threshold calculation
         self.dynamic_mean_squared_error.update(squared_error)
         self.dynamic_squared_error_variance.update(squared_error)
 
-        score: float = 0.0
-
-        if self.iterations < self.warmup_period:
-            score = 0.0
+        if squared_error >= threshold:
+            score = 1.0
         else:
-            if squared_error >= threshold:
-                score = 1.0
-            else:
-                score = squared_error / threshold
+            score = squared_error / threshold
 
         return (score, y_pred, squared_error, threshold)
