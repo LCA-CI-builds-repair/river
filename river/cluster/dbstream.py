@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import collections
-import copy
 import math
 from abc import ABCMeta
 
@@ -150,7 +149,6 @@ class DBSTREAM(base.Clusterer):
         self.minimum_weight = minimum_weight
 
         self._n_clusters: int = 0
-        self._clusters: dict[int, DBSTREAMMicroCluster] = {}
         self._centers: dict = {}
         self._micro_clusters: dict[int, DBSTREAMMicroCluster] = {}
 
@@ -177,7 +175,7 @@ class DBSTREAM(base.Clusterer):
         return gaussian_neighborhood
 
     def _update(self, x):
-        # Algorithm 1 of Michael Hahsler and Matthew Bolanos
+        # Algorithm 1 of Hahsler and Bolanos
         neighbor_clusters = self._find_fixed_radius_nn(x)
 
         if len(neighbor_clusters) < 1:
