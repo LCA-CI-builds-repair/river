@@ -128,6 +128,9 @@ class EmpiricalCovariance(SymmetricMatrix):
 
         """
 
+        # Add a check to ensure that the input dictionary has the correct keys
+        if set(x.keys()) != set(self._cov.keys()):
+            raise ValueError("Input dictionary has incorrect keys")
         for i, j in itertools.combinations(sorted(x), r=2):
             try:
                 cov = self[i, j]
