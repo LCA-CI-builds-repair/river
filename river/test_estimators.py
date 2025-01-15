@@ -46,7 +46,7 @@ def iter_estimators():
         for _, obj in inspect.getmembers(
             importlib.import_module(f"river.{submodule}"), is_estimator
         ):
-            yield obj
+            yield obj, checks.Title("SAD")  # Yield estimator and a check object
 
 
 def iter_estimators_which_can_be_tested():

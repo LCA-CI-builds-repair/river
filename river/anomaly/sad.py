@@ -86,4 +86,4 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
             self.variance.get() ** 0.5 + 1e-10
         )
 
-        return abs(score)
+        return abs(score), None  # Return (score, error_message)
