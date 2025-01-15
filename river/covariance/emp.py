@@ -119,6 +119,28 @@ class EmpiricalCovariance(SymmetricMatrix):
         return self._cov
 
     def update(self, x: dict):
+    for i, j in itertools.combinations(sorted(x), r=2):
+        try:
+            cov = self[i, j]
+        except KeyError:
+            var_i = stats.Var(self.ddof)
+            var_i.update(x[i])
+            var_j = stats.Var(self.ddof)
+            var_j.update(x[j])
+            if var_i.get() != 0 and var_j.get() != 0:
+                self._cov[i, j] = stats.Cov(self.ddof)
+                cov = self._cov[i, j]
+            else:
+                continue
+        cov.update(x[i], x[j])
+
+    for i, xi in x.items():
+        try:
+            var = self[i, i]
+        except KeyError:
+            var = stats.Var(self.ddof)
+            self._cov[i, i] = var
+        var.update(xi)
         """Update with a single sample.
 
         Parameters
