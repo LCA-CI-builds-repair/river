@@ -106,6 +106,13 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         n_std: float = 3.0,
         warmup_period: int = 0,
     ):
+        if horizon < 1:
+            raise ValueError("horizon must be >= 1")
+        if n_std <= 0:
+            raise ValueError("n_std must be positive")
+        if warmup_period < 0:
+            raise ValueError("warmup_period must be >= 0")
+
         # Setting the predictive model that learns how normal data behaves
         self.predictive_model = (
             predictive_model
@@ -152,7 +159,7 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
         # Based on the errors and hyperparameters, calculate threshold
         threshold = self.dynamic_mean_squared_error.get() + (
-            self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
+            self.n_std * math.sqrt(max(0, self.dynamic_squared_error_variance.get()))
         )
 
         self.dynamic_mean_squared_error.update(squared_error)
