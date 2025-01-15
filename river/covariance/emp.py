@@ -172,16 +172,16 @@ class EmpiricalCovariance(SymmetricMatrix):
 
         X_arr = X.values
         mean_arr = X_arr.mean(axis=0)
-        cov_arr = np.cov(X_arr.T, ddof=self.ddof)
+        cov_arr = np.cov(X_arr.T, ddof=self.ddof, bias=False)  # Ensure unbiased estimate
 
         n = len(X)
         mean = dict(zip(X.columns, mean_arr))
-        cov = {
-            (i, j): cov_arr[r, c]
-            for (r, i), (c, j) in itertools.combinations_with_replacement(
-                enumerate(X.columns), r=2
-            )
-        }
+        cov = {}  # Fix key-value structure for covariance matrix
+        indices_to_cols = list(X.columns)
+        for i in range(len(indices_to_cols)):
+            for j in range(i, len(indices_to_cols)):  # i <= j for symmetric matrix
+                cov_key = (indices_to_cols[i], indices_to_cols[j])
+                cov[cov_key] = cov_arr[i, j]
 
         self._update_from_state(n=n, mean=mean, cov=cov)
 
