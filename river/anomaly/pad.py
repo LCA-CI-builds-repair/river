@@ -151,6 +151,14 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         squared_error = (y_pred - y) ** 2
 
         # Based on the errors and hyperparameters, calculate threshold
+        variance = self.dynamic_squared_error_variance.get()
+        if variance == 0:
+            # Avoid division by zero or incorrect math.sqrt computation
+            threshold = float('inf')
+        else:
+            threshold = self.dynamic_mean_squared_error.get() + (
+                self.n_std * math.sqrt(variance)
+            )
         threshold = self.dynamic_mean_squared_error.get() + (
             self.n_std * math.sqrt(self.dynamic_squared_error_variance.get())
         )
@@ -188,6 +196,14 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
         self.dynamic_squared_error_variance.update(squared_error)
 
         score: float = 0.0
+        variance = self.dynamic_squared_error_variance.get()
+        if variance == 0:
+            # Avoid division by zero or incorrect math.sqrt computation
+            threshold = float('inf')
+        else:
+            threshold = self.dynamic_mean_squared_error.get() + (
+                self.n_std * math.sqrt(variance)
+            )
 
         if self.iterations < self.warmup_period:
             score = 0.0
