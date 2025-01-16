@@ -126,8 +126,6 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
 
     # This method is called to make the predictive model learn one example
     def learn_one(self, x: dict | None, y: base.typing.Target | float):
-        self.iterations += 1
-
         # Check if model is a time-series forecasting model or regressor/classification
         if isinstance(self.predictive_model, time_series.base.Forecaster) and isinstance(y, float):
             # When theres no feature-dict just pass target to forecaster
@@ -173,6 +171,8 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
     def score_one_detailed(
         self, x: dict, y: base.typing.Target
     ) -> tuple[float, base.typing.Target, float, float]:
+        self.iterations += 1
+
         if isinstance(self.predictive_model, time_series.base.Forecaster):
             y_pred = self.predictive_model.forecast(self.horizon)[0]
         else:
