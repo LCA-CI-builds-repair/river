@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from river import anomaly, stats
+from river import anomaly, stats, base
 
 __all__ = ["StandardAbsoluteDeviation"]
 
@@ -61,6 +61,7 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
     def __init__(self, sub_stat: str = "mean"):
         self.variance = stats.Var()
         self.sub_stat = sub_stat
+        self.subtracted_statistic_estimator: stats.base.Univariate
 
         if self.sub_stat == "mean":
             self.subtracted_statistic_estimator = stats.Mean()
