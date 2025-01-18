@@ -170,20 +170,43 @@ class EmpiricalCovariance(SymmetricMatrix):
 
         """
 
-        X_arr = X.values
-        mean_arr = X_arr.mean(axis=0)
-        cov_arr = np.cov(X_arr.T, ddof=self.ddof)
-
         n = len(X)
-        mean = dict(zip(X.columns, mean_arr))
-        cov = {
-            (i, j): cov_arr[r, c]
-            for (r, i), (c, j) in itertools.combinations_with_replacement(
-                enumerate(X.columns), r=2
-            )
-        }
+        mean = X.mean()
+        cov = X.cov()
 
-        self._update_from_state(n=n, mean=mean, cov=cov)
+        for i, j in itertools.combinations(sorted(X.columns), r=2):
+            try:
+                self[i, j]
+            except KeyError:
+                self._cov[i, j] = stats.Cov(self.ddof)
+
+            cov_value = cov.loc[i, j]
+            mean_i = mean[i]
+            mean_j = mean[j]
+
+            self[i, j] += stats.Cov._from_state(
+                n=n,
+                mean_x=mean_i,
+                mean_y=mean_j,
+                cov=cov_value,
+                ddof=self.ddof,
+            )
+
+        for i in X.columns:
+            try:
+                self[i, i]
+            except KeyError:
+                self._cov[i, i] = stats.Var(self.ddof)
+
+            var_value = cov.loc[i, i]
+            mean_value = mean[i]
+
+            self[i, i] += stats.Var._from_state(
+                n=n,
+                m=mean_value,
+                sig=var_value,
+                ddof=self.ddof,
+            )
 
     def _update_from_state(self, n: int, mean: dict, cov: float | dict):
         """Update from state information.
