@@ -209,14 +209,14 @@ class EmpiricalCovariance(SymmetricMatrix):
             except KeyError:
                 self._cov[i, j] = stats.Cov(self.ddof)
                 if isinstance(cov, dict):
-                    cov_ = cov.get((i, j), cov.get((j, i)))
+                    cov_ = cov.get((i, j)) or cov.get((j, i))
                 else:
                     cov_ = cov
-                self._cov[i, j] += stats.Cov._from_state(
-                    n=n,
+                self._cov[i, j] = stats.Cov._from_state(
                     mean_x=mean[i],
                     mean_y=mean[j],
                     cov=cov_,
+                    n=n,
                     ddof=self.ddof,
                 )
 
@@ -225,12 +225,11 @@ class EmpiricalCovariance(SymmetricMatrix):
                 self[i, i]
             except KeyError:
                 self._cov[i, i] = stats.Var(self.ddof)
-            if isinstance(cov, dict):
                 if isinstance(cov, dict):
                     cov_ = cov[i, i]
                 else:
                     cov_ = cov
-            self._cov[i, i] += stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
+                self._cov[i, i] = stats.Var._from_state(n=n, m=mean[i], sig=cov_, ddof=self.ddof)
 
     @classmethod
     def _from_state(cls, n: int, mean: dict, cov: float | dict, *, ddof=1):
