@@ -65,7 +65,7 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
         if self.sub_stat == "mean":
             self.subtracted_statistic_estimator = stats.Mean()
         elif self.sub_stat == "median":
-            self.subtracted_statistic_estimator = stats.Quantile(q=0.5)
+            self.subtracted_statistic_estimator = stats.Quantile(q=0.5, cls=stats.Mean)
         else:
             raise ValueError(
                 f"Unknown subtracted statistic {self.sub_stat}, expected one of median, mean."
