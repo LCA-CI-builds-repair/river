@@ -136,6 +136,9 @@ class PredictiveAnomalyDetection(anomaly.base.SupervisedAnomalyDetector):
             else:
                 self.predictive_model.learn_one(y, x)
         else:
+            # If x is None and not a Forecaster, provide an empty dictionary
+            if x is None:
+                x = {}
             self.predictive_model.learn_one(x=x, y=y)
         return self
 
