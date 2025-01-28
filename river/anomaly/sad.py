@@ -1,8 +1,12 @@
 from __future__ import annotations
+from typing import Union
 
 from river import anomaly, stats
 
 __all__ = ["StandardAbsoluteDeviation"]
+
+
+StatisticEstimator = Union[stats.Mean, stats.Quantile]
 
 
 class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
@@ -61,6 +65,7 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
     def __init__(self, sub_stat: str = "mean"):
         self.variance = stats.Var()
         self.sub_stat = sub_stat
+        self.subtracted_statistic_estimator: StatisticEstimator
 
         if self.sub_stat == "mean":
             self.subtracted_statistic_estimator = stats.Mean()
