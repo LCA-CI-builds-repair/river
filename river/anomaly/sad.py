@@ -79,7 +79,7 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
         self.subtracted_statistic_estimator.update(x_value)
 
     def score_one(self, x):
-        assert len(x) == 1
+        assert len(x) == 1, "SAD only works with data points as dictionaries with length 1."
         ((x_key, x_value),) = x.items()
 
         score = (x_value - self.subtracted_statistic_estimator.get()) / (
