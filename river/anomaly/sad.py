@@ -82,7 +82,7 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
         assert len(x) == 1
         ((x_key, x_value),) = x.items()
 
-        score = (x_value - self.subtracted_statistic_estimator.get()) / (
+        score = (x_value - self.subtracted_statistic_estimator_median.get()) / (
             self.variance.get() ** 0.5 + 1e-10
         )
 
