@@ -60,16 +60,16 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
 
     def __init__(self, sub_stat: str = "mean"):
         self.variance = stats.Var()
+        if sub_stat not in ["mean", "median"]:
+            raise ValueError(
+                f"Unknown subtracted statistic {sub_stat}, expected one of 'median', 'mean'."
+            )
         self.sub_stat = sub_stat
 
-        if self.sub_stat == "mean":
-            self.subtracted_statistic_estimator = stats.Mean()
-        elif self.sub_stat == "median":
-            self.subtracted_statistic_estimator = stats.Quantile(q=0.5)
+        if sub_stat == "mean":
+            self.subtracted_statistic_estimator: stats.Mean = stats.Mean()
         else:
-            raise ValueError(
-                f"Unknown subtracted statistic {self.sub_stat}, expected one of median, mean."
-            )
+            self.subtracted_statistic_estimator: stats.Quantile = stats.Quantile(q=0.5)
 
     def learn_one(self, x):
         assert len(x) == 1
