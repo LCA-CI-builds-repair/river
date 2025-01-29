@@ -78,7 +78,7 @@ class StandardAbsoluteDeviation(anomaly.base.AnomalyDetector):
         self.variance.update(x_value)
         self.subtracted_statistic_estimator.update(x_value)
 
-    def score_one(self, x):
+    def score_one(self, x) -> float:
         assert len(x) == 1
         ((x_key, x_value),) = x.items()
 
